@@ -14,39 +14,26 @@ function IndexContent() {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <br />et dolore magna aliqua.
             </p>
             {/*grid layout*/}
-            <div className='flex'>
-                <div className=' mt-6'>
-                    <img src={gridImage1} alt='grid imagen 1' className='  w-60' />
-                </div>
-                <div className="grid  gap-2 w-60 mt-6 ml-5">
-                    <div className="col-span-3">
-                        <img src={gridImage2} alt='gridimage2' />
+            <section className='flex justify-center gap-3 m-10'>
+                <div><img  src={gridImage1} alt='gridImage' /></div>
 
-                    </div>
-                    <div className="col-span-3  w-64">
-                        <img src={gridImage3} alt='gridimage3' />
-                    </div>
-
-
+                <div >
+                    <div className='mb-2'><img className='caja2' src={gridImage2} alt='gridImage' /></div>
+                    <div><img  src={gridImage3} alt='gridImage' /></div>
                 </div>
 
-                <div className="grid  w-60 mt-6   ml-16">
-                    <div className="col-span-2 w-60">
-                        <img src={gridImage4} alt='gridimage4' />
-                    </div>
-                    <div className="col-span-3">
-                        <img src={gridImage5} alt='gridimage5' />
-                    </div>
+                <div>
+                    <div className='mb-2'><img className='caja4' src={gridImage4} alt='gridImage' /></div>
+                    <div><img  src={gridImage5} alt='gridImage' /></div>
                 </div>
-                <div className="grid gap-2 w-60 mt-6  ml-20">
-                    <div className="col-span-2  w-52">
-                        <img src={gridImage6} alt='gridimage4' />
-                    </div>
-                    <div className="    w-56">
-                        <img src={gridImage7} alt='gridimage5' />
-                    </div>
+
+                <div>
+                    <div className='mb-2'><img src={gridImage7} alt='gridImage' /></div>
+                    <div ><img src={gridImage6} alt='gridImage' /></div>
+
                 </div>
-            </div>
+            </section>
+
             <div className='border border-black'></div>
         </div>
     )
