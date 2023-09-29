@@ -3,7 +3,7 @@ import indexImage from "../../assets/indexAssets/hero_img.png"
 function Header() {
     return (
         <>
-            <header className=' grid grid-cols-2   m-24'>
+            <header className=' grid grid-cols-2  mb-28   m-24'>
                 <div>
                     <h2 className=' font-bold text-4xl mt-14'>
                         Desata el poder de la organización con

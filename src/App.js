@@ -1,17 +1,13 @@
-import Footer from "./components/Index/Footer";
-import Header from "./components/Index/Header";
-import IndexContent from "./components/Index/IndexContent";
-import Navbar from "./components/Index/Navbar";
-import IndexContent2 from "./components/IndexContent2";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Index from "./pages/index";
 function App() {
   return (
     <div>
-      <Navbar />
-      <Header />
-      <IndexContent/>
-      <IndexContent2/>
-      <Footer/>
-
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Index />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
