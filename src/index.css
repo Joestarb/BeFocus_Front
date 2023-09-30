@@ -8,3 +8,7 @@
 .caja1{
     grid-column: 1/3;
 }
+
+.redColor{
+    color:#F95757;
+}
