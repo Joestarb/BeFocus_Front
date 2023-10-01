@@ -19,7 +19,9 @@ function Navbar() {
           </Link>
         </div>
         <div className='grid place-content-end'>
-          <button className='bg-blue-500 text-white py-2 px-4 rounded'>Log In</button>
+          <Link to='/Login'>
+            <button className='bg-blue-500 text-white py-2 px-4 rounded'>Log In</button>
+          </Link>
         </div>
       </nav>
     </div>
