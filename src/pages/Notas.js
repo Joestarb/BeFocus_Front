@@ -1,7 +1,7 @@
 import React from 'react'
+import ContenidoNota from '../components/Notas/Contenido_Nota'
+import MenuNotas from '../components/Notas/MenuNotas'
 import Sidebar from '../components/Sidebar/Sidebar'
-import Menu_Notas from '../components/Notas/Menu_Notas'
-import Contenido_Nota from '../components/Notas/Contenido_Nota'
 
 function Notas() {
   return (
@@ -11,10 +11,10 @@ function Notas() {
       </div>
       <div className='flex'>
         <div className=' w-3/12 overflow-auto'>
-          <Menu_Notas />
+          <MenuNotas />
         </div>
         <div className=' w-9/12'>
-          <Contenido_Nota />
+          <ContenidoNota />
         </div>
       </div>
     </div>

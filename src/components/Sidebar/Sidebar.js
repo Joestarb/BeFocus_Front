@@ -1,9 +1,9 @@
 import React from 'react';
+import * as Biicons from 'react-icons/bi';
+import * as BsIcons from 'react-icons/bs';
+import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Logo from '../../assets/Logo/Logo_Befocus.png';
-import * as Biicons from 'react-icons/bi';
-import * as FaIcons from 'react-icons/fa';
-import * as BsIcons from 'react-icons/bs';
 
 function Sidebar() {
   return (

@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Contenido_Nota() {
+function ContenidoNota() {
   return (
     <div className=' h-screen overflow-auto'>
       <h1 className='font-PassionOne text-7xl ml-3 mt-5'>Mi primera nota</h1>
@@ -28,4 +28,4 @@ function Contenido_Nota() {
   )
 }
 
-export default Contenido_Nota
+export default ContenidoNota

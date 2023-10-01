@@ -1,6 +1,6 @@
 import React from 'react'
 
-function Cards_Notas() {
+function CardsNotas() {
   
   return (
     <div className='bg-white w-11/12 m-auto rounded-2xl mt-4 mb-3'>
@@ -12,4 +12,4 @@ function Cards_Notas() {
   )
 }
 
-export default Cards_Notas
+export default CardsNotas

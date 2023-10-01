@@ -1,9 +1,9 @@
 import React from 'react'
 import * as HiIcons from 'react-icons/hi'
 import * as SlIcons from 'react-icons/sl'
-import Card_Notas from './Card_Notas'
+import CardNotas from './CardNotas'
 
-function Menu_Notas() {
+function MenuNotas() {
     return (
         <div className='bg-ColorMenuNotas h-screen overflow-auto'>
             <div className='flex justify-between p-3'>
@@ -18,10 +18,10 @@ function Menu_Notas() {
                 </div>
             </div>
             <div>
-                 <Card_Notas/>
+                 <CardNotas/>
             </div>
         </div>
     )
 }
 
-export default Menu_Notas
+export default MenuNotas
