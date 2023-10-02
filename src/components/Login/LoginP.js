@@ -23,7 +23,7 @@ function LoginP() {
         />
         <div className=' flex justify-center'>
 
-          <Link to='/Befocus'>
+          <Link to='/Notas'>
             <button className="bg-blue-500 text-white py-2 px-4  w-60 rounded-full  hover:bg-blue-600">
               Iniciar sesión
             </button>

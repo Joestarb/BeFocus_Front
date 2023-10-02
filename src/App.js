@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./pages/Login";
-import Index from "./pages/index";
 import Notas from "./pages/Notas";
-
+import Tareas from "./pages/Tareas";
+import Index from "./pages/index";
 function App() {
   return (
     <div>
@@ -11,6 +11,8 @@ function App() {
           <Route path="/" element={<Index/>} />
           <Route path="/Login" element={< Login/>} />
           <Route path="/Notas" element={<Notas/>} />
+          <Route path="/Tareas" element={<Tareas/>} />
+
         </Routes>
       </BrowserRouter>
     </div>

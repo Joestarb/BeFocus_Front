@@ -5,10 +5,35 @@
 @tailwind utilities;
 
 
-.caja1{
-    grid-column: 1/3;
+/* login */
+.redColor {
+    color: #F95757;
+
 }
 
-.redColor{
-    color:#F95757;
+/* MenuNotas */
+.bgNotas {
+    background-color: #aca5a548;
+}
+
+/* tareas */
+.line {
+    width: 85vw;
+}
+
+.tarea {
+    background-color: #B5CB99;
+}
+
+.tareasenproceso {
+    background-color: #F95757;
+}
+
+.tareasenrevision {
+    background-color: #6499E9;
+}
+
+.materia{
+    background-color: #E5CFF7;
+     color: #5B0888;
 }

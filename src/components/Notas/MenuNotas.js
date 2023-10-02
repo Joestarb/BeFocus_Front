@@ -5,7 +5,7 @@ import CardNotas from './CardNotas'
 
 function MenuNotas() {
     return (
-        <div className='bg-ColorMenuNotas h-screen overflow-auto'>
+        <div className=' bgNotas h-screen overflow-auto'>
             <div className='flex justify-between p-3'>
                 <h1 className=' font-PassionOne text-6xl'>Notas</h1>
                 <div className='flex'>

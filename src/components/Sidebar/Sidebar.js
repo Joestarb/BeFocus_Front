@@ -7,46 +7,46 @@ import Logo from '../../assets/Logo/Logo_Befocus.png';
 
 function Sidebar() {
   return (
-    <div className=' bg-ColorSidebar w-16 h-screen'>
+    <div className='bg-black w-16 h-screen'>
         <ul>
             <li className='mb-3'>
                 <Link to='/'>
-                  <img src={Logo} alt='Logo' className='m-auto w-12'/>
+                  <img src={Logo} alt='Logo' className='  m-auto w-12'/>
                 </Link>
             </li>
             <li className='my-5'>
                 <Link to='/Notas'>
-                  <FaIcons.FaRegStickyNote className=' text-5xl mx-auto text-zinc-900'/>
+                  <FaIcons.FaRegStickyNote className=' text-5xl mx-auto text-white'/>
                 </Link>
             </li>
             <li className='my-5'>
               <Link to='/Tareas'>
-                <FaIcons.FaTasks className=' text-5xl mx-auto text-zinc-900'/>
+                <FaIcons.FaTasks className=' text-5xl mx-auto text-white'/>
               </Link>
             </li>
             <li className='my-5'>
               <Link to='/Calendario'>
-                <BsIcons.BsFillCalendar2WeekFill className=' text-5xl mx-auto text-zinc-900'/>
+                <BsIcons.BsFillCalendar2WeekFill className=' text-5xl mx-auto text-white'/>
               </Link>
             </li>
             <li className='my-5'>
               <Link to='/Traductor'>
-                <BsIcons.BsTranslate className=' text-5xl mx-auto text-zinc-900'/>
+                <BsIcons.BsTranslate className=' text-5xl mx-auto text-white'/>
               </Link>
             </li>
             <li className='my-5'>
               <Link to='/Recursos'>
-                <Biicons.BiSolidBookBookmark className=' text-5xl mx-auto text-zinc-900'/>
+                <Biicons.BiSolidBookBookmark className=' text-5xl mx-auto text-white'/>
               </Link>
             </li>
             <li className='my-5'>
               <Link to='/Musica'>
-                <FaIcons.FaMusic className=' text-5xl mx-auto text-zinc-900'/>
+                <FaIcons.FaMusic className=' text-5xl mx-auto text-white'/>
               </Link>
             </li>
             <li className='mt-24'>
               <Link to='/Perfil'>
-                <Biicons.BiUser className=' text-5xl mx-auto text-zinc-900'/>
+                <Biicons.BiUser className=' text-5xl mx-auto text-white'/>
               </Link>
             </li>
 
