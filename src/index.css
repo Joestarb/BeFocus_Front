@@ -42,3 +42,16 @@
     background-color: #E5CFF7;
      color: #5B0888;
 }
+
+.traductor{
+    width: 1000px;
+    height: 400px;
+}
+
+.traductorColor{
+    background-color: #221E1E;
+}
+
+.traductorColor button{
+    background-color: #82A0D8;
+}
