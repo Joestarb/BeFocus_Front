@@ -5,6 +5,7 @@ import Tareas from "./pages/Tareas";
 import Index from "./pages/index";
 import Registro from "./pages/Registro";
 import Olvcontra from "./pages/Olvcontra"; 
+import Traductor from "./pages/Traductor";
 function App() {
   return (
     <div>
@@ -16,7 +17,7 @@ function App() {
           <Route path="/Tareas" element={<Tareas/>} />
           <Route path="/Registro" element={< Registro/>} />
           <Route path="/Olvcontra" element={< Olvcontra/>} />
-
+          <Route path="/Traductor" element={<Traductor/>}/>
         </Routes>
       </BrowserRouter>
     </div>

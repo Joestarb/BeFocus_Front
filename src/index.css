@@ -16,6 +16,11 @@
     background-color: #aca5a548;
 }
 
+/* Sidebar */
+.bgSidebar {
+    background-color: #82A0D8;
+}
+
 /* tareas */
 .line {
     width: 85vw;
