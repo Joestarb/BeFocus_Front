@@ -3,19 +3,11 @@ import * as Biicons from 'react-icons/bi';
 import * as BsIcons from 'react-icons/bs';
 import * as FaIcons from 'react-icons/fa';
 import { Link } from 'react-router-dom';
-import Logo from '../../assets/Logo/Logo_Befocus.png';
 
 function Sidebar() {
   return (
     <div className='bgSidebar w-16 h-screen'>
       <ul className='flex flex-col justify-between h-full'>
-        {/* <div>
-          <li>
-            <Link to='/'>
-              <img src={Logo} alt='Logo' className='  m-auto w-12' />
-            </Link>
-          </li>
-        </div> */}
         <div>
           <li className='my-5'>
             <Link to='/Notas'>

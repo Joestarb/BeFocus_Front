@@ -28,10 +28,10 @@ function TareasP() {
         <div>
             <div className='mx-12 mt-12'>
                 <p className='font-semibold text-6xl mb-2'>Mis Tareas</p>
-                <div className='border border-gray-400 line'></div>
+                <div className='border border-gray-400 w-[85vw]'></div>
             </div>
             {/* tareas */}
-            <div className='grid grid-cols-3 ml-12 mt-5 line gap-10'>
+            <div className='grid grid-cols-3 ml-12 mt-5  gap-10'>
                 <section>
                     <div className='tarea p-4 rounded-2xl flex justify-between'>
                         <div>
