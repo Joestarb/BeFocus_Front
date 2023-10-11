@@ -6,6 +6,7 @@ import Index from "./pages/index";
 import Registro from "./pages/Registro";
 import Olvcontra from "./pages/Olvcontra"; 
 import Traductor from "./pages/Traductor";
+import Nube from "./pages/Nube";
 function App() {
   return (
     <div>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/Registro" element={< Registro/>} />
           <Route path="/Olvcontra" element={< Olvcontra/>} />
           <Route path="/Traductor" element={<Traductor/>}/>
+          <Route path="/Nube" element={<Nube/>}/>
         </Routes>
       </BrowserRouter>
     </div>
