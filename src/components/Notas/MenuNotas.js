@@ -41,6 +41,9 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
             .then(data => {
                 setNotaSeleccionada(data);
             })
+            .then(() => {
+                window.location.reload();
+            })
             .catch(err => console.log(err));
             console.log("Se elimino la nota")
     }
@@ -53,12 +56,12 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
             <div className='flex justify-between p-3'>
                 <h1 className='font-PassionOne text-5xl'>Notas</h1>
                 <div className='flex'>
-                    <button>
+                    <button onClick={() => setNotaUtilizar(false)}>
                         <HiIcons.HiPlus className='text-4xl my-auto text-zinc-900' />
                     </button>
-                    <button>
+                    {/* <button>
                         <SlIcons.SlOptionsVertical className='text-3xl my-auto text-zinc-900' />
-                    </button>
+                    </button> */}
                 </div>
             </div>
             <div>
