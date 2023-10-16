@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Tareasimg from "../../assets/TareasAssets/Tareas.png";
 import Calendario from "../../assets/TareasAssets/calendario.png";
 import Proceso from './Proceso';
-import Revision from './Revision';
 
 function TareasP() {
     const initialValidationState = {
@@ -238,11 +237,6 @@ function TareasP() {
                         setTareasEnProceso={setTareasEnProceso}
                     />
                 </section>
-
-                <section>
-                    <Revision />
-                </section>
-
             </div>
         </div>
     );

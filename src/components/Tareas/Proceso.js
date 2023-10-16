@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Process from "../../assets/TareasAssets/Proceso.png";
 import Calendario from "../../assets/TareasAssets/calendario.png";
 import Revision from './Revision';
 function Proceso({ tareasEnProceso, onDeleteTarea, setTareasEnProceso }) {
+    const [tareasEnRevision, setTareasEnRevision] = useState([]);
     const handleDelete = (tarea) => {
-        // Llama a la función onDeleteTarea para eliminar la tarea de la base de datos
         onDeleteTarea(tarea.Id_Tarea);
-
-        // Actualiza el estado local tareasEnProceso eliminando la tarea
         setTareasEnProceso(tareasEnProceso.filter((t) => t.Id_Tarea !== tarea.Id_Tarea));
     };
+
+    const handleSendToRevision = (tarea) => {
+        // Mueve la tarea a la sección de revisión y elimínala de la sección de proceso
+        setTareasEnRevision([...tareasEnRevision, tarea]);
+        setTareasEnProceso(tareasEnProceso.filter((t) => t.Id_Tarea !== tarea.Id_Tarea));
+    };
+
 
     return (
         <section className=' grid grid-cols-2 gap-4'>
@@ -39,6 +44,9 @@ function Proceso({ tareasEnProceso, onDeleteTarea, setTareasEnProceso }) {
                                 <button onClick={() => handleDelete(selectedTarea)} className="bg-red-500 text-white p-2 mt-2 rounded">
                                     Eliminar
                                 </button>
+                                <button onClick={() => handleSendToRevision(selectedTarea)} className="bg-blue-500 text-white p-2 mt-2 rounded">
+                                Mandar a Revisión
+                            </button>
                             </div>
                         ))
                     ) : (
@@ -49,7 +57,12 @@ function Proceso({ tareasEnProceso, onDeleteTarea, setTareasEnProceso }) {
 
 
             <div>
-                <Revision />
+            <Revision
+             tareasEnRevision={tareasEnRevision}
+             onDeleteTarea = {onDeleteTarea}
+             setTareasEnRevision = {setTareasEnRevision}
+             />
+
             </div>
         </section>
     );
