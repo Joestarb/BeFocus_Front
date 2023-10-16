@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import * as HiIcons from 'react-icons/hi';
-import * as SlIcons from 'react-icons/sl';
 import CardNotas from './CardNotas';
 
 

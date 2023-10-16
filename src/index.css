@@ -3,7 +3,7 @@
 @tailwind components;
 
 @tailwind utilities;
-
+.colgrid{ display: grid; grid-template-columns: 30% 70%;}
 
 /* login */
 .redColor {
