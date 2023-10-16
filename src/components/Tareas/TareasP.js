@@ -109,7 +109,7 @@ function TareasP() {
         setTareasEnProceso([...tareasEnProceso, tarea]);
         setTareas(tareas.filter((t) => t.Id_Tarea !== tarea.Id_Tarea));
     };
-    
+
 
 
 
@@ -193,7 +193,7 @@ function TareasP() {
 
 
             {/* tareas */}
-            <div className='grid  grid-cols-3 mx-12 mt-5 gap-10 '>
+            <div className='  colgrid mx-12 mt-5 gap-10 '>
                 <section>
                     <div className='tarea p-4 rounded-2xl flex justify-between'>
                         <div>
@@ -232,11 +232,15 @@ function TareasP() {
                 </section>
 
                 <section>
-                    <Proceso tareasEnProceso={tareasEnProceso}   onDeleteTarea={handleDeleteTarea} />
+                    <Proceso
+                        tareasEnProceso={tareasEnProceso}
+                        onDeleteTarea={handleDeleteTarea}
+                        setTareasEnProceso={setTareasEnProceso}
+                    />
                 </section>
 
                 <section>
-                    <Revision/>
+                    <Revision />
                 </section>
 
             </div>
