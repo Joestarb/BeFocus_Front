@@ -1,15 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Google from "../../assets/LoginAssets/Google.png";
 import Facebook from "../../assets/LoginAssets/facebook.png";
 import Footer from "../../components/Index/Footer";
+import { gapi} from "gapi-script";
+import GoogleLogin from "react-google-login";
+
+
+//npm install gapi-script es para conectar con apis de google
+//npm install react-google-login
 
 function LoginP() {
+
+
+  const clientID = "509169001406-292rqr2qemtdpkm895o37qatcmcugun4.apps.googleusercontent.com";
+
+  const [user, setUser] = useState({});
+  
+
+  useEffect(() => {
+    const start = () => {
+      gapi.auth2.init({
+        client_id: clientID,
+      });
+    
+    }
+    gapi.load("client:auth2", start);
+  }, [])
+
+  const onSuccess = (response) => {
+    console.log(response);
+    setUser(response.profileObj);
+  }
+
+  const onFailure = (response) => {
+    console.log("Algo ha salido mal");
+  }
+
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleLogin = () => {
-
+  
   };
 
 
@@ -45,9 +78,15 @@ function LoginP() {
         </Link>
         </div>
 
-        <div className='flex justify-center'>
-          <img src={Google} alt="google" className='w-12 m-2' />
-          <img src={Facebook} alt="google" className='w-12 m-2' />
+        <div className='flex justify-between my-10'>
+        <GoogleLogin
+        clientId={clientID}
+        onSuccess={onSuccess }
+        onFailure={onFailure}
+        cookiePolicy={'single_host_policy'}
+        className=" w-52 h-10 m-auto ml-40 "
+        />
+        <img src={Facebook} alt="google" className='w-12 m-auto mr-40' />
         </div>
 
         <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold'>Regístrate</Link></p>
