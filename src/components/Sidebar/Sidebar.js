@@ -37,7 +37,7 @@ function Sidebar() {
         </div>
         <div>
           <li>
-            <Link to='/Perfil'>
+            <Link to='/'>
               <Biicons.BiExit className=' text-5xl mx-auto text-white' />
             </Link>
           </li>
