@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react'
+import Tareasimg from "../../assets/TareasAssets/Tareas.png";
 import Calendario from "../../assets/TareasAssets/calendario.png";
-import Revisio from "../../assets/TareasAssets/revision.png";
 
-function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
+
+function TodasTareas() {
     const [tareas, setTareas] = useState([]);
     const [editingTarea, setEditingTarea] = useState(null);
     const [editedDescripcion, setEditedDescripcion] = useState('');
@@ -38,7 +39,7 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
 
     //OBTENER TODAS LAS TAREAS
     useEffect(() => {
-        fetch('http://localhost:4000/tareas?Estatus=Revision')
+        fetch('http://localhost:4000/tareas?Estatus=Actividades')
             .then((response) => response.json())
             .then((data) => setTareas(data))
             .catch((error) => console.error('Error al obtener las tareas:', error));
@@ -59,8 +60,9 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
         const Fecha = editedFecha;
         const Materia = editedMateria;
 
+
         try {
-            const response = await fetch(`http://localhost:4000/tareas/${Id_Tarea}?Estatus=Revision`, {
+            const response = await fetch(`http://localhost:4000/tareas/${Id_Tarea}?Estatus=Actividades`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -74,7 +76,7 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
             });
             if (response.ok) {
                 console.log('Tarea actualizada correctamente.');
-                window.location.reload();
+
             } else {
                 console.error('Error al actualizar la nota.');
             }
@@ -133,13 +135,13 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
     return (
         <div>
             <div>
-                <div className='tareasenrevision p-4 rounded-2xl flex justify-between'>
+                <div className='tarea p-4 rounded-2xl flex justify-between'>
                     <div className=' text-center'>
                         <p className='text-white text-6xl font-semibold'>{tareas.length}</p>
-                        <p className='ml-3 text-white font-semibold'>Tareas en Revisión</p>
+                        <p className='ml-3 text-white font-semibold'>Tareas en total</p>
                     </div>
                     <div className=' m-auto ml-32'>
-                        <img src={Revisio} width={80} height={80} alt='tareas' className=' m-auto' />
+                        <img src={Tareasimg} alt='tareas' className=' m-auto' />
                     </div>
                 </div>
             </div>
@@ -185,7 +187,9 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
                                 <div className='flex justify-between'>
                                     <button onClick={() => editarTarea(tarea)} className='bg-ColorSidebar text-white p-2 mt-2 rounded mx-auto'>Editar</button>
                                     <button onClick={() => eliminarTarea(tarea.Id_Tarea)} className='bg-CF95757 text-white p-2 mt-2 rounded mx-auto'>Eliminar</button>
-
+                                    <button onClick={() => cambiarEstatus(tarea)} className="bg-CCE7777 text-white p-2 mt-2 rounded mx-auto">
+                                        Mover a Proceso
+                                    </button>
                                 </div>
                             </div>
                         )}
@@ -195,6 +199,7 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
             </div>
         </div>
     );
+
 }
 
-export default Revision;
+export default TodasTareas

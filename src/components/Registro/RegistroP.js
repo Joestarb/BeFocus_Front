@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Google from "../../assets/LoginAssets/Google.png";
-import Facebook from "../../assets/LoginAssets/facebook.png";
 import Footer from "../Index/Footer";
 import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
-import FacebookLogin from 'react-facebook-login';
 
 function RegistroP() {
   const [contrasena, setContrasena] = useState()
@@ -16,9 +14,8 @@ function RegistroP() {
     Contrasena: "",
     Imagen: null,
     FK_Tipo_Usuario: 1,
-    TokenUsuario: null,
+    TokenBeFocus: null,
     TokenGoogle: null,
-    TokenFacebook: null
   })
 
   const crearUsuarioForm = async () => {
@@ -104,15 +101,6 @@ function RegistroP() {
     console.log("Algo ha salido mal");
   }
 
-  //FACEBOOK
-  const responseFacebook = (response) => {
-    console.log(response);
-  }
-
-  const componentClicked=() => {
-    alert("Evento onClick");
-  }
-
 
   return (
     <>
@@ -174,12 +162,6 @@ function RegistroP() {
               </button>
             )}
           />
-          <FacebookLogin
-            appId="879786733482775"
-            autoLoad={true}
-            fields="name,email,picture"
-            onClick={componentClicked}
-            callback={responseFacebook} />,
         </div>
 
         <p>¿Tienes Cuenta? <Link to='/Login' className='font-bold'>Inicia Sesión</Link></p>

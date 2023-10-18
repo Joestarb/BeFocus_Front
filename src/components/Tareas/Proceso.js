@@ -1,70 +1,205 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Process from "../../assets/TareasAssets/Proceso.png";
 import Calendario from "../../assets/TareasAssets/calendario.png";
 import Revision from './Revision';
-function Proceso({ tareasEnProceso, onDeleteTarea, setTareasEnProceso }) {
-    const [tareasEnRevision, setTareasEnRevision] = useState([]);
-    const handleDelete = (tarea) => {
-        onDeleteTarea(tarea.Id_Tarea);
-        setTareasEnProceso(tareasEnProceso.filter((t) => t.Id_Tarea !== tarea.Id_Tarea));
+
+
+function Proceso() {
+    const [tareas, setTareas] = useState([]);
+    const [editingTarea, setEditingTarea] = useState(null);
+    const [editedDescripcion, setEditedDescripcion] = useState('');
+    const [editedFecha, setEditedFecha] = useState('');
+    const [editedMateria, setEditedMateria] = useState('');
+
+
+    //EDITAR TAREA
+    const editarTarea = (tarea) => {
+        setEditingTarea(tarea);
+        setEditedDescripcion(tarea.Descripcion);
+        setEditedFecha(tarea.Fecha);
+        setEditedMateria(tarea.Materia);
     };
 
-    const handleSendToRevision = (tarea) => {
-        // Mueve la tarea a la sección de revisión y elimínala de la sección de proceso
-        setTareasEnRevision([...tareasEnRevision, tarea]);
-        setTareasEnProceso(tareasEnProceso.filter((t) => t.Id_Tarea !== tarea.Id_Tarea));
+
+    //ELIMINAR TAREA
+    const eliminarTarea = (taskId) => {
+        fetch(`http://localhost:4000/tareas/${taskId}`, {
+            method: 'DELETE',
+        })
+            .then((response) => {
+                if (response.status === 200) {
+                    setTareas(tareas.filter((tarea) => tarea.Id_Tarea !== taskId));
+                } else if (response.status === 404) {
+                    console.error('Tarea no encontrada');
+                } else {
+                    console.error('Error al eliminar la tarea');
+                }
+            })
+            .catch((error) => console.error('Error al eliminar la tarea:', error));
     };
+
+    //OBTENER TODAS LAS TAREAS
+    useEffect(() => {
+        fetch('http://localhost:4000/tareas?Estatus=Proceso')
+            .then((response) => response.json())
+            .then((data) => setTareas(data))
+            .catch((error) => console.error('Error al obtener las tareas:', error));
+        console.log(tareas)
+    }, []);
+
+    //FORMATEAR FECHA
+    const formatearFecha = (fechaISO) => {
+        const fechaFormateada = new Date(fechaISO).toLocaleDateString();
+        return fechaFormateada;
+    };
+
+
+    //UPDATE
+    const actualizarTarea = async (tarea) => {
+        const Id_Tarea = tarea.Id_Tarea;
+        const Descripcion = editedDescripcion;
+        const Fecha = editedFecha;
+        const Materia = editedMateria;
+
+
+        try {
+            const response = await fetch(`http://localhost:4000/tareas/${Id_Tarea}?Estatus=Proceso`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Descripcion: Descripcion,
+                    Fecha: Fecha,
+                    Materia: Materia,
+                    Estatus: tarea.Estatus
+                }),
+            });
+            if (response.ok) {
+                console.log('Tarea actualizada correctamente.');
+                window.location.reload();
+
+            } else {
+                console.error('Error al actualizar la nota.');
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    }
+
+    //CANCELAR EDICION
+    const cancelarEdicion = () => {
+        setEditingTarea(null);
+        setEditedDescripcion('');
+        setEditedFecha('');
+        setEditedMateria('');
+    }
+
+    const cambiarEstatus = async (tarea) => {
+        const Id_Tarea = tarea.Id_Tarea;
+        const Descripcion = tarea.Descripcion;
+        const Fecha = tarea.Fecha;
+        const Materia = tarea.Materia;
+
+        console.log(tarea)
+        console.log(Id_Tarea)
+        console.log(Descripcion)
+        console.log(Fecha)
+        console.log(Materia)
+        try {
+            const response = await fetch(`http://localhost:4000/tareas/${Id_Tarea}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    Descripcion: Descripcion,
+                    Fecha: Fecha,
+                    Materia: Materia,
+                    Estatus: 'Revision'
+                }),
+            });
+            if (response.ok) {
+                console.log(tarea)
+                console.log(tarea.Descripcion)
+                console.log(tarea.Estatus)
+                console.log(response)
+                console.log('Tarea actualizada correctamente.');
+            } else {
+                console.error('Error al actualizar la nota.');
+            }
+        } catch (error) {
+            console.error('Error de red:', error);
+        }
+    }
 
 
     return (
-        <section className=' grid grid-cols-2 gap-4'>
+        <div>
             <div>
                 <div className='tareasenproceso p-4 rounded-2xl flex justify-between'>
-                    <div>
-                        <p className='text-white text-6xl '>{tareasEnProceso.length}</p>
-                        <p className='ml-3 text-white'>Proceso</p>
+                    <div className=' text-center'>
+                        <p className='text-white text-6xl font-semibold'>{tareas.length}</p>
+                        <p className='ml-3 text-white font-semibold'>Tareas en Proceso</p>
                     </div>
-                    <div>
-                        <img src={Process} alt='tareas' />
+                    <div className=' m-auto ml-32'>
+                        <img src={Process} width={80} height={80} alt='tareas' className=' m-auto' />
                     </div>
-                </div>
-                <div className="container mx-auto">
-                    {tareasEnProceso.length > 0 ? (
-                        tareasEnProceso.map((selectedTarea, index) => (
-                            <div className='border border-gray-400 p-5 rounded-xl mt-4' key={index}>
-                                <div>
-                                    <div className='font-semibold text-4xl'>{selectedTarea.Descripcion}</div>
-                                    <div className='flex mt-2 text-gray-400'>
-                                        <img src={Calendario} alt='calendar' className='mr-2' /> {selectedTarea.Fecha}
-                                    </div>
-                                    <div className='materia rounded-xl ml-4 text-center font-semibold w-36'>
-                                        Materia: {selectedTarea.Materia}
-                                    </div>
-                                </div>
-                                <button onClick={() => handleDelete(selectedTarea)} className="bg-red-500 text-white p-2 mt-2 rounded">
-                                    Eliminar
-                                </button>
-                                <button onClick={() => handleSendToRevision(selectedTarea)} className="bg-blue-500 text-white p-2 mt-2 rounded">
-                                Mandar a Revisión
-                            </button>
-                            </div>
-                        ))
-                    ) : (
-                        <p>No hay tareas en proceso.</p>
-                    )}
                 </div>
             </div>
-
-
             <div>
-            <Revision
-             tareasEnRevision={tareasEnRevision}
-             onDeleteTarea = {onDeleteTarea}
-             setTareasEnRevision = {setTareasEnRevision}
-             />
+                {tareas.map((tarea) => (
+                    <div key={tarea.Id_Tarea}>
+                        {editingTarea === tarea ? (
+                            <div className='p-4 rounded-2xl border my-3 shadow-xl'>
+                                <input
+                                    type="text"
+                                    value={editedDescripcion}
+                                    onChange={(e) => setEditedDescripcion(e.target.value)}
+                                    className='p-2 rounded-xl border-2 w-full outline-none mt-4'
+                                />
+                                <input
+                                    type="date"
+                                    value={editedFecha}
+                                    onChange={(e) => setEditedFecha(e.target.value)}
+                                    className='p-2 rounded-xl border-2 w-full outline-none mt-4'
+
+                                />
+                                <input
+                                    type="text"
+                                    value={editedMateria}
+                                    onChange={(e) => setEditedMateria(e.target.value)}
+                                    className='p-2 rounded-xl border-2 w-full outline-none mt-4'
+                                />
+                                <div className='flex justify-between'>
+                                    <button onClick={() => actualizarTarea(tarea)} className='bg-ColorSidebar text-white p-2 mt-2 rounded mx-auto'>Guardar</button>
+                                    <button onClick={() => cancelarEdicion()} className='bg-CF95757 text-white p-2 mt-2 rounded mx-auto'>Cancelar</button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className='p-4 rounded-2xl border my-3 shadow-xl'>
+                                <h2 className='font-semibold text-3xl mb-2'>{tarea.Descripcion}</h2>
+                                <div className='flex mt-2 text-gray-400 mb-2'>
+                                    <img src={Calendario} alt='calendar' className='mr-2' />
+                                    {formatearFecha(tarea.Fecha)}
+                                </div>
+                                <h2 className='materia rounded-xl text-center font-semibold w-36'>
+                                    Materia: {tarea.Materia}
+                                </h2>
+                                <div className='flex justify-between'>
+                                    <button onClick={() => editarTarea(tarea)} className='bg-ColorSidebar text-white p-2 mt-2 rounded mx-auto'>Editar</button>
+                                    <button onClick={() => eliminarTarea(tarea.Id_Tarea)} className='bg-CF95757 text-white p-2 mt-2 rounded mx-auto'>Eliminar</button>
+                                    <button onClick={() => cambiarEstatus(tarea)} className="bg-CCE7777 text-white p-2 mt-2 rounded mx-auto">
+                                        Mover a Proceso
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ))}
 
             </div>
-        </section>
+        </div>
     );
 }
 

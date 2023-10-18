@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Google from "../../assets/LoginAssets/Google.png";
-import Facebook from "../../assets/LoginAssets/facebook.png";
 import Footer from "../../components/Index/Footer";
 import { gapi } from "gapi-script";
 import GoogleLogin from "react-google-login";
@@ -17,9 +16,8 @@ function LoginP() {
     Contrasena: "",
     Imagen: null,
     FK_Tipo_Usuario: 1,
-    TokenUsuario: null,
+    TokenBeFocus: null,
     TokenGoogle: null,
-    TokenFacebook: null
   });
 
 
@@ -55,6 +53,12 @@ function LoginP() {
     usuario.TokenGoogle = response.googleId;
     console.log(usuario.Correo);
     obtenerUsuarioGoogle();
+
+    localStorage.setItem("correo", usuario.Correo);
+    localStorage.setItem("nombre", usuario.Nombre);
+    localStorage.setItem("imagen", usuario.Imagen);
+    localStorage.setItem("tokengoogle", usuario.TokenGoogle);
+  
   }
 
   const onFailure = (response) => {
@@ -106,21 +110,33 @@ function LoginP() {
           value={usuario.Contrasena}
           onChange={(e) => setUsuario({ ...usuario, Contrasena: e.target.value })}
         />
-        <div className='flex justify-center'>
-            <button className="bg-blue-500 text-white py-2 px-4 w-60 rounded-full hover:bg-blue-600" onClick={validarLogin}>
-              Iniciar sesión
-            </button>
+        <div className='flex justify-center mt-5'>
+          <button className="bg-ColorSidebar text-gray-100 py-3 px-4 w-54 rounded-full my-auto border border-gray-300focus:outline-none mx-auto" onClick={validarLogin}>
+            Iniciar sesión
+          </button>
         </div>
-
-        <div className='flex justify-between my-10'>
+        <div className='flex flex-col justify-center my-10'>
           <GoogleLogin
             clientId={clientID}
             onSuccess={onSuccess}
             onFailure={onFailure}
             cookiePolicy={'single_host_policy'}
-            className=" w-52 h-10 m-auto ml-40 "
+            className=" w-52 h-10 m-auto"
+            render={(renderProps) => (
+              <button
+                className="bg-white text-gray-700 py-2 w-54 px-4 h-14 rounded-full my-auto border border-gray-300 hover:bg-gray-100 focus:outline-none flex mx-auto"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <img
+                  src={Google}
+                  alt="Google Icon"
+                  className="w-6 h-6 mr-2 my-auto"
+                />
+                <span className="my-auto">Iniciar sesión con Google</span>
+              </button>
+            )}
           />
-          <img src={Facebook} alt="google" className='w-12 m-auto mr-40' />
         </div>
 
         <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold'>Regístrate</Link></p>
