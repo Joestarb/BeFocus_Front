@@ -149,7 +149,7 @@ function TodasTareas() {
                 {tareas.map((tarea) => (
                     <div key={tarea.Id_Tarea}>
                         {editingTarea === tarea ? (
-                            <div className='p-4 rounded-2xl border my-3 shadow-xl absolute '>
+                            <div className='p-4 rounded-2xl border my-3 shadow-xl '>
                                 <form className=' flex flex-col'>
                                     <input
                                         type="text"

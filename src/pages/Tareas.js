@@ -6,8 +6,13 @@ import TareasP from '../components/Tareas/TareasP'
 function Tareas() {
     return (
         <div className=' flex '>
-            <Sidebar />
-            <TareasP />
+            <div className='fixed'>
+                <Sidebar />
+            </div>
+            <div className='  overflow-auto mx-10'>
+                <TareasP />
+            </div>
+
         </div>
     )
 }
