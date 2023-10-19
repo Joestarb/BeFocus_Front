@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Calendario from "../../assets/TareasAssets/calendario.png";
 import Revisio from "../../assets/TareasAssets/revision.png";
 
@@ -148,29 +148,31 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
                     <div key={tarea.Id_Tarea}>
                         {editingTarea === tarea ? (
                             <div className='p-4 rounded-2xl border my-3 shadow-xl'>
-                                <input
-                                    type="text"
-                                    value={editedDescripcion}
-                                    onChange={(e) => setEditedDescripcion(e.target.value)}
-                                    className='p-2 rounded-xl border-2 w-full outline-none mt-4'
-                                />
-                                <input
-                                    type="date"
-                                    value={editedFecha}
-                                    onChange={(e) => setEditedFecha(e.target.value)}
-                                    className='p-2 rounded-xl border-2 w-full outline-none mt-4'
+                                <form className=' flex flex-col'>
+                                    <input
+                                        type="text"
+                                        value={editedDescripcion}
+                                        onChange={(e) => setEditedDescripcion(e.target.value)}
+                                        className='p-2 rounded-xl border-2 w-full outline-none mt-4'
+                                    />
+                                    <input
+                                        type="date"
+                                        value={editedFecha}
+                                        onChange={(e) => setEditedFecha(e.target.value)}
+                                        className='p-2 rounded-xl border-2 w-full outline-none mt-4'
 
-                                />
-                                <input
-                                    type="text"
-                                    value={editedMateria}
-                                    onChange={(e) => setEditedMateria(e.target.value)}
-                                    className='p-2 rounded-xl border-2 w-full outline-none mt-4'
-                                />
-                                <div className='flex justify-between'>
-                                    <button onClick={() => actualizarTarea(tarea)} className='bg-ColorSidebar text-white p-2 mt-2 rounded mx-auto'>Guardar</button>
-                                    <button onClick={() => cancelarEdicion()} className='bg-CF95757 text-white p-2 mt-2 rounded mx-auto'>Cancelar</button>
-                                </div>
+                                    />
+                                    <input
+                                        type="text"
+                                        value={editedMateria}
+                                        onChange={(e) => setEditedMateria(e.target.value)}
+                                        className='p-2 rounded-xl border-2 w-full outline-none mt-4'
+                                    />
+                                    <div className='flex justify-between'>
+                                        <button onClick={() => actualizarTarea(tarea)} className='bg-ColorSidebar text-white p-2 mt-2 rounded mx-auto'>Guardar</button>
+                                        <button onClick={() => cancelarEdicion()} className='bg-CF95757 text-white p-2 mt-2 rounded mx-auto'>Cancelar</button>
+                                    </div>
+                                </form>
                             </div>
                         ) : (
                             <div className='p-4 rounded-2xl border my-3 shadow-xl'>
