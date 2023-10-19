@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import Process from "../../assets/TareasAssets/Proceso.png";
-import Revisio from "../../assets/TareasAssets/revision.png";
-import TodasTareas from './TodasTareas';
+import React, { useState } from 'react';
 import Proceso from './Proceso';
 import Revision from './Revision';
+import TodasTareas from './TodasTareas';
 
 
 
@@ -123,14 +121,14 @@ function TareasP() {
                             {!validation.Fecha && <p className="text-red-500">La fecha es obligatoria</p>}
                         </div>
                         <div className="mb-4">
-                            <label htmlFor="Materia" className="block text-2xl font-semibold text-gray-600">Materia (máximo 20 caracteres):</label>
+                            <label htmlFor="Materia" className="block text-2xl font-semibold text-gray-600">Materia (máximo 15 caracteres):</label>
                             <input
                                 type="text"
                                 id="Materia"
                                 name="Materia"
                                 value={nuevaTarea.Materia}
                                 onChange={handleInputChange}
-                                maxLength={20}
+                                maxLength={15}
                                 className={`w-full p-2 border rounded-xl outline-none mt-4${validation.Materia ? '' : 'border-red-500'}`}
                             />
                             {!validation.Materia && <p className="text-red-500">La materia es obligatoria</p>}
