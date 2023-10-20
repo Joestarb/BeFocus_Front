@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Calendario from "../../assets/TareasAssets/calendario.png";
 import Revisio from "../../assets/TareasAssets/revision.png";
+import Swal from 'sweetalert2';
+
 
 function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
     const [tareas, setTareas] = useState([]);
@@ -37,12 +39,16 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
     };
 
     //OBTENER TODAS LAS TAREAS
-    useEffect(() => {
+    const obtenerTareas = async () => {
         fetch('http://localhost:4000/tareas?Estatus=Revision')
-            .then((response) => response.json())
-            .then((data) => setTareas(data))
-            .catch((error) => console.error('Error al obtener las tareas:', error));
-        console.log(tareas)
+        .then((response) => response.json())
+        .then((data) => setTareas(data))
+        .catch((error) => console.error('Error al obtener las tareas:', error));
+    console.log(tareas)
+    }
+
+    useEffect(() => {
+        obtenerTareas()
     }, []);
 
     //FORMATEAR FECHA
@@ -59,6 +65,15 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
         const Fecha = editedFecha;
         const Materia = editedMateria;
 
+        if (!Descripcion || !Fecha || !Materia) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Necesitas rellenar todos los campos para poder actualizar la tarea',
+              })
+            return; // No actualices si falta información
+        }
+
         try {
             const response = await fetch(`http://localhost:4000/tareas/${Id_Tarea}?Estatus=Revision`, {
                 method: 'PUT',
@@ -74,7 +89,7 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
             });
             if (response.ok) {
                 console.log('Tarea actualizada correctamente.');
-                window.location.reload();
+                obtenerTareas()
             } else {
                 console.error('Error al actualizar la nota.');
             }
@@ -121,6 +136,8 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
                 console.log(tarea.Estatus)
                 console.log(response)
                 console.log('Tarea actualizada correctamente.');
+                obtenerTareas()
+
             } else {
                 console.error('Error al actualizar la nota.');
             }

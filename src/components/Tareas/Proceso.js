@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Process from "../../assets/TareasAssets/Proceso.png";
 import Calendario from "../../assets/TareasAssets/calendario.png";
 import Revision from './Revision';
+import Swal from 'sweetalert2';
+
 
 
 function Proceso() {
@@ -39,12 +41,18 @@ function Proceso() {
     };
 
     //OBTENER TODAS LAS TAREAS
-    useEffect(() => {
+
+
+    const obtenerTareas = async () => {
         fetch('http://localhost:4000/tareas?Estatus=Proceso')
             .then((response) => response.json())
             .then((data) => setTareas(data))
             .catch((error) => console.error('Error al obtener las tareas:', error));
         console.log(tareas)
+    }
+
+    useEffect(() => {
+        obtenerTareas()
     }, []);
 
     //FORMATEAR FECHA
@@ -60,6 +68,15 @@ function Proceso() {
         const Descripcion = editedDescripcion;
         const Fecha = editedFecha;
         const Materia = editedMateria;
+
+        if (!Descripcion || !Fecha || !Materia) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Necesitas rellenar todos los campos para poder actualizar la tarea',
+              })
+            return; // No actualices si falta información
+        }
 
 
         try {
@@ -77,7 +94,7 @@ function Proceso() {
             });
             if (response.ok) {
                 console.log('Tarea actualizada correctamente.');
-                window.location.reload();
+                obtenerTareas()
 
             } else {
                 console.error('Error al actualizar la nota.');
@@ -125,6 +142,8 @@ function Proceso() {
                 console.log(tarea.Estatus)
                 console.log(response)
                 console.log('Tarea actualizada correctamente.');
+                obtenerTareas()
+                window.location.reload()
             } else {
                 console.error('Error al actualizar la nota.');
             }

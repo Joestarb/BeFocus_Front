@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import Swal from 'sweetalert2';
+
 
 function ContenidoNota({ notaUtilizar }) {
   const fechaActual = new Date().toISOString().split('T')[0];
@@ -21,10 +23,23 @@ function ContenidoNota({ notaUtilizar }) {
 
 
   const enviarNota = async () => {
+
     if (nota.Titulo.trim() === '' && nota.Contenido.trim() === '') {
-      alert('El título y el contenido están vacíos. No se guardará la nota.');
-      return; // No se realizará la operación de guardado
-    }
+      Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'El título y el contenido están vacíos. No se guardará la nota.',
+        })
+      return; // No actualices si falta información
+  }
+  if (nota.Contenido.trim() === '' || nota.Titulo.trim() === '') {
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Para guardar la nota no deben haber campos vacios.',
+      })
+    return; // No actualices si falta información
+}
     try {
       const response = await fetch('http://localhost:4000/Notas', {
         method: 'POST',
