@@ -8,15 +8,15 @@ function Notas() {
   const [notaUtilizar, setNotaUtilizar] = useState();
 
   return (
-    <div className='flex'>
+    <div className='flex flex-col xl:flex-row'>
       <div className=''>
       <Sidebar />
       </div>
-      <div className='flex w-full'>
-        <div className=' w-3/12 overflow-auto'>
+      <div className='flex w-full xl:flex-row flex-col'>
+        <div className=' xl:w-3/12 overflow-auto'>
           <MenuNotas notaUtilizar={notaUtilizar} setNotaUtilizar={setNotaUtilizar}/>
         </div>
-        <div className=' w-9/12'>
+        <div className=' xl:w-9/12'>
           <ContenidoNota notaUtilizar={notaUtilizar} setNotaUtilizar={setNotaUtilizar}/>
         </div>
       </div>

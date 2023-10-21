@@ -156,7 +156,7 @@ function Revision({ tareasEnRevision, onDeleteTarea, setTareasEnRevision }) {
                         <p className='ml-3 text-white font-semibold'>Tareas en Revisión</p>
                     </div>
                     <div className=' m-auto ml-32'>
-                        <img src={Revisio} width={80} height={80} alt='tareas' className=' m-auto' />
+                        <img src={Revisio} alt='tareas' className=' m-auto ' />
                     </div>
                 </div>
             </div>
