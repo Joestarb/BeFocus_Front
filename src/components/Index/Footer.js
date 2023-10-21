@@ -1,37 +1,33 @@
-import React from 'react'
-import facebook from "../../assets/indexAssets/iconsFooter/facebook.png"
-import ig from "../../assets/indexAssets/iconsFooter/ig.png"
-import linkedin from "../../assets/indexAssets/iconsFooter/linkedin.png"
-import youtube from "../../assets/indexAssets/iconsFooter/youtube.png"
-function Footer() {
-    return (
-        <div className=' bg-black   text-gray-400 '>
-            <nav className=' pt-12'>
-                <ul class="flex justify-center gap-8 ">
-                    <li>Inicio</li>
-                    <li>Nosotros </li>
-                    <li>Contacto </li>
-                </ul>
-            </nav>
-            <h2 className=' text-center font-bold text-white mt-5 text-6xl'>
-                BeFocus
-            </h2>
-            <p className=' text-gray-400 text-center m-4'>Optimiza tu día al maximo</p>
-            <div>
-                <div className='  flex justify-center  gap-6 m-2 '>
+import React from 'react';
+import { Link } from 'react-router-dom'; // Importa Link desde react-router-dom
+import facebook from "../../assets/indexAssets/iconsFooter/facebook.png";
+import ig from "../../assets/indexAssets/iconsFooter/ig.png";
+import linkedin from "../../assets/indexAssets/iconsFooter/linkedin.png";
+import youtube from "../../assets/indexAssets/iconsFooter/youtube.png";
 
-                <img src={ig} alt=''/>
-                <img src={facebook} alt=''/>
-                <img src={youtube} alt=''/>
-                <img src={linkedin} alt=''/>
-                </div>
-            </div>
-            <div className='border border-white m-5'></div>
-            <p className=' text-center   text-white p-5'>
-            © 2023 Be Focus. Todos los derechos reservados.
-            </p>
+function Footer() {
+  return (
+    <footer className="footer-container">
+      <nav>
+        <ul>
+          <li><Link to="/">Inicio</Link></li> {/* Usa Link para enlazar al inicio */}
+          <li><Link to="/nosotros">Nosotros</Link></li>
+          <li><Link to="/contacto">Contacto</Link></li>
+        </ul>
+      </nav>
+      <div className="text-center">
+        <h4>BeFocus</h4>
+        <p>Optimiza tu día al máximo</p>
+        <div className='social-media-icons'>
+          <img src={ig} alt='Instagram' />
+          <img src={facebook} alt='Facebook' />
+          <img src={youtube} alt='YouTube' />
+          <img src={linkedin} alt='LinkedIn' />
         </div>
-    )
+      </div>
+      <p>© 2023 Be Focus. Todos los derechos reservados.</p>
+    </footer>
+  );
 }
 
-export default Footer
+export default Footer;

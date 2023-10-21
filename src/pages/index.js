@@ -4,6 +4,7 @@ import Nabar from '../../src/components/Index/Navbar'
 import IndexContent from '../components/Index/IndexContent'
 import IndexContent2 from '../components/Index/IndexContent2'
 
+
 function index() {
   return (
     <div>

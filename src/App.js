@@ -6,6 +6,8 @@ import Index from "./pages/index";
 import Registro from "./pages/Registro";
 import Olvcontra from "./pages/Olvcontra"; 
 import Traductor from "./pages/Traductor";
+import Nosotros from "./pages/NosotrosPage";
+import Contacto from "./pages/Contacto";
 function App() {
   return (
     <div>
@@ -18,6 +20,9 @@ function App() {
           <Route path="/Registro" element={< Registro/>} />
           <Route path="/Olvcontra" element={< Olvcontra/>} />
           <Route path="/Traductor" element={<Traductor/>}/>
+          <Route path="/Nosotros" element={<Nosotros/>}/>
+          <Route path="/Contacto" element={<Contacto/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>

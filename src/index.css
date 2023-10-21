@@ -1,8 +1,8 @@
-@tailwind base;
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
-@tailwind components;
 
-@tailwind utilities;
 
 
 /* login */
@@ -55,3 +55,49 @@
 .traductorColor button{
     background-color: #82A0D8;
 }
+
+.footer-container {
+    background-color: #000; /* Fondo negro */
+    color: #fff; /* Texto blanco */
+    text-align: center; /* Centro del contenido */
+    padding: 20px; /* Espacio interno */
+  }
+  
+  /* Estilos para los enlaces en el menú de navegación */
+  .footer-container nav ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-container nav ul li {
+    display: inline;
+    margin: 0 10px;
+  }
+  
+  .footer-container nav a {
+    color: #fff; 
+    text-decoration: none;
+  }
+  
+
+  .footer-container h4, .footer-container p {
+    margin: 0;
+  }
+  
+ 
+  .footer-container p:last-child {
+    margin-top: 10px;
+  }
+
+ 
+.social-media-icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.social-media-icons img {
+  margin: 0 5px; 
+}
+
