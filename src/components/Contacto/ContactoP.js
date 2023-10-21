@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../../components/Index/Footer";
-import estudio from "../../components/Index/7606066.jpg";
+import estudio from "../../components/Index/7606066.jpg"; // Asegúrate de que esta ruta sea correcta y el archivo de imagen exista
 
 const containerStyle = {
   maxWidth: "100%",
@@ -13,9 +13,9 @@ const headerStyle = {
   backgroundSize: "cover",
   backgroundPosition: "center",
   color: "white",
-  padding: "20px 0", // Reducir el espacio superior e inferior
+  padding: "20px 0",
   textAlign: "center",
-  height: "200px", // Ajustar la altura de la imagen
+  height: "200px",
 };
 
 const formStyle = {
@@ -25,21 +25,24 @@ const formStyle = {
   maxWidth: "600px",
   margin: "0 auto",
   padding: "20px",
-  background: "white",
+  background: "#fff",
   borderRadius: "5px",
-  opacity: 0.9,
+  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)", // Sombra ligera
+  marginTop: "20px", // Separación del encabezado
+  marginBottom: "20px", // Separación del pie de página
 };
 
 const labelStyle = {
   fontSize: "1rem",
   marginBottom: "10px",
+  fontWeight: "bold", // Texto en negrita
 };
 
 const inputStyle = {
   padding: "10px",
   width: "100%",
   marginBottom: "20px",
-  border: "1px solid #ccc",
+  border: "2px solid orange", // Borde naranja
   borderRadius: "5px",
 };
 
@@ -47,27 +50,26 @@ const textareaStyle = {
   padding: "10px",
   width: "100%",
   marginBottom: "20px",
-  border: "1px solid #ccc",
+  border: "2px solid orange", // Borde naranja
   borderRadius: "5px",
-  height: "50px", // Ajustar la altura del área de texto
+  height: "60px",
 };
 
 const buttonStyle = {
-  backgroundColor: "#007BFF",
+  backgroundColor: "#F5B041",
   color: "#fff",
   padding: "10px 20px",
   border: "none",
   cursor: "pointer",
   borderRadius: "5px",
+  transition: "background-color 0.3s", // Transición suave
+};
+
+const buttonHoverStyle = {
+  backgroundColor: "#D35400", // Color más oscuro al pasar el ratón
 };
 
 const Header = () => {
-  const navStyle = {
-    display: "flex",
-    justifyContent: "flex-end",
-    marginRight: "20px",
-  };
-
   const titleStyle = {
     fontSize: "2rem",
     textTransform: "uppercase",
@@ -92,7 +94,7 @@ const Header = () => {
       <Link to="/nosotros" style={{ textDecoration: "none" }}>
         <h2 style={titleStyle}>Escribenos tu comentario!</h2>
       </Link>
-      <nav style={navStyle}>
+      <nav>
         <Link to="/" style={{ textDecoration: "none" }}>
           <button style={botonStyle}>Regresar al Inicio</button>
         </Link>
@@ -108,12 +110,27 @@ function ContactoP() {
   const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [buttonHover, setButtonHover] = useState(false);
+
+  const handleButtonMouseOver = () => {
+    setButtonHover(true);
+  };
+
+  const handleButtonMouseOut = () => {
+    setButtonHover(false);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validación simple para verificar que los campos no estén vacíos
+    if (!email || !comment) {
+      alert("Por favor, completa todos los campos antes de enviar.");
+      return;
+    }
+
     // Realiza una solicitud a Formspree para enviar el formulario
-    const response = await fetch("https://formspree.io/f/{form_id}", {
+    const response = await fetch("https://formspree.io/f/meqbnoza", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -129,37 +146,50 @@ function ContactoP() {
   return (
     <div style={containerStyle}>
       <Header />
-      {isSubmitted ? (
-        <p>¡Gracias por tu mensaje!</p>
-      ) : (
-        <form style={formStyle} onSubmit={handleSubmit}>
-          <label style={labelStyle} htmlFor="email">
-            Tu correo electrónico
-          </label>
-          <input
-            style={inputStyle}
-            name="Email"
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label style={labelStyle} htmlFor="comment">
-            Comentario
-          </label>
-          <textarea
-            style={textareaStyle}
-            name="Comment"
-            id="comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-          />
-          <button style={buttonStyle} type="submit">
-            Enviar
-          </button>
-        </form>
-      )}
-
+      <div style={formStyle}>
+        {isSubmitted ? (
+          <div>
+            <p style={{ fontSize: "1.5rem", marginBottom: "20px" }}>¡Gracias por tu mensaje!</p>
+            <button style={buttonStyle} onClick={() => setIsSubmitted(false)}>
+              Enviar otro comentario
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <label style={labelStyle} htmlFor="email">
+              Tu correo electrónico
+            </label>
+            <input
+              style={inputStyle}
+              name="email"
+              id="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label style={labelStyle} htmlFor="comment">
+              Comentario
+            </label>
+            <textarea
+              style={textareaStyle}
+              name="comment"
+              id="comment"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              required
+            />
+            <button
+              style={buttonHover ? { ...buttonStyle, ...buttonHoverStyle } : buttonStyle}
+              type="submit"
+              onMouseOver={handleButtonMouseOver}
+              onMouseOut={handleButtonMouseOut}
+            >
+              Enviar
+            </button>
+          </form>
+        )}
+      </div>
       <Footer />
     </div>
   );
