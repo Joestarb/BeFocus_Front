@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Footer from "../../components/Index/Footer";
 import {jwtDecode} from 'jwt-decode';
 
-
 function LoginP() {
   const [usuario, setUsuario] = useState({
     Nombre: "",
@@ -16,7 +15,6 @@ function LoginP() {
   });
 
   const [user, setUser] = useState({});
-
 
   function handleCallbackResponse(response){
     console.log("Encoded JWT ID token:" + response.credential);
@@ -64,6 +62,8 @@ function LoginP() {
       .catch(err => console.log(err));
   }
 
+  //si no tenemos usuario = un boton de sign in
+  //si tenemos usuario = un boton de login
   return (
     <>
       <div className='grid place-content-center h-screen'>
@@ -91,6 +91,7 @@ function LoginP() {
         </div>
 
         <div className='flex justify-between my-10 mx-auto' id='singInDiv'>
+          <Link></Link>
         </div>
 
         <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold'>Regístrate</Link></p>
