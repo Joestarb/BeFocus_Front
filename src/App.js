@@ -8,6 +8,7 @@ import Olvcontra from "./pages/Olvcontra";
 import Traductor from "./pages/Traductor";
 import Nube from "./pages/Nube";
 function App() {
+
   return (
     <div>
       <BrowserRouter>

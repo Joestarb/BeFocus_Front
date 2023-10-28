@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Google from "../../assets/LoginAssets/Google.png";
 import Footer from "../Index/Footer";
-import { gapi } from "gapi-script";
-import GoogleLogin from "react-google-login";
 
 function RegistroP() {
   const [contrasena, setContrasena] = useState()
@@ -74,32 +72,6 @@ function RegistroP() {
   }
 
 
-  const clientID = "509169001406-292rqr2qemtdpkm895o37qatcmcugun4.apps.googleusercontent.com";
-
-  useEffect(() => {
-    const start = () => {
-      gapi.auth2.init({
-        client_id: clientID,
-      });
-
-    }
-    gapi.load("client:auth2", start);
-  }, [])
-
-  const onSuccess = (response) => {
-    console.log(response);
-    usuarios.Nombre = response.profileObj.givenName + " " + response.profileObj.familyName;
-    usuarios.Correo = response.profileObj.email;
-    usuarios.Imagen = response.profileObj.imageUrl;
-    usuarios.FK_Tipo_Usuario = 1;
-    usuarios.TokenGoogle = response.googleId;
-    console.log(usuarios);
-    crearUsuarioGoogle();
-  }
-
-  const onFailure = (response) => {
-    console.log("Algo ha salido mal");
-  }
 
 
   return (
@@ -138,30 +110,6 @@ function RegistroP() {
         />
         <div className='flex justify-center'>
           <button type='submit' className="bg-blue-500 text-white py-2 px-4 w-60 rounded-full hover:bg-blue-600" onClick={validarContrasena}> Registrarse </button>
-        </div>
-
-        <div className='flex justify-between my-5'>
-          <GoogleLogin
-            clientId={clientID}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={'single_host_policy'}
-            className=" w-52 h-10 m-2"
-            render={(renderProps) => (
-              <button
-                className="bg-white text-gray-700 py-2 w-54 px-4 h-14 rounded-full my-auto border border-gray-300 hover:bg-gray-100 focus:outline-none flex mx-auto"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <img
-                  src={Google}
-                  alt="Google Icon"
-                  className="w-6 h-6 mr-2 my-auto"
-                />
-                <span className="my-auto">Registrarse con Google</span>
-              </button>
-            )}
-          />
         </div>
 
         <p>¿Tienes Cuenta? <Link to='/Login' className='font-bold'>Inicia Sesión</Link></p>
