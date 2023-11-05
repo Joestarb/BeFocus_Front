@@ -17,7 +17,7 @@ function GoogleDrivePicker() {
             viewId: "DOCS",
             // token: token, // pass oauth token in case you already have one
             showUploadView: true,
-            token: "ya29.a0AfB_byBIkROVt1ZEb0gUd9AdH2IB_HwTVVdoBS_6Lga2kaPwLnNJB198Jt5GxP6NjKoS8lSxXYeGVjcIhB2HEx2XFytoa2elABU6AJsjgbSGfo-4UcQbGfhj5tTkyDsYkLJW8_BzevcQK_kV8E4DJhJaW_MB3o7l27xtaCgYKAaUSARESFQGOcNnCIwQbd0r3ikwwR8x1r-FXQA0171", //Esto lo ponemos por que es necesario dar acceso de dubir archivos a drive por lo que se necesita un token especial de google
+            token: "ya29.a0AfB_byAmO-nQgAem6Ix-fmB10wsBPYtjhlqgsGMEIJS4qKbJWas-QS8OqyYVK8HUJI-im9pvHjP_Lyr76pFEKwX_lp0LBYbSax5OJdT6kCttPI6ER3RnLz2XcVGrw9WiYdc7UBl4GB8DVZbm51mWHGcw83V24lzLJ2R3aCgYKARgSARESFQGOcNnCWLGo71BUvVx0DFWiyLkRQw0171", //Esto lo ponemos por que es necesario dar acceso de dubir archivos a drive por lo que se necesita un token especial de google
             showUploadFolders: true,
             supportDrives: true,
             multiselect: true,
@@ -65,14 +65,14 @@ function GoogleDrivePicker() {
                     <div className='grid grid-cols-2 gap-4 mx-5'>
                         {archivos.map((archivo) => {
                             return (
-                                <div key={archivo.id} className="mb-2 max-w-xl border border-gray-200 rounded bg-C393E46 shadow h-full flex flex-col">
+                                <div key={archivo.id} className="mb-2 max-w-xl border border-gray-200 rounded bg-[#F5F5F5] shadow h-full flex flex-col">
                                         <div className="p-5 flex flex-col justify-between h-full">
                                             <div>
                                                 <a href={archivo.url} target="_blank" rel="noopener noreferrer">
-                                                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white line-clamp-2">{archivo.name}</h5>
+                                                    <h5 className="mb-2 text-2xl font-bold tracking-tight text-C393E46 line-clamp-2">{archivo.name}</h5>
                                                 </a>
-                                                <p className="mb-3  text-gray-700 dark:text-gray-400 font-semibold">Tamaño de archivo: {archivo.sizeBytes}Kb</p>
-                                                <p className="mb-3 font-semibold text-gray-700 dark:text-gray-400">Tipo de archivo: {archivo.mimeType}</p>
+                                                <p className="mb-3 font-semibold text-[#9DB2BF]">Tamaño de archivo: {archivo.sizeBytes}Kb</p>
+                                                <p className="mb-3 font-semibold text-[#9DB2BF]">Tipo de archivo: {archivo.mimeType}</p>
                                             </div>
                                             <div className=' flex justify-center'>
                                                 <button
