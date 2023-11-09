@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Google from "../../assets/LoginAssets/Google.png";
 import Footer from "../Index/Footer";
-import { gapi } from "gapi-script";
-import GoogleLogin from "react-google-login";
+import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2'
+
 
 function RegistroP() {
-  const [contrasena, setContrasena] = useState()
-
   const [usuarios, setUsuarios] = useState({
     Nombre: "",
     Correo: "",
@@ -18,21 +16,75 @@ function RegistroP() {
     TokenGoogle: null,
   })
 
-  const crearUsuarioForm = async () => {
+  const [user, setUser] = useState({});
+
+  function handleCallbackResponse(response) {
+    console.log("Encoded JWT ID token:" + response.credential);
+    const userObject = jwtDecode(response.credential);
+    console.log(userObject);
+    setUser(userObject);
+  }
+
+  useEffect(() => {
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: "161190821674-h1blcbm7mif1202m3v6ghp6j8qvueo3s.apps.googleusercontent.com",
+      callback: handleCallbackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("singInDiv"),
+      { theme: "outline", size: "large" }
+    );
+
+  }, [])
+
+  const crearUsuarioForm = async (e) => {
+    e.preventDefault(); // Evitar la recarga de la página
     try {
-      const respuesta = await fetch('http://localhost:4000/Usuarios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(usuarios),
-      });
-      console.log(usuarios)
-      if (respuesta.ok) {
-        alert("Usuario creado correctamente");
+      console.log(usuarios);
+
+      // Verificar si el usuario ya existe por su TokenGoogle
+      const usuarioExistenteResponse = await fetch(`http://localhost:4000/Usuarios/${usuarios.Correo}`);
+      const usuarioExistente = await usuarioExistenteResponse.json();
+      console.log(usuarioExistente);
+
+      if (usuarioExistente.message !== 'Usuario no encontrado') {
+        // El usuario ya existe, mostrar un mensaje de error o tomar una acción apropiada
+        Swal.fire({
+          title: 'Usuario existente',
+          text: 'Este usuario ya está registrado. Por favor, inicie sesión.',
+          icon: 'error',
+          showConfirmButton: true,
+        }).then(() => {
+          // Puedes agregar más lógica aquí si es necesario
+        });
       }
       else {
-        alert("Error al crear el usuario");
+        const respuesta = await fetch('http://localhost:4000/Usuarios', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(usuarios),
+        });
+        console.log(usuarios)
+        if (respuesta.ok) {
+          Swal.fire({
+            title: 'Usuario creado correctamente',
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'Ok',
+          }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+              window.location.href = "/Login";
+            } else if (result.isDenied) {
+              Swal.fire('Changes are not saved', '', 'info')
+            }
+          })
+
+        }
 
       }
     }
@@ -41,130 +93,116 @@ function RegistroP() {
     }
   }
 
-  const validarContrasena = (e) => {
-    if (contrasena !== usuarios.Contrasena) {
-      alert("Las contraseñas no coinciden");
-    } else {
-      crearUsuarioForm();
-    }
-  }
-
-  //Crear usuario con google
+  // Crear usuario con Google
   const crearUsuarioGoogle = async () => {
     try {
-      const respuesta = await fetch('http://localhost:4000/Usuarios', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(usuarios),
-      });
-      console.log(usuarios)
-      if (respuesta.ok) {
-        alert("Usuario creado correctamente");
+      console.log(user);
+
+      // Verificar si el usuario ya existe por su TokenGoogle
+      const usuarioExistenteResponse = await fetch(`http://localhost:4000/Usuarios/google/${user.sub}`);
+      const usuarioExistente = await usuarioExistenteResponse.json();
+      console.log(usuarioExistente);
+
+      if (usuarioExistente.message !== 'Usuario no encontrado') {
+        // El usuario ya existe, mostrar un mensaje de error o tomar una acción apropiada
+        Swal.fire({
+          title: 'Usuario existente',
+          text: 'Este usuario de Google ya está registrado. Por favor, inicie sesión.',
+          icon: 'error',
+          showConfirmButton: true,
+        }).then(() => {
+          // Puedes agregar más lógica aquí si es necesario
+        });
+      } else {
+        // El usuario no existe, proceder con la creación
+        const respuesta = await fetch('http://localhost:4000/Usuarios', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            Nombre: user.name,
+            Correo: user.email,
+            Contrasena: null,
+            Imagen: user.picture,
+            TokenGoogle: user.sub,
+            TokenBeFocus: null,
+            FK_Tipo_Usuario: 1,
+          }),
+        });
+
+        if (respuesta.ok) {
+          // Usuario creado exitosamente
+          Swal.fire({
+            title: 'Usuario de Google creado correctamente',
+            showDenyButton: false,
+            showCancelButton: false,
+            confirmButtonText: 'Ok',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = "/Login";
+            }
+          });
+        } else {
+          alert("Error al crear el usuario de Google");
+        }
       }
-      else {
-        alert("Error al crear el usuario");
-
-      }
+    } catch (error) {
+      console.error(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  };
 
-
-  const clientID = "509169001406-292rqr2qemtdpkm895o37qatcmcugun4.apps.googleusercontent.com";
 
   useEffect(() => {
-    const start = () => {
-      gapi.auth2.init({
-        client_id: clientID,
-      });
-
+    if (user && user.sub) {
+      crearUsuarioGoogle();
     }
-    gapi.load("client:auth2", start);
-  }, [])
-
-  const onSuccess = (response) => {
-    console.log(response);
-    usuarios.Nombre = response.profileObj.givenName + " " + response.profileObj.familyName;
-    usuarios.Correo = response.profileObj.email;
-    usuarios.Imagen = response.profileObj.imageUrl;
-    usuarios.FK_Tipo_Usuario = 1;
-    usuarios.TokenGoogle = response.googleId;
-    console.log(usuarios);
-    crearUsuarioGoogle();
-  }
-
-  const onFailure = (response) => {
-    console.log("Algo ha salido mal");
-  }
-
+  }, [user]);
 
   return (
     <>
       <div className='grid place-content-center h-screen'>
-        <h2 className='text-6xl font-bold text-center'>Bienvenido a BeFocus</h2>
-        <h4 className='text-6xl font-semibold text-center redColor'>Regístrate</h4>
-        <span className='pt-14' />
-        <input
-          type="text"
-          className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
-          placeholder="Nombre Completo"
-          value={usuarios.Nombre}
-          onChange={(e) => setUsuarios({ ...usuarios, Nombre: e.target.value })}
-        />
-        <input
-          type="email"
-          className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
-          placeholder="Correo Electrónico"
-          value={usuarios.Correo}
-          onChange={(e) => setUsuarios({ ...usuarios, Correo: e.target.value })}
-        />
-        <input
-          type="password"
-          className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
-          placeholder="Contraseña"
-          value={usuarios.Contrasena}
-          onChange={(e) => setUsuarios({ ...usuarios, Contrasena: e.target.value })}
-        />
-        <input
-          type="password"
-          className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500"
-          placeholder="Confirmar Contraseña"
-          value={contrasena}
-          onChange={(e) => setContrasena(e.target.value)}
-        />
-        <div className='flex justify-center'>
-          <button type='submit' className="bg-blue-500 text-white py-2 px-4 w-60 rounded-full hover:bg-blue-600" onClick={validarContrasena}> Registrarse </button>
-        </div>
-
-        <div className='flex justify-between my-5'>
-          <GoogleLogin
-            clientId={clientID}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={'single_host_policy'}
-            className=" w-52 h-10 m-2"
-            render={(renderProps) => (
-              <button
-                className="bg-white text-gray-700 py-2 w-54 px-4 h-14 rounded-full my-auto border border-gray-300 hover:bg-gray-100 focus:outline-none flex mx-auto"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <img
-                  src={Google}
-                  alt="Google Icon"
-                  className="w-6 h-6 mr-2 my-auto"
-                />
-                <span className="my-auto">Registrarse con Google</span>
-              </button>
-            )}
+        <h1 className='text-6xl font-bold text-center mt-10'>Bienvenido a BeFocus</h1>
+        <h2 className='text-5xl font-bold text-center redColor my-3'>Regístrate</h2>
+        <form className='mt-10 flex flex-col' onSubmit={crearUsuarioForm}>
+          <input
+            type="text"
+            className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
+            placeholder="Nombre Completo"
+            required
+            value={usuarios.Nombre}
+            onChange={(e) => setUsuarios({ ...usuarios, Nombre: e.target.value })}
           />
-        </div>
+          <input
+            type="email"
+            className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
+            placeholder="Correo Electrónico"
+            value={usuarios.Correo}
+            onChange={(e) => setUsuarios({ ...usuarios, Correo: e.target.value })}
+            required
+          />
+          <input
+            type="password"
+            className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
+            placeholder="Contraseña"
+            value={usuarios.Contrasena}
+            onChange={(e) => setUsuarios({ ...usuarios, Contrasena: e.target.value })}
+            required
+          />
+          <div className='flex justify-center mt-5'>
+            <button type='submit' className="bg-[#F95757] text-white py-2 w-40 rounded-xl font-bold"> Registrarse </button>
+          </div>
 
-        <p>¿Tienes Cuenta? <Link to='/Login' className='font-bold'>Inicia Sesión</Link></p>
+        </form>
+        <div className='flex justify-between my-10 mx-auto' id='singInDiv'></div>
+        <div className='flex flex-col justify-center align-middle'>
+          <h1 className='text-center'>
+            <strong>¿Ya tienes Cuenta?</strong> <Link to='/Login' className='font-bold text-[#6499E9]'>Inicia Sesión</Link>
+          </h1>
+          <p className=' text-center'><strong>Al registrarse aceptas nuestras condiciones de uso y
+            <Link className='text-[#B5CB99]'> politica de privacidad.</Link>
+          </strong></p>
+        </div>
       </div>
       <Footer />
     </>

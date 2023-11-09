@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Google from "../../assets/LoginAssets/Google.png";
 import Footer from "../../components/Index/Footer";
-import { gapi } from "gapi-script";
-import GoogleLogin from "react-google-login";
-
-
-//npm install gapi-script es para conectar con apis de google
-//npm install react-google-login
+import {jwtDecode} from 'jwt-decode';
 
 function LoginP() {
   const [usuario, setUsuario] = useState({
@@ -20,50 +14,29 @@ function LoginP() {
     TokenGoogle: null,
   });
 
+  const [user, setUser] = useState({});
 
-  //LOGIN DE GOOGLE
-  const clientID = "509169001406-292rqr2qemtdpkm895o37qatcmcugun4.apps.googleusercontent.com";
-
-  const obtenerUsuarioGoogle = async () => {
-    fetch(`http://localhost:4000/Usuarios/${usuario.Correo}`)
-      .then(res => res.json())
-      .then(data => {
-        setUsuario(data)
-        console.log(usuario);
-        alert("Login exitoso")
-      })
-      .catch(err => console.log(err));
+  function handleCallbackResponse(response){
+    console.log("Encoded JWT ID token:" + response.credential);
+    var userObject = jwtDecode(response.credential);
+    console.log(userObject);
+    setUser(userObject);
   }
 
   useEffect(() => {
-    const start = () => {
-      gapi.auth2.init({
-        client_id: clientID,
-      });
-    }
-    gapi.load("client:auth2", start);
+    /* global google */
+    google.accounts.id.initialize({
+      client_id: "161190821674-h1blcbm7mif1202m3v6ghp6j8qvueo3s.apps.googleusercontent.com",
+      callback: handleCallbackResponse
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("singInDiv"),
+      {theme: "outline", size: "large"}
+    );
+    
   }, [])
 
-  const onSuccess = (response) => {
-    console.log(response);
-    usuario.Nombre = response.profileObj.givenName + " " + response.profileObj.familyName;
-    usuario.Correo = response.profileObj.email;
-    usuario.Imagen = response.profileObj.imageUrl;
-    usuario.FK_Tipo_Usuario = 1;
-    usuario.TokenGoogle = response.googleId;
-    console.log(usuario.Correo);
-    obtenerUsuarioGoogle();
-
-    localStorage.setItem("correo", usuario.Correo);
-    localStorage.setItem("nombre", usuario.Nombre);
-    localStorage.setItem("imagen", usuario.Imagen);
-    localStorage.setItem("tokengoogle", usuario.TokenGoogle);
-  
-  }
-
-  const onFailure = (response) => {
-    console.log("Algo ha salido mal");
-  }
 
   //--------------------------------------------------------
 
@@ -89,7 +62,8 @@ function LoginP() {
       .catch(err => console.log(err));
   }
 
-
+  //si no tenemos usuario = un boton de sign in
+  //si tenemos usuario = un boton de login
   return (
     <>
       <div className='grid place-content-center h-screen'>
@@ -115,28 +89,9 @@ function LoginP() {
             Iniciar sesión
           </button>
         </div>
-        <div className='flex flex-col justify-center my-10'>
-          <GoogleLogin
-            clientId={clientID}
-            onSuccess={onSuccess}
-            onFailure={onFailure}
-            cookiePolicy={'single_host_policy'}
-            className=" w-52 h-10 m-auto"
-            render={(renderProps) => (
-              <button
-                className="bg-white text-gray-700 py-2 w-54 px-4 h-14 rounded-full my-auto border border-gray-300 hover:bg-gray-100 focus:outline-none flex mx-auto"
-                onClick={renderProps.onClick}
-                disabled={renderProps.disabled}
-              >
-                <img
-                  src={Google}
-                  alt="Google Icon"
-                  className="w-6 h-6 mr-2 my-auto"
-                />
-                <span className="my-auto">Iniciar sesión con Google</span>
-              </button>
-            )}
-          />
+
+        <div className='flex justify-between my-10 mx-auto' id='singInDiv'>
+          <Link></Link>
         </div>
 
         <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold'>Regístrate</Link></p>
