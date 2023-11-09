@@ -1,12 +1,13 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Error404 from "./components/Error404";
 import Login from "./pages/Login";
 import Notas from "./pages/Notas";
-import Tareas from "./pages/Tareas";
-import Index from "./pages/index";
-import Registro from "./pages/Registro";
-import Olvcontra from "./pages/Olvcontra"; 
-import Traductor from "./pages/Traductor";
 import Nube from "./pages/Nube";
+import Olvcontra from "./pages/Olvcontra";
+import Registro from "./pages/Registro";
+import Tareas from "./pages/Tareas";
+import Traductor from "./pages/Traductor";
+import Index from "./pages/index";
 function App() {
 
   return (
@@ -21,6 +22,8 @@ function App() {
           <Route path="/Olvcontra" element={< Olvcontra/>} />
           <Route path="/Traductor" element={<Traductor/>}/>
           <Route path="/Nube" element={<Nube/>}/>
+          <Route path="/*" element={<Error404/>}/>
+
         </Routes>
       </BrowserRouter>
     </div>
