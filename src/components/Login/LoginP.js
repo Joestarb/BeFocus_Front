@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from "../../components/Index/Footer";
-import {jwtDecode} from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2'
 
 function LoginP() {
+
   const [usuario, setUsuario] = useState({
     Nombre: "",
     Correo: "",
@@ -16,7 +18,7 @@ function LoginP() {
 
   const [user, setUser] = useState({});
 
-  function handleCallbackResponse(response){
+  function handleCallbackResponse(response) {
     console.log("Encoded JWT ID token:" + response.credential);
     var userObject = jwtDecode(response.credential);
     console.log(userObject);
@@ -32,19 +34,68 @@ function LoginP() {
 
     google.accounts.id.renderButton(
       document.getElementById("singInDiv"),
-      {theme: "outline", size: "large"}
+      { theme: "outline", size: "large" }
     );
-    
+
   }, [])
 
+  //Traer los datos del usuario y verificar que exista
+  const logearUsuarioGoogle = async () => {
+    try {
+      console.log(user);
 
+      // Verificar si el usuario ya existe por su TokenGoogle
+      const usuarioExistenteResponse = await fetch(`http://localhost:4000/Usuarios/google/${user.sub}`);
+      const usuarioExistente = await usuarioExistenteResponse.json();
+      console.log(usuarioExistente);
+
+      if (usuarioExistente.message === 'Usuario no encontrado') {
+        // El usuario no existe
+        Swal.fire({
+          title: 'Usuario inexistente',
+          text: 'Este usuario no está existe. Por favor, registrate para poder iniciar sesión.',
+          icon: 'error',
+          showConfirmButton: true,
+        });
+      }
+      else {
+        // El usuario si existe, validar que los datos coincidan
+        if (usuarioExistente.Correo === user.email) {
+          console.log(usuarioExistente)
+          const token = usuarioExistente.TokenBeFocus;
+          localStorage.setItem("Token", token)
+          localStorage.setItem("Logeado", "True");
+          // Los datos coinciden, iniciar sesión
+          Swal.fire({
+            title: 'Inicio de sesión exitoso',
+            text: '¡Bienvenido a BeFocus!',
+            icon: 'success',
+            showConfirmButton: true,
+          }).then(() => {
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.sub) {
+      logearUsuarioGoogle();
+    }
+  }, [user]);
   //--------------------------------------------------------
 
   //Validar login
 
   const validarLogin = () => {
     if (usuario.Correo === "" || usuario.Contrasena === "") {
-      alert("Por favor complete todos los campos");
+      Swal.fire({
+        title: "Oops...",
+        text: "¡Por favor completa todos los campos!",
+        icon: "warning"
+      });
     } else {
       obtenerUsuario();
     }
@@ -52,56 +103,119 @@ function LoginP() {
 
   // LOGIN DE LA BD DE LA APP
   const obtenerUsuario = () => {
-    fetch(`http://localhost:4000/Usuarios/${usuario.Correo}`)
-      .then(res => res.json())
-      .then(data => {
-        setUsuario(data)
-        console.log(usuario);
-        alert("Login exitoso")
+    fetch(`http://localhost:4000/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        Correo: usuario.Correo,
+        Contrasena: usuario.Contrasena,
       })
-      .catch(err => console.log(err));
+    })
+      .then(res => {
+        if (res.ok) {
+          return res.json(); // Devuelve la Promesa resultante de res.json()
+        } else if (res.status === 401) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Contraseña incorrecta',
+            text: 'La contraseña proporcionada no es válida.'
+          });
+        } else if (res.status === 404) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Usuario no encontrado',
+            text: 'El usuario no se encuentra registrado. Por favor, regístrate para iniciar sesión.'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error en la solicitud',
+            text: 'Ha ocurrido un error en la solicitud. Por favor, inténtalo de nuevo más tarde.'
+          });
+        }
+      })
+      .then(data => {
+        if (data) {
+          // "data" ya es un objeto JavaScript con la respuesta del servidor
+          console.log(data);
+
+          // Accede a las propiedades de "data" y realiza las acciones necesarias
+          const token = data;
+
+          // Almacena la información en localStorage
+          localStorage.setItem("Token", token);
+          localStorage.setItem("Logeado", "True");
+
+          Swal.fire({
+            title: '¡Inicio de sesión exitoso!',
+            icon: 'success',
+            showCancelButton: false,
+            showConfirmButton: true,
+            confirmButtonText: 'Continuar',
+          }).then((result) => {
+            if (result.isConfirmed) {
+              // Redirige al usuario a la página deseada después de un inicio de sesión exitoso
+              // window.location.href = "/Notas";
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en la solicitud',
+          text: 'Hubo un error al procesar la solicitud. Por favor, inténtalo de nuevo más tarde.'
+        });
+      });
   }
 
-  //si no tenemos usuario = un boton de sign in
-  //si tenemos usuario = un boton de login
+
+
+  function iniciarSesion(e) {
+    e.preventDefault();
+    validarLogin();
+  }
+
+
   return (
     <>
       <div className='grid place-content-center h-screen'>
-        <h2 className='text-6xl font-bold text-center'>Bienvenido a BeFocus</h2>
-        <h4 className='text-6xl font-semibold text-center redColor'>Inicia sesión</h4>
-        <span className='pt-14' />
-        <input
-          type="email"
-          className="w-auto p-2 mb-4 border text-balck bg-gray-200 border-gray-300 rounded-3xl"
-          placeholder="Correo electrónico"
-          value={usuario.Correo}
-          onChange={(e) => setUsuario({ ...usuario, Correo: e.target.value })}
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl"
-          value={usuario.Contrasena}
-          onChange={(e) => setUsuario({ ...usuario, Contrasena: e.target.value })}
-        />
-        <div className='flex justify-center mt-5'>
-          <button className="bg-ColorSidebar text-gray-100 py-3 px-4 w-54 rounded-full my-auto border border-gray-300focus:outline-none mx-auto" onClick={validarLogin}>
-            Iniciar sesión
-          </button>
+        <h1 className='text-6xl font-bold text-center mt-10'>Bienvenido a BeFocus</h1>
+        <h2 className='text-5xl font-bold text-center redColor my-3'>Inicia sesión</h2>
+        <form className='flex flex-col mt-10' onSubmit={iniciarSesion}>
+          <input
+            type="email"
+            className="w-auto p-2 mb-4 border text-balck bg-gray-200 border-gray-300 rounded-3xl"
+            placeholder="Correo electrónico"
+            value={usuario.Correo}
+            onChange={(e) => setUsuario({ ...usuario, Correo: e.target.value })}
+          />
+          <input
+            type="password"
+            placeholder="Contraseña"
+            className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl"
+            value={usuario.Contrasena}
+            onChange={(e) => setUsuario({ ...usuario, Contrasena: e.target.value })}
+          />
+          <div className='flex justify-center mt-5'>
+            <div className='flex justify-center mt-5'>
+              <button type='submit' className="bg-[#F95757] text-white py-2 w-40 rounded-xl font-bold">Iniciar sesión</button>
+            </div>
+          </div>
+        </form>
+
+        <div className='flex justify-between my-10 mx-auto' id='singInDiv'></div>
+        <div className='flex flex-col justify-center align-middle'>
+          <h1 className='text-center'>
+            <strong>¿No tienes Cuenta?</strong> <Link to='/Registro' className='font-bold text-[#6499E9]'>Registrate</Link>
+          </h1>
+          <h1 className='text-center'>
+            <strong>¿Olvidaste tu contraseña?</strong> <Link to='/Olvcontra' className='font-bold text-[#B5CB99]'>Recupérala aquí</Link>
+          </h1>
         </div>
-
-        <div className='flex justify-between my-10 mx-auto' id='singInDiv'>
-          <Link></Link>
-        </div>
-
-        <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold'>Regístrate</Link></p>
-        <p>
-          ¿Olvidaste tu contraseña?
-          <Link to='/Olvcontra' className='font-bold'>
-            Recupérala aquí
-          </Link>
-
-        </p>
       </div>
       <Footer />
     </>

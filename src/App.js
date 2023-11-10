@@ -4,23 +4,27 @@ import Notas from "./pages/Notas";
 import Tareas from "./pages/Tareas";
 import Index from "./pages/index";
 import Registro from "./pages/Registro";
-import Olvcontra from "./pages/Olvcontra"; 
+import Olvcontra from "./pages/Olvcontra";
 import Traductor from "./pages/Traductor";
 import Nube from "./pages/Nube";
+import ProtectedRoutes from "./components/Router/ProtectedRoutes";
 function App() {
 
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index/>} />
-          <Route path="/Login" element={< Login/>} />
-          <Route path="/Notas" element={<Notas/>} />
-          <Route path="/Tareas" element={<Tareas/>} />
-          <Route path="/Registro" element={< Registro/>} />
-          <Route path="/Olvcontra" element={< Olvcontra/>} />
-          <Route path="/Traductor" element={<Traductor/>}/>
-          <Route path="/Nube" element={<Nube/>}/>
+          <Route path="/" element={<Index />} />
+          <Route path="/Login" element={< Login />} />
+          <Route path="/Registro" element={< Registro />} />
+          <Route path="/Olvcontra" element={< Olvcontra />} />
+
+          <Route element={<ProtectedRoutes/>}>
+            <Route path="/Notas" element={<Notas />} />
+            <Route path="/Tareas" element={<Tareas />} />
+            <Route path="/Traductor" element={<Traductor />} />
+            <Route path="/Nube" element={<Nube />} />
+          </Route>
         </Routes>
       </BrowserRouter>
     </div>

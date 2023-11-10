@@ -61,7 +61,7 @@ function RegistroP() {
         });
       }
       else {
-        const respuesta = await fetch('http://localhost:4000/Usuarios', {
+        const respuesta = await fetch('http://localhost:4000/Registro', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -70,15 +70,18 @@ function RegistroP() {
         });
         console.log(usuarios)
         if (respuesta.ok) {
+          const data = await respuesta.json();
+          const token = data.TokenBeFocus;
+          localStorage.setItem("Token", token);
+          localStorage.setItem("Logeado", "True");
           Swal.fire({
             title: 'Usuario creado correctamente',
             showDenyButton: false,
             showCancelButton: false,
             confirmButtonText: 'Ok',
           }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-              window.location.href = "/Login";
+              // window.location.href = "/Login";
             } else if (result.isDenied) {
               Swal.fire('Changes are not saved', '', 'info')
             }
@@ -115,7 +118,7 @@ function RegistroP() {
         });
       } else {
         // El usuario no existe, proceder con la creación
-        const respuesta = await fetch('http://localhost:4000/Usuarios', {
+        const respuesta = await fetch('http://localhost:4000/Registro', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -130,8 +133,12 @@ function RegistroP() {
             FK_Tipo_Usuario: 1,
           }),
         });
-
+          console.log(respuesta)
         if (respuesta.ok) {
+          const data = await respuesta.json();
+          const token = data.TokenBeFocus;
+          localStorage.setItem("Token", token);
+          localStorage.setItem("logeado", "True");
           // Usuario creado exitosamente
           Swal.fire({
             title: 'Usuario de Google creado correctamente',
@@ -140,7 +147,7 @@ function RegistroP() {
             confirmButtonText: 'Ok',
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.href = "/Login";
+              // window.location.href = "/Login";
             }
           });
         } else {

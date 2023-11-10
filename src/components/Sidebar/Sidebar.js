@@ -25,6 +25,10 @@ function Sidebar() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  function cerrarSesion(){
+    localStorage.clear();
+  };
+
   return (
     <div className={`bgSidebar ${isSmallScreen ? 'block' : 'xl:w-16 xl:h-screen w-full h-auto'}`}>
       {isSmallScreen && (
@@ -66,7 +70,7 @@ function Sidebar() {
         </li>
         <li className={`my-5 ${isSmallScreen ? 'hover:bg-white' : ''}`}>
           <Link to='/' onClick={toggleMenu}>
-            {isSmallScreen ? <p className=' font-PassionOne text-4xl text-white hover:text-C82A0D8 p-2'>Salir</p> : <Biicons.BiExit className='xl:text-5xl text-2xl xl:mx-auto text-white' />}
+            {isSmallScreen ? <p className=' font-PassionOne text-4xl text-white hover:text-C82A0D8 p-2'>Salir</p> : <Biicons.BiExit className='xl:text-5xl text-2xl xl:mx-auto text-white' onClick={cerrarSesion}/>}
           </Link>
         </li>
       </ul>
