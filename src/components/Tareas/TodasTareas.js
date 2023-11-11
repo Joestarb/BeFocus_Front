@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import Tareasimg from "../../assets/TareasAssets/Tareas.png";
 import Calendario from "../../assets/TareasAssets/calendario.png";
-import Swal from 'sweetalert2';
 
 
 

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Error404 from "./components/Error404";
 import Login from "./pages/Login";
 import Notas from "./pages/Notas";
 import Tareas from "./pages/Tareas";
@@ -18,7 +19,7 @@ function App() {
           <Route path="/Login" element={< Login />} />
           <Route path="/Registro" element={< Registro />} />
           <Route path="/Olvcontra" element={< Olvcontra />} />
-
+          <Route path="/*" element={<Error404/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path="/Notas" element={<Notas />} />
             <Route path="/Tareas" element={<Tareas />} />
