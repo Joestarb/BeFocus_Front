@@ -64,7 +64,7 @@ function LoginP() {
           console.log(usuarioExistente)
           const token = usuarioExistente.TokenBeFocus;
           localStorage.setItem("Token", token)
-          localStorage.setItem("Logeado", "True");
+          localStorage.setItem("Logueado", "True");
           // Los datos coinciden, iniciar sesión
           Swal.fire({
             title: 'Inicio de sesión exitoso',
@@ -72,6 +72,7 @@ function LoginP() {
             icon: 'success',
             showConfirmButton: true,
           }).then(() => {
+            window.location.href = "/Home";
           });
         }
       }
@@ -146,7 +147,7 @@ function LoginP() {
 
           // Almacena la información en localStorage
           localStorage.setItem("Token", token);
-          localStorage.setItem("Logeado", "True");
+          localStorage.setItem("Logueado", "True");
 
           Swal.fire({
             title: '¡Inicio de sesión exitoso!',
@@ -157,7 +158,7 @@ function LoginP() {
           }).then((result) => {
             if (result.isConfirmed) {
               // Redirige al usuario a la página deseada después de un inicio de sesión exitoso
-              // window.location.href = "/Notas";
+              window.location.href = "/Home";
             }
           });
         }

@@ -2,9 +2,9 @@ import { Navigate, Outlet } from "react-router-dom"
 
 function ProtectedRoutes() {
     let token = localStorage.getItem("Token");
-    let logeado = localStorage.getItem("Logeado");
+    let logueado = localStorage.getItem("Logueado");
 
-    if(!logeado || !token){
+    if(!logueado || !token){
         return <Navigate to="/Login"></Navigate>
     }
 

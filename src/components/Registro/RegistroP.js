@@ -73,7 +73,7 @@ function RegistroP() {
           const data = await respuesta.json();
           const token = data.TokenBeFocus;
           localStorage.setItem("Token", token);
-          localStorage.setItem("Logeado", "True");
+          localStorage.setItem("Logueado", "True");
           Swal.fire({
             title: 'Usuario creado correctamente',
             showDenyButton: false,
@@ -81,7 +81,7 @@ function RegistroP() {
             confirmButtonText: 'Ok',
           }).then((result) => {
             if (result.isConfirmed) {
-              // window.location.href = "/Login";
+              window.location.href = "/Home";
             } else if (result.isDenied) {
               Swal.fire('Changes are not saved', '', 'info')
             }
@@ -138,7 +138,7 @@ function RegistroP() {
           const data = await respuesta.json();
           const token = data.TokenBeFocus;
           localStorage.setItem("Token", token);
-          localStorage.setItem("logeado", "True");
+          localStorage.setItem("Logueado", "True");
           // Usuario creado exitosamente
           Swal.fire({
             title: 'Usuario de Google creado correctamente',
@@ -147,7 +147,7 @@ function RegistroP() {
             confirmButtonText: 'Ok',
           }).then((result) => {
             if (result.isConfirmed) {
-              // window.location.href = "/Login";
+              window.location.href = "/Home";
             }
           });
         } else {
