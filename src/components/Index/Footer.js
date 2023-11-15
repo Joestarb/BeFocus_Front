@@ -1,35 +1,23 @@
 import React from 'react'
-import facebook from "../../assets/indexAssets/iconsFooter/facebook.png"
-import ig from "../../assets/indexAssets/iconsFooter/ig.png"
-import linkedin from "../../assets/indexAssets/iconsFooter/linkedin.png"
-import youtube from "../../assets/indexAssets/iconsFooter/youtube.png"
+import * as FaIcons from 'react-icons/fa';
+
 function Footer() {
     return (
-        <div className=' bg-black   text-gray-400 '>
-            <nav className=' pt-12'>
-                <ul class="flex justify-center gap-8 ">
-                    <li>Inicio</li>
-                    <li>Nosotros </li>
-                    <li>Contacto </li>
-                </ul>
-            </nav>
-            <h2 className=' text-center font-bold text-white mt-5 text-6xl'>
-                BeFocus
-            </h2>
-            <p className=' text-gray-400 text-center m-4'>Optimiza tu día al maximo</p>
-            <div>
-                <div className='  flex justify-center  gap-6 m-2 '>
-
-                <img src={ig} alt=''/>
-                <img src={facebook} alt=''/>
-                <img src={youtube} alt=''/>
-                <img src={linkedin} alt=''/>
-                </div>
+        <div className=' bg-zinc-900 w-full'>
+            <div className='flex justify-center p-4'>
+                <FaIcons.FaInstagram className='text-4xl my-auto text-zinc-100 mx-2 ease-out duration-300 hover:scale-125'></FaIcons.FaInstagram>
+                <FaIcons.FaFacebook className='text-4xl my-auto text-zinc-100 mx-2 ease-out duration-300 hover:scale-125'></FaIcons.FaFacebook>
+                <FaIcons.FaYoutube className='text-4xl my-auto text-zinc-100 mx-2 ease-out duration-300 hover:scale-125'></FaIcons.FaYoutube>
+                <FaIcons.FaLinkedin className='text-4xl my-auto text-zinc-100 mx-2 ease-out duration-300 hover:scale-125'></FaIcons.FaLinkedin>
             </div>
-            <div className='border border-white m-5'></div>
-            <p className=' text-center   text-white p-5'>
-            © 2023 Be Focus. Todos los derechos reservados.
-            </p>
+            <div className='my-2 w-2/6 m-auto transition ease-in-out delay-150 hover:scale-110'>
+                <h2 className=' text-center font-bold text-zinc-200 text-4xl'>BeFocus</h2>
+                <p className=' text-zinc-200 text-center font-medium'>Optimiza tu día al maximo</p>
+            </div>
+            <div className='border border-zinc-300 w-full'></div>
+            <div className='py-3'>
+                <p className='italic font-medium text-center text-zinc-100'>© 2023 Be Focus. Todos los derechos reservados.</p>
+            </div>
         </div>
     )
 }
