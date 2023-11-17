@@ -51,7 +51,7 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
     //Queda pendiente de hacer el actualizar y lograr mostrar una nota especifica en el lado de contenido_Nota
 
     return (
-        <div className='bgNotas h-screen overflow-auto w-full'>
+        <div className='bg-slate-50 h-screen overflow-auto w-full'>
             <div className='flex justify-between p-3'>
                 <h1 className='font-PassionOne text-5xl'>Notas</h1>
                 <div className='flex'>

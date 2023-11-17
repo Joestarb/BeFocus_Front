@@ -35,7 +35,7 @@ function CardsNotas(props) {
   }
   
   return (
-    <div className='bg-white w-11/12 m-auto rounded-2xl mt-4 mb-3 cursor-pointer' onClick={elegirNota}>
+    <div className='bg-white w-11/12 m-auto rounded-2xl mt-4 mb-3 cursor-pointer hover:bg-zinc-100' onClick={elegirNota}>
       <div className='flex justify-between'>
       <h1 className='ml-4 font-semibold text-xl pt-2'>{truncarContenido(Titulo,3, 15)}</h1>
       <MdIcons.MdDeleteForever className='text-3xl my-auto mr-1 text-red-500 cursor-pointer' onClick={eliminarNota}/>

@@ -8,7 +8,7 @@ function Navbar() {
           <p className='font-bold text-2xl transition ease-in-out delay-150 hover:scale-125'>BeFocus</p>
         </div>
         <div className='flex space-x-4'>
-          <Link to='/Login'>
+          <Link to='/'>
             <p className='font-bold text-lg hover:bg-zinc-900 hover:text-zinc-100 p-2 rounded-lg transition ease-in-out delay-150 duration-300'>Inicio</p>
           </Link>
           <Link to='/Novedades'>

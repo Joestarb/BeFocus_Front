@@ -16,7 +16,7 @@ function Nube() {
   });
 
   return (
-    <div className='flex h-full'>
+    <div className='xl:flex h-full'>
       <div className=''>
         <Sidebar />
       </div>

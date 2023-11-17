@@ -3,8 +3,10 @@ import TraductorP from '../components/Traductor/TraductorP'
 import Sidebar from '../components/Sidebar/Sidebar'
 function Traductor() {
   return (
-    <div className='flex'>
-        <Sidebar/>
+    <div className='xl:flex'>
+      <div className='h-full'>
+      <Sidebar/>
+      </div>
         <TraductorP/>
     </div>
   )

@@ -53,11 +53,11 @@ function Reloj() {
     }, []);
 
     return (
-        <div className="bg-zinc-800 text-white p-8 rounded-md shadow-md">
-            <div className="text-3xl mb-4">
+        <div className="bg-[#89B9AD] text-white p-8 rounded-md shadow-md h-full flex flex-col justify-start align-middle items-center m-auto">
+            <div className="text-2xl mb-4 font-sans my-auto">
                 {`${diaSemana} ${dia} de ${mes} del ${anio}`}
             </div>
-            <div className="text-5xl font-bold">
+            <div className="text-5xl font-bold font-mono my-auto">
                 {`${hora}:${minutos}:${segundos} ${ampm}`}
             </div>
         </div>

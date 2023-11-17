@@ -10,6 +10,7 @@ import Traductor from "./pages/Traductor";
 import Nube from "./pages/Nube";
 import ProtectedRoutes from "./components/Router/ProtectedRoutes";
 import Home from "./pages/Home";
+import Nosotros from "./pages/Nosotros";
 function App() {
 
   const estaLogueado = () => {
@@ -35,6 +36,7 @@ function App() {
           <Route path="/Login" element={<LoginRoute />} />
           <Route path="/Registro" element={<RegistroRoute />} />
           <Route path="/Olvcontra" element={< Olvcontra />} />
+          <Route path="/Nosotros" element={< Nosotros />} />
           <Route path="/*" element={<Error404/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path="/Home" element={<Home/>}></Route>

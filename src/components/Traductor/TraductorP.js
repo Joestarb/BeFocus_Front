@@ -51,15 +51,15 @@ function ChatTranslator() {
   };
 
   return (
-    <div className='h-screen w-screen'>
+    <div className='h-full mb-20 xl:mb-0 w-screen'>
       <h2 className='font-PassionOne text-center text-6xl mt-5 border-b-4 h-14'>Traductor</h2>
-      <div className='flex flex-col justify-center traductor mt-16 m-auto'>
-        <div className='h-20 w-full traductorColor flex justify-between text-white rounded-tl-lg rounded-tr-lg'>
+      <div className='flex flex-col justify-center md:w-5/6 w-11/12 mt-16 m-auto'>
+        <div className='md:h-20 m-auto w-full bg-[#2D2727] flex justify-between text-white rounded-tl-lg rounded-tr-lg'>
           <select
-            className='h-12 ml-32 mt-3 text-2xl font-semibold bg-transparent outline-none text-center'
+            className='h-12 xl:ml-32 md:ml-1 my-auto md:text-2xl text-xs font-semibold bg-transparent outline-none text-center'
             onChange={(e) => setSourceLanguage(e.target.value)}
           >
-            <option value="" className='traductorColor text-white' selected disabled hidden>Seleccionar idioma</option>
+            <option value="" className='traductorColor text-white'  disabled hidden>Seleccionar idioma</option>
             <option className='traductorColor text-white' value="af">Afrikáans</option>
             <option className='traductorColor text-white' value="sq">Albanés</option>
             <option className='traductorColor text-white' value="de">Alemán</option>
@@ -88,7 +88,7 @@ function ChatTranslator() {
             <option className='traductorColor text-white' value="et">Estonio</option>
             <option className='traductorColor text-white' value="sk">Eslovaco</option>
             <option className='traductorColor text-white' value="sl">Esloveno</option>
-            <option className='traductorColor text-white' value="es">Español</option>
+            <option className='traductorColor text-white' value="es" selected>Español</option>
             <option className='traductorColor text-white' value="tl">Filipino</option>
             <option className='traductorColor text-white' value="fi">Finlandés</option>
             <option className='traductorColor text-white' value="fr">Francés</option>
@@ -171,16 +171,14 @@ function ChatTranslator() {
             <option className='traductorColor text-white' value="zu">Zulú</option>
           </select>
           <button
-            className='h-12 m-auto text-center text-2xl font-semibold bg-red-400 p-3 rounded-xl'
-            onClick={handleTranslateClick}
-          >
+            className='md:h-12 m-auto text-center md:text-2xl text-sm font-semibold bg-[#86A3B8] xl:p-3 p-2 rounded-xl my-3' onClick={handleTranslateClick}>
             Traducir
           </button>
           <select
-            className='h-12 mr-32 mt-3 text-2xl font-semibold bg-transparent outline-none text-center'
+            className='h-12 xl:mr-32 md:mr-2 my-auto md:text-2xl text-xs font-semibold bg-transparent outline-none text-center'
             onChange={(e) => setTargetLanguage(e.target.value)}
           >
-            <option className='traductorColor text-white' value="" selected disabled hidden>Seleccionar idioma</option>
+            <option className='traductorColor text-white' value="" disabled hidden>Seleccionar idioma</option>
             <option className='traductorColor text-white' value="af">Afrikáans</option>
             <option className='traductorColor text-white' value="sq">Albanés</option>
             <option className='traductorColor text-white' value="de">Alemán</option>
@@ -229,7 +227,7 @@ function ChatTranslator() {
             <option className='traductorColor text-white' value="is">Islandés</option>
             <option className='traductorColor text-white' value="ig">Igbo</option>
             <option className='traductorColor text-white' value="id">Indonesio</option>
-            <option className='traductorColor text-white' value="en">Inglés</option>
+            <option className='traductorColor text-white' value="en" selected>Inglés</option>
             <option className='traductorColor text-white' value="ga">Irlandés</option>
             <option className='traductorColor text-white' value="it">Italiano</option>
             <option className='traductorColor text-white' value="ja">Japonés</option>
@@ -292,10 +290,10 @@ function ChatTranslator() {
             <option className='traductorColor text-white' value="zu">Zulú</option>
           </select>
         </div>
-        <div className=' grid grid-cols-2'>
-          <div>
+        <div className=' grid xl:grid-cols-2 w-full'>
+          <div className='mb-5'>
             <textarea
-              className='border-2 font-mono border-gray-400 w-full h-96 outline-none resize-none placeholder:text-center p-2'
+              className='border-2 font-mono border-gray-400 w-full h-96 outline-none resize-none placeholder:text-left p-2'
               placeholder='Escribe o pega el texto que quieres traducir aqui'
               value={inputText}
               onChange={handleInputChange}

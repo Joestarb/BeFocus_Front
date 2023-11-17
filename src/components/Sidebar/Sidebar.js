@@ -30,7 +30,7 @@ function Sidebar() {
   };
 
   return (
-    <div className={`bgSidebar ${isSmallScreen ? 'block' : 'xl:w-16 xl:h-screen w-full h-auto'}`}>
+    <div className={`bg-[#ACB1D6] ${isSmallScreen ? 'block' : 'xl:w-16 xl:h-screen w-full h-auto'}`}>
       {isSmallScreen && (
         <div className='flex justify-between'>
           <button className="text-white p-3 text-2xl" onClick={toggleMenu}>

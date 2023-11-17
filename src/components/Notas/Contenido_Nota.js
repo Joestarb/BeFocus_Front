@@ -102,8 +102,8 @@ function ContenidoNota({ notaUtilizar }) {
 
   return (
     <div className=' h-screen overflow-auto w-full'>
-      {(notaUtilizar) ? <textarea className='font-PassionOne text-7xl outline-none w-full p-3 resize-none h-40' placeholder='Ingresa un titulo' value={notaSeleccionada.Titulo} onChange={(e) => setNotaSeleccionada({ ...notaSeleccionada, Titulo: e.target.value })} />
-        : <textarea className='font-PassionOne text-7xl outline-none w-full p-3 resize-none h-40' placeholder='Ingresa un titulo' value={nota.Titulo} onChange={(e) => setNota({ ...nota, Titulo: e.target.value })} />}
+      {(notaUtilizar) ? <textarea className='font-PassionOne text-7xl outline-none w-full p-3 resize-none h-20' placeholder='Ingresa un titulo' value={notaSeleccionada.Titulo} onChange={(e) => setNotaSeleccionada({ ...notaSeleccionada, Titulo: e.target.value })} />
+        : <textarea className='font-PassionOne text-7xl outline-none w-full p-3 resize-none h-20' placeholder='Ingresa un titulo' value={nota.Titulo} onChange={(e) => setNota({ ...nota, Titulo: e.target.value })} />}
       <div className='mx-5 mt-5 flex flex-col justify-center items-center'>
         {
           (notaUtilizar) ? <textarea
@@ -119,8 +119,8 @@ function ContenidoNota({ notaUtilizar }) {
             ></textarea>
         }
         {
-          (notaUtilizar) ? <button className='font-PassionOne text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 tareasenproceso' type='button' name='button' onClick={actualizarNota}>actualizar</button>
-            : <button className='font-PassionOne text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-blue-400 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 tareasenproceso' type='button' name='button' onClick={enviarNota}>Guardar</button>
+          (notaUtilizar) ? <button className='font-bold text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-[#89B9AD] text-white py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 bg-[#83A2FF]' type='button' name='button' onClick={actualizarNota}>actualizar</button>
+            : <button className='font-bold text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-[#89B9AD] text-white  py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 bg-[#83A2FF]' type='button' name='button' onClick={enviarNota}>Guardar</button>
 
         }
 
