@@ -42,8 +42,30 @@ function RegistroP() {
   const crearUsuarioForm = async (e) => {
     e.preventDefault(); // Evitar la recarga de la página
     try {
+
       console.log(usuarios);
 
+      // Validar que las contraseñas coincidan
+      if (usuarios.Contrasena !== usuarios.ConfirmarContrasena) {
+        // Las contraseñas no coinciden, mostrar un mensaje de error
+        Swal.fire({
+          title: 'Contraseñas no coinciden',
+          text: 'Las contraseñas ingresadas no coinciden. Por favor, inténtelo de nuevo.',
+          icon: 'error',
+          showConfirmButton: true,
+        });
+        return; // Detener la ejecución si las contraseñas no coinciden
+      }
+      const espaciosEnBlancoRegex = /\s/;
+      if (espaciosEnBlancoRegex.test(usuarios.Contrasena)) {
+        Swal.fire({
+          title: 'Contraseña inválida',
+          text: 'La contraseña no puede contener espacios en blanco. Por favor, elija otra contraseña.',
+          icon: 'error',
+          showConfirmButton: true,
+        });
+        return; // Detener la ejecución si la contraseña contiene espacios en blanco
+      }
       // Verificar si el usuario ya existe por su TokenGoogle
       const usuarioExistenteResponse = await fetch(`http://localhost:4000/Usuarios/${usuarios.Correo}`);
       const usuarioExistente = await usuarioExistenteResponse.json();
@@ -133,7 +155,7 @@ function RegistroP() {
             FK_Tipo_Usuario: 1,
           }),
         });
-          console.log(respuesta)
+        console.log(respuesta)
         if (respuesta.ok) {
           const data = await respuesta.json();
           const token = data.TokenBeFocus;
@@ -190,10 +212,19 @@ function RegistroP() {
           />
           <input
             type="password"
+            minLength={8}
             className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
             placeholder="Contraseña"
             value={usuarios.Contrasena}
             onChange={(e) => setUsuarios({ ...usuarios, Contrasena: e.target.value })}
+            required
+          />
+          <input
+            type="password"
+            className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500"
+            placeholder="Confirmar Contraseña"
+            value={usuarios.ConfirmarContrasena}
+            onChange={(e) => setUsuarios({ ...usuarios, ConfirmarContrasena: e.target.value })}
             required
           />
           <div className='flex justify-center mt-5'>
