@@ -51,8 +51,17 @@ function ContenidoNota({ notaUtilizar }) {
 
       if (response.ok) {
         const data = await response.json();
-        setNota(data);
-        window.location.reload()
+        Swal.fire({
+          icon: 'success',
+          title: 'Nota creada correctamente',
+          showConfirmButton: true,
+          confirmButtonText: 'Ok',
+        }).then ((result) => {
+          if(result.isConfirmed){
+            setNota(data);
+            window.location.reload()          
+          }
+        })
       } else {
         console.log(nota)
         console.error('Error al realizar la solicitud.');
@@ -74,11 +83,20 @@ function ContenidoNota({ notaUtilizar }) {
           Contenido: notaSeleccionada.Contenido,
         }),
       });
+  
       if (response.ok) {
         console.log('Nota actualizada correctamente.');
         console.log(notaSeleccionada);
-        window.location.reload();
-
+        Swal.fire({
+          icon: 'success',
+          title: 'Nota Actualizada',
+          showConfirmButton: true,
+          confirmButtonText: 'Ok',
+        }).then ((result) => {
+          if(result.isConfirmed){
+            window.location.reload();
+          }
+        })
       } else {
         console.error('Error al actualizar la nota.');
       }

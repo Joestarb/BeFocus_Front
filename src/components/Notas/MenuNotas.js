@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as HiIcons from 'react-icons/hi';
 import CardNotas from './CardNotas';
+import Swal from 'sweetalert2';
 
 
 function MenuNotas({notaUtilizar, setNotaUtilizar}) {
@@ -33,18 +34,31 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
 
     //Eliminar nota
     const eliminarNotaSeleccionada = (Id_Nota) => {
-        fetch(`http://localhost:4000/Notas/${Id_Nota}`, {
-            method: 'DELETE'
-        })
-            .then(res => res.json())
-            .then(data => {
-                setNotaSeleccionada(data);
+        Swal.fire({
+            title: "¿Estas seguro que quieres eliminar esta nota?",
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: "Eliminar",
+            denyButtonText: `Cancelar`
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire("Se elimino la nota", "", "success");
+              fetch(`http://localhost:4000/Notas/${Id_Nota}`, {
+                method: 'DELETE'
             })
-            .then(() => {
-                window.location.reload();
-            })
-            .catch(err => console.log(err));
-            console.log("Se elimino la nota")
+                .then(res => res.json())
+                .then(data => {
+                    setNotaSeleccionada(data);
+                })
+                .then(() => {
+                    window.location.reload();
+                })
+                .catch(err => console.log(err));
+                console.log("Se elimino la nota")
+            } else if (result.isDenied) {
+              Swal.fire("Se cancelo la operación", "", "info");
+            }
+          });
     }
 
 
