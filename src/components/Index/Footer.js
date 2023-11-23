@@ -3,7 +3,7 @@ import * as FaIcons from 'react-icons/fa';
 
 function Footer() {
     return (
-        <div className=' bg-zinc-900 w-full'>
+        <div className=' bg-zinc-900 w-full block'>
             <div className='flex justify-center p-4'>
                 <FaIcons.FaInstagram className='text-4xl my-auto text-zinc-100 mx-2 ease-out duration-300 hover:scale-125'></FaIcons.FaInstagram>
                 <FaIcons.FaFacebook className='text-4xl my-auto text-zinc-100 mx-2 ease-out duration-300 hover:scale-125'></FaIcons.FaFacebook>
