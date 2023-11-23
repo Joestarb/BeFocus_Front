@@ -6,7 +6,7 @@ function Motivacion() {
   useEffect(() => {
     fetch('https://api.api-ninjas.com/v1/quotes?category=happiness', {
       headers: {
-        // 'X-Api-Key': '8KQmKfL4EiOZLUWfsodhMA==yHpQScyE6AXBXYXw',
+        'X-Api-Key': '8KQmKfL4EiOZLUWfsodhMA==yHpQScyE6AXBXYXw',
       },
     })
       .then((res) => res.json())

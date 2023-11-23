@@ -5,18 +5,20 @@ import Swal from 'sweetalert2';
 function ContenidoNota({ notaUtilizar }) {
   const fechaActual = new Date().toISOString().split('T')[0];
 
+  const id_usuario = localStorage.getItem("Usuario")
+
   // Endpoint de post
   const [nota, setNota] = useState({
     Titulo: "",
     Contenido: "",
-    FK_Usuario: "1",
+    FK_Usuario: id_usuario,
     Fecha_Creacion: fechaActual
   });
 
   const [notaSeleccionada, setNotaSeleccionada] = useState({
     Titulo: "",
     Contenido: "",
-    FK_Usuario: "1",
+    FK_Usuario: id_usuario,
     Fecha_Creacion: "2023-10-10"
   });
 

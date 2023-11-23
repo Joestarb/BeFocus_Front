@@ -63,6 +63,7 @@ function LoginP() {
         if (usuarioExistente.Correo === user.email) {
           console.log(usuarioExistente)
           const token = usuarioExistente.TokenBeFocus;
+          localStorage.setItem("Usuario", usuarioExistente.Id_Usuario)
           localStorage.setItem("Token", token)
           localStorage.setItem("Logueado", "True");
           // Los datos coinciden, iniciar sesión
@@ -143,9 +144,10 @@ function LoginP() {
           console.log(data);
 
           // Accede a las propiedades de "data" y realiza las acciones necesarias
-          const token = data;
+          const token = data.token;
 
           // Almacena la información en localStorage
+          localStorage.setItem("Usuario", data.Id_Usuario);
           localStorage.setItem("Token", token);
           localStorage.setItem("Logueado", "True");
 
