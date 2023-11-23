@@ -26,8 +26,11 @@ function Sidebar() {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
-    setModalIsOpen(!modalIsOpen);
   };
+
+  const toggleMusic = () => {
+    setModalIsOpen(!modalIsOpen);
+  }
 
   function cerrarSesion() {
     localStorage.clear();
@@ -74,24 +77,24 @@ function Sidebar() {
         </li>
 
 
-        {/* <li className= {` mb-3 ${isSmallScreen ? 'hover:bg-white' : ''}`}>
-          <div  onClick={toggleMenu}>
+        <div className={` mb-3 ${isSmallScreen ? 'hover:bg-white' : ''}`}>
+          <button onClick={toggleMusic}>
             {isSmallScreen ? (
               <p className='font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2 '>Música</p>
             ) : (
               <FaIcons.FaMusic className='xl:text-5xl text-2xl xl:mx-auto text-white' />
             )}
-          </div>
-
+          </button>
           <Modal
             isOpen={modalIsOpen}
-            onRequestClose={toggleMenu}
+            onRequestClose={toggleMusic}
             contentLabel="YouTube Player Modal"
           >
-            <button onClick={toggleMenu}>Cerrar</button>
+            <button onClick={toggleMusic}>Cerrar</button>
             <YouTubePlayer />
           </Modal>
-        </li> */}
+
+        </div>
 
 
         <li className={`${isSmallScreen ? 'hover:bg-white' : ''}`}>

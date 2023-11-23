@@ -107,9 +107,12 @@ function Olvicontra() {
         {isPasswordChanged && (
           <p className="text-green-500 font-semibold text-center">Contraseña cambiada exitosamente.</p>
         )}
+        <div className='flex justify-center items-center flex-col'>
+          <p>¿Recuerdas tu contraseña? <Link to='/Login' className='font-bold text-center'>Inicia Sesión</Link></p> <br/>
+          <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold text-center'>Regístrate</Link></p>
 
-        <p>¿Recuerdas tu contraseña? <Link to='/Login' className='font-bold'>Inicia Sesión</Link></p>
-        <p>¿No tienes Cuenta? <Link to='/Registro' className='font-bold'>Regístrate</Link></p>
+        </div>
+
       </div>
       <Footer />
     </>
