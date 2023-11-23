@@ -45,7 +45,7 @@ function IndexContent() {
     }, []);
     return (
         <div ref={headerTextRef} className="headerText">
-            <h1 className="text-center font-bold text-3xl mt-10">Herramientas que nececitas <br /> para tu dia a dia</h1><br />
+            <h1 className="text-center font-bold text-6xl mt-10">Herramientas que necesitas <br /> para tu dia a dia</h1><br />
             <p className=' text-center' >
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <br />et dolore magna aliqua.
             </p>

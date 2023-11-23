@@ -11,6 +11,7 @@ import Nube from "./pages/Nube";
 import ProtectedRoutes from "./components/Router/ProtectedRoutes";
 import Home from "./pages/Home";
 import Nosotros from "./pages/Nosotros";
+import YouTubePlayer from "./pages/YouTubePlayer";
 function App() {
 
   const estaLogueado = () => {
@@ -44,6 +45,8 @@ function App() {
             <Route path="/Tareas" element={<Tareas />} />
             <Route path="/Traductor" element={<Traductor />} />
             <Route path="/Nube" element={<Nube />} />
+            <Route path="/yt" element={<YouTubePlayer />} />
+            
           </Route>
         </Routes>
       </BrowserRouter>

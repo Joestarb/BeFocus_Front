@@ -10,7 +10,7 @@ function Header() {
                         BeFocus
                     </h2>
                     <p className=' mt-7'>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    En el ajetreo diario, mantenerse organizado es clave para el éxito. Con BeFocus, tu aplicación personalizada para hacer notas y gestionar tareas, la organización se convierte en una experiencia intuitiva y efectiva.
                     </p>
                     <div className=' grid place-content-center mt-6'>
                         <button className=' text-xl rounded-xl bg-orange-500  p-2 font-bold text-white'>
@@ -20,9 +20,9 @@ function Header() {
 
                 </div>
                 <div>
-                    <img src={indexImage} alt='indeximage'/>
+                    <img src={indexImage} alt='indeximage' />
                 </div>
-               
+
             </header>
             <div className='border border-black'></div>
         </>

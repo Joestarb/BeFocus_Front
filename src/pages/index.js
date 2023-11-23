@@ -1,4 +1,3 @@
-import Footer from '../../src/components/Index/Footer'
 import Header from '../../src/components/Index/Header'
 import Nabar from '../../src/components/Index/Navbar'
 import IndexContent from '../components/Index/IndexContent'
@@ -11,7 +10,7 @@ function index() {
         <Header/>
         <IndexContent/>
         <IndexContent2/>
-        <Footer />
+
     </div>
   )
 }

@@ -199,6 +199,7 @@ function RegistroP() {
         <form className='mt-10 flex flex-col' onSubmit={crearUsuarioForm}>
           <input
             type="text"
+            minLength={5}
             className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
             placeholder="Nombre Completo"
             required
