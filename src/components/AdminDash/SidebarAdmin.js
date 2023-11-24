@@ -3,7 +3,7 @@ import { CiUser } from "react-icons/ci";
 
 function SidebarAdmin() {
   return (
-    <div className="bg-gray-800 text-white h-screen w-1/5 p-4">
+    <div className="bg-[#ACB1D6]  font-semibold h-screen w-1/5 p-4">
       <div className=' flex  gap-3'>
         <h2 className="text-2xl font-bold mb-4 mt-4">Befocus</h2>
       </div>
