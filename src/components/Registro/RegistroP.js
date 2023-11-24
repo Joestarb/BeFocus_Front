@@ -44,7 +44,16 @@ function RegistroP() {
     try {
 
       console.log(usuarios);
-
+      const formatoCorreoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!formatoCorreoRegex.test(usuarios.Correo)) {
+        Swal.fire({
+          title: 'Correo electrónico inválido',
+          text: 'Ingrese un correo electrónico válido. Por favor, inténtelo de nuevo.',
+          icon: 'error',
+          showConfirmButton: true,
+        });
+        return; // Detener la ejecución si el correo electrónico no es válido
+      }
       // Validar que las contraseñas coincidan
       if (usuarios.Contrasena !== usuarios.ConfirmarContrasena) {
         // Las contraseñas no coinciden, mostrar un mensaje de error

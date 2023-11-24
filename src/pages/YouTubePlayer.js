@@ -7,6 +7,7 @@ const YouTubePlayer = () => {
 
     const [playlistItems, setPlaylistItems] = useState([]);
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchPlaylist = async () => {
@@ -21,8 +22,10 @@ const YouTubePlayer = () => {
 
                 const data = await response.json();
                 setPlaylistItems(data.items);
+                setLoading(false); // Marcamos la carga como completada cuando los datos se obtienen correctamente.
             } catch (error) {
                 console.error('Error fetching playlist:', error);
+                setLoading(false); // Marcamos la carga como completada incluso si hay un error.
             }
         };
 
@@ -34,20 +37,30 @@ const YouTubePlayer = () => {
     };
 
     return (
-        <div>
-            <h1>Music Playlist</h1>
-            {playlistItems.length > 0 && (
-                <div>
-                    <iframe
-                        width="640"
-                        height="360"
-                        src={`https://www.youtube.com/embed/${playlistItems[currentVideoIndex].snippet.resourceId.videoId}`}
-                        title="YouTube Player"
-                        frameBorder="0"
-                        allowFullScreen
-                    ></iframe>
-                    <button onClick={playNextVideo}>Play Next</button>
-                </div>
+        <div className="font-sans text-center mt-8">
+            <h1 className="text-2xl font-bold mb-4">Music Playlist</h1>
+            {loading ? (
+                <p>Cargando...</p>
+            ) : (
+                playlistItems.length > 0 && (
+                    <div className='grid  place-content-center '>
+                        <iframe
+                            width="640"
+                            height="360"
+                            src={`https://www.youtube.com/embed/${playlistItems[currentVideoIndex].snippet.resourceId.videoId}`}
+                            title="YouTube Player"
+
+                            allowFullScreen
+                            className="mb-4"
+                        ></iframe>
+                        <button
+                            onClick={playNextVideo}
+                            className="px-4 py-2 text-white bg-green-500 rounded-md cursor-pointer"
+                        >
+                            Play Next
+                        </button>
+                    </div>
+                )
             )}
         </div>
     );

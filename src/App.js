@@ -1,17 +1,17 @@
-import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Error404 from "./components/Error 404/Error404";
-import Login from "./pages/Login";
-import Notas from "./pages/Notas";
-import Tareas from "./pages/Tareas";
-import Index from "./pages/index";
-import Registro from "./pages/Registro";
-import Olvcontra from "./pages/Olvcontra";
-import Traductor from "./pages/Traductor";
-import Nube from "./pages/Nube";
 import ProtectedRoutes from "./components/Router/ProtectedRoutes";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 import Nosotros from "./pages/Nosotros";
-import YouTubePlayer from "./pages/YouTubePlayer";
+import Notas from "./pages/Notas";
+import Nube from "./pages/Nube";
+import Olvcontra from "./pages/Olvcontra";
+import Registro from "./pages/Registro";
+import Tareas from "./pages/Tareas";
+import Traductor from "./pages/Traductor";
+import Index from "./pages/index";
+import DashboradAdmin from "./pages/DashboradAdmin";
 function App() {
 
   const estaLogueado = () => {
@@ -45,8 +45,12 @@ function App() {
             <Route path="/Tareas" element={<Tareas />} />
             <Route path="/Traductor" element={<Traductor />} />
             <Route path="/Nube" element={<Nube />} />
-            <Route path="/yt" element={<YouTubePlayer />} />
-            
+            <Route path="/Nube" element={<Nube />} />
+
+
+            <Route path="/dash" element={<DashboradAdmin />} />
+
+
           </Route>
         </Routes>
       </BrowserRouter>
