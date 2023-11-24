@@ -17,6 +17,7 @@ function UsersCrud() {
         TokenBeFocus: null,
         TokenGoogle: null,
     })
+
     const abrirModal = () => {
         setModalIsOpen(true);
     };
@@ -141,7 +142,7 @@ function UsersCrud() {
 
     return (
         <div className="container mx-auto p-4">
-            <h2 className="text-2xl font-bold mb-4">UsersCrud</h2>
+            <h2 className="text-2xl font-bold mb-4">Tabla de Usuarios</h2>
 
             {/* Formulario para crear usuarios */}
             <Modal
@@ -197,29 +198,38 @@ function UsersCrud() {
             <div className="container mx-auto p-4">
                 <div className='flex justify-between mx-6 mb-3'>
                     <h3 className="text-lg font-semibold mb-2">Lista de Usuarios</h3>
-                    <button className='p-2 bg-blue-400 rounded-lg' onClick={abrirModal}> anadir usuario</button>
+                    <button className='p-2 bg-blue-400 rounded-lg text-white' onClick={abrirModal}> añadir usuario</button>
                 </div>
 
-                <table className="min-w-full divide-y divide-gray-300">
-                    <thead>
-                        <tr>
-                            <th className="py-2 px-4 text-left bg-gray-200">Nombre</th>
-                            <th className="py-2 px-4 text-left bg-gray-200">Correo</th>
-                            <th className="py-2 px-4 text-left bg-gray-200">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user, index) => (
-                            <tr key={user.Id_Usuario} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                                <td className="py-2 px-4">{user.Nombre}</td>
-                                <td className="py-2 px-4">{user.Correo}</td>
-                                <td className="py-2 px-4">
-                                    <button className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer" onClick={() => handleDeleteUser(user.Id_Usuario)}>Eliminar</button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+
+                {users.length > 0 ?
+                    (<>
+                        <table className="min-w-full divide-y divide-gray-300">
+                            <thead>
+                                <tr>
+                                    <th className="py-2 px-4 text-left bg-gray-200">Nombre</th>
+                                    <th className="py-2 px-4 text-left bg-gray-200">Correo</th>
+                                    <th className="py-2 px-4 text-left bg-gray-200">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.map((user, index) => (
+                                    <tr key={user.Id_Usuario} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+                                        <td className="py-2 px-4">{user.Nombre}</td>
+                                        <td className="py-2 px-4">{user.Correo}</td>
+                                        <td className="py-2 px-4">
+                                            <button className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer" onClick={() => handleDeleteUser(user.Id_Usuario)}>Eliminar</button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                    </>) :
+                    (<>
+                            <p className=' text-6xl text-center font-bold'> Todavia no hay usuarios añadidos </p>
+                    </>)}
+
 
 
             </div>
