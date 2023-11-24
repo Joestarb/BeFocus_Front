@@ -15,7 +15,8 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
 
     //Obtener todos las notas
     useEffect(() => {
-        fetch('http://localhost:4000/Notas')
+        const id_Usuario = localStorage.getItem("Usuario");
+        fetch(`http://localhost:4000/Notas/${id_Usuario}`)
             .then(res => res.json())
             .then(data => setNotas(data))
             .catch(err => console.log(err));
@@ -23,7 +24,7 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
 
     //Obtener una nota especifica
     const obtenerNotaSeleccionada = (Id_Nota) => {
-        fetch(`http://localhost:4000/Notas/${Id_Nota}`)
+        fetch(`http://localhost:4000/Notas/Nota/${Id_Nota}`)
             .then(res => res.json())
             .then(data => {
                 setNotaSeleccionada(data);

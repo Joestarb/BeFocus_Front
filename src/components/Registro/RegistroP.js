@@ -98,11 +98,13 @@ function RegistroP() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(usuarios),
-        });
+        })
         console.log(usuarios)
         if (respuesta.ok) {
+          console.log(respuesta)
           const data = await respuesta.json();
           const token = data.TokenBeFocus;
+          localStorage.setItem("Usuario", data.Id_Usuario)
           localStorage.setItem("Token", token);
           localStorage.setItem("Logueado", "True");
           Swal.fire({
@@ -168,6 +170,7 @@ function RegistroP() {
         if (respuesta.ok) {
           const data = await respuesta.json();
           const token = data.TokenBeFocus;
+          localStorage.setItem("Usuario", data.Id_Usuario)
           localStorage.setItem("Token", token);
           localStorage.setItem("Logueado", "True");
           // Usuario creado exitosamente
@@ -202,7 +205,7 @@ function RegistroP() {
       <div className='grid place-content-center h-screen'>
         <h1 className='text-6xl font-bold text-center mt-10'>Bienvenido a BeFocus</h1>
         <h2 className='text-5xl font-bold text-center redColor my-3'>Regístrate</h2>
-        <form className='mt-10 flex flex-col' onSubmit={crearUsuarioForm}>
+        <form className='mt-10 mx-10 flex flex-col' onSubmit={crearUsuarioForm}>
           <input
             type="text"
             minLength={5}
@@ -243,12 +246,12 @@ function RegistroP() {
 
         </form>
         <div className='flex justify-between my-10 mx-auto' id='singInDiv'></div>
-        <div className='flex flex-col justify-center align-middle'>
+        <div className='flex flex-col justify-center align-middle mx-5'>
           <h1 className='text-center'>
             <strong>¿Ya tienes Cuenta?</strong> <Link to='/Login' className='font-bold text-[#6499E9]'>Inicia Sesión</Link>
           </h1>
-          <p className=' text-center'><strong>Al registrarse aceptas nuestras condiciones de uso y
-            <Link className='text-[#B5CB99]'> politica de privacidad.</Link>
+          <p className=' text-center pb-10'><strong>Al registrarse aceptas nuestras condiciones de uso y
+            <Link to={"/Politicas"} className='text-[#B5CB99]'> politica de privacidad.</Link>
           </strong></p>
         </div>
       </div>

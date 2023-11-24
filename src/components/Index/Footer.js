@@ -16,7 +16,7 @@ function Footer() {
             </div>
             <div className='border border-zinc-300 w-full'></div>
             <div className='py-3'>
-                <p className='italic font-medium text-center text-zinc-100'>© 2023 Be Focus. Todos los derechos reservados.</p>
+                <p className='italic font-medium text-center text-zinc-100'>© 2023 BeFocus. Todos los derechos reservados.</p>
             </div>
         </div>
     )

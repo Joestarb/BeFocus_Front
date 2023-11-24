@@ -44,10 +44,10 @@ function IndexContent() {
         };
     }, []);
     return (
-        <div ref={headerTextRef} className="headerText">
-            <h1 className="text-center font-bold text-6xl mt-10">Herramientas que necesitas <br /> para tu dia a dia</h1><br />
-            <p className=' text-center' >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore <br />et dolore magna aliqua.
+        <div ref={headerTextRef} className="headerText border-b border-gray-300 mb-4 py-4">
+            <h1 className="md:text-4xl xl:text-6xl italic animate__animated animate__fadeIn  animate__delay-.8s md:mt-14 text-center font-bold text-2xl mt-10">Herramientas que necesitas <br/>para tu dia a dia</h1>
+            <p className=' italic mt-10 text-center text-lg mb-5 animate__animated animate__fadeIn  animate__delay-.8s md:mx-10 xl:mx-40' >
+            Descubre las herramientas que hacen que cada día cuente. Desde la gestión de tareas hasta la inspiración diaria, estas herramientas están diseñadas para hacerte la vida más fácil y productiva.
             </p>
             {/*grid layout*/}
             <section className='flex justify-center gap-3 m-10'>
@@ -69,8 +69,6 @@ function IndexContent() {
 
                 </div>
             </section>
-
-            <div className='border border-black'></div>
         </div>
     )
 }
