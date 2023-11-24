@@ -185,7 +185,7 @@ function Clima() {
               <>
                 <p className='text-center text-white text-4xl font-semibold m-auto mt-5'>Ciudad no encontrada</p>
                 <div className='w-5/6 mx-auto'>
-                <img src='https://i.pinimg.com/originals/a1/ef/e3/a1efe34351a0fc13d6ccbd5cabbbb701.gif' className=' m-auto rounded-xl'/>
+                <img src='https://media.tenor.com/V50UJrfufssAAAAi/cute.gif' className='my-10 m-auto rounded-xl'/>
 
                 </div>
               </>
@@ -194,8 +194,8 @@ function Clima() {
         ) : (
           <>
             <div className='w-full flex flex-col justify-center align-middle'>
-              <img src={"https://i.gifer.com/YQDs.gif"} className='m-0 rounded-xl w-full' alt='cloud icon' />
-              <p className="text-white md:text-3xl font-semibold md:mt-[-50px] mt-[-30px] mx-auto">Esperando selección...</p>
+              <img src={"https://media.tenor.com/ywIY7WlJRLwAAAAi/yes-please-sir-waiting.gif"} className='rounded-xl w-80 m-auto' alt='cloud icon' />
+              <p className="text-white md:text-3xl font-semibold my-5 mx-auto">Esperando busqueda...</p>
             </div>
             <p className='text-center text-white text-4xl font-semibold'>{null}</p>
 

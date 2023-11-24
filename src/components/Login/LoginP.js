@@ -188,7 +188,7 @@ function LoginP() {
       <div className='grid place-content-center h-screen'>
         <h1 className='text-6xl font-bold text-center mt-10'>Bienvenido a BeFocus</h1>
         <h2 className='text-5xl font-bold text-center redColor my-3'>Inicia sesión</h2>
-        <form className='flex flex-col mt-10' onSubmit={iniciarSesion}>
+        <form className='flex flex-col mt-10 mx-10' onSubmit={iniciarSesion}>
           <input
             type="email"
             className="w-auto p-2 mb-4 border text-balck bg-gray-200 border-gray-300 rounded-3xl"

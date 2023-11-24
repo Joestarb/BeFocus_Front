@@ -12,6 +12,8 @@ import ProtectedRoutes from "./components/Router/ProtectedRoutes";
 import Home from "./pages/Home";
 import Nosotros from "./pages/Nosotros";
 import YouTubePlayer from "./pages/YouTubePlayer";
+import Contacto from "./pages/Contacto";
+import Politicas from "./pages/Politicas";
 function App() {
 
   const estaLogueado = () => {
@@ -38,6 +40,8 @@ function App() {
           <Route path="/Registro" element={<RegistroRoute />} />
           <Route path="/Olvcontra" element={< Olvcontra />} />
           <Route path="/Nosotros" element={< Nosotros />} />
+          <Route path="/Contacto" element={< Contacto />} />
+          <Route path="/Politicas" element={< Politicas />} />
           <Route path="/*" element={<Error404/>}/>
           <Route element={<ProtectedRoutes/>}>
             <Route path="/Home" element={<Home/>}></Route>
