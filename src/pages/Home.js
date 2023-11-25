@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import Motivacion from '../components/Home/Motivacion'
 import Clima from '../components/Home/Clima'
 import Modal from 'react-modal';
+
 import YouTubePlayer from '../pages/YouTubePlayer';
 
 function Home() {
