@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import HeaderPersonal from '../components/Index/HeaderPersonal'
-import webIcon from '../assets/Icons/growth.png'
+// import webIcon from '../assets/Icons/growth.png'
 import Reloj from '../components/Home/Reloj'
 import { Link } from 'react-router-dom'
 import Motivacion from '../components/Home/Motivacion'
 import Clima from '../components/Home/Clima'
 import Modal from 'react-modal';
-
+import {motion} from "framer-motion"
 import YouTubePlayer from '../pages/YouTubePlayer';
 
 function Home() {
@@ -17,13 +17,17 @@ function Home() {
   }
 
   return (
-    <div>
+    <motion.div
+    initial={{ opacity: 0,  }}
+    animate={{ opacity: 1, }}
+    transition={{ duration: 0.5 }}
+    >
       <HeaderPersonal />
       <header className='w-full h-64 bg-cover bg-center bg-[url("https://i.pinimg.com/originals/1a/34/c7/1a34c74eae7f645218092b13ac2641de.jpg")]'></header>
       <div className='h-32 w-full relative flex justify-center xl:flex-col'>
-        <div className=' w-28 h-28 absolute xl:top-[-50px] xl:ml-20 border-4 top-[-50px] bg-zinc-100 rounded-full'>
+        {/* <div className=' w-28 h-28 absolute xl:top-[-50px] xl:ml-20 border-4 top-[-50px] bg-zinc-100 rounded-full'>
           <img src={webIcon} alt='Icon' className='w-20 h-20 mt-3 ml-2' />
-        </div>
+        </div> */}
       </div>
       <main className='w-full'>
         <div className='w-4/5 m-auto h-20 border-b-4 border-zinc-400'>
@@ -78,7 +82,7 @@ function Home() {
         <YouTubePlayer />
         </section>
       </main>
-    </div >
+    </motion.div >
 
   )
 }

@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 const YouTubePlayer = () => {
     const apiKey = 'AIzaSyBpwwuXcXeCJpdjk-vO0i-5tA1Gya1cfeo'; // Reemplaza con tu clave de API de YouTube
     const playlistId = 'PL_77ETNrRb7Ep0Zv3tQNLNxQgwTsTHNrV'; // Reemplaza con el ID de tu playlist
+    
 
     const [playlistItems, setPlaylistItems] = useState([]);
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);

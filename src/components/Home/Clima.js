@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import searchIcon from '../../assets/IconsWeather/search.png';
+import React, { useState } from 'react';
 import clearIcon from '../../assets/IconsWeather/clear.png';
 import cloudIcon from '../../assets/IconsWeather/cloud.png';
 import drizzleIcon from '../../assets/IconsWeather/drizzle.png';
+import humidityIcon from '../../assets/IconsWeather/humidity.png';
 import rainIcon from '../../assets/IconsWeather/rain.png';
+import searchIcon from '../../assets/IconsWeather/search.png';
 import snowIcon from '../../assets/IconsWeather/snow.png';
 import windIcon from '../../assets/IconsWeather/wind.png';
-import humidityIcon from '../../assets/IconsWeather/humidity.png';
+import Swal from 'sweetalert2';
 
 function Clima() {
   const [clima, setClima] = useState({});
@@ -15,6 +16,7 @@ function Clima() {
   const [ciudadesMexico, setCiudadesMexico] = useState([]);
   const [wicon, setWicon] = useState(clearIcon);
   const [ciudadNoEncontrada, setCiudadNoEncontrada] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // Nuevo estado para indicar si la búsqueda está en progreso
 
   // useEffect(() => {
   //   //Ciudades
@@ -81,6 +83,7 @@ function Clima() {
     console.log('Buscando información....');
     console.log(ciudad);
 
+    setIsLoading(true);
     // fetch(`https://api.api-ninjas.com/v1/weather?city=${ciudad}`, {
     //   headers: {
     //     'X-Api-Key': '8KQmKfL4EiOZLUWfsodhMA==yHpQScyE6AXBXYXw',
@@ -93,46 +96,88 @@ function Clima() {
     //     setCiudadEncontrada(ciudad);
     //   })
     //   .catch((err) => console.log(err));
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=64b645d09a472acd4448f03daa49ca22&lang=es&units=metric`)
-      .then((res) => res.json())
-      .then((data) => {
-        setClima(data);
+  
 
-        if (data.cod === "404") {
-          // Ciudad no encontrada
-          setCiudadNoEncontrada(true);
+       
+    const isValid = /^[A-Za-z ]+$/.test(ciudad);
+    const isValidInput = ciudad.trim() !== '';  // Verificar que la cadena después de quitar
+
+
+        if (isValid, isValidInput) {
+          // Realizar la acción correspondiente (buscar información, etc.)
+          fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=64b645d09a472acd4448f03daa49ca22&lang=es&units=metric`)
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.cod === "404") {
+                // Ciudad no encontrada
+                setCiudadNoEncontrada(true);
+              } else {
+                setCiudadNoEncontrada(false);
+              }
+      
+              console.log(data);
+              setCiudadEncontrada(ciudad);
+      
+              if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
+                setWicon(clearIcon);
+              }
+              else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") {
+                setWicon(cloudIcon);
+              }
+              else if (data.weather[0].icon === "04d" || data.weather[0].icon === "04n") {
+                setWicon(drizzleIcon);
+              }
+              else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n") {
+                setWicon(rainIcon);
+              }
+              else if (data.weather[0].icon === "10d" || data.weather[0].icon === "10n") {
+                setWicon(rainIcon);
+              }
+              else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") {
+                setWicon(snowIcon);
+              }
+              else {
+                setWicon(clearIcon);
+              }
+              setClima(data);
+
+              if (data.cod === "404") {
+                // Ciudad no encontrada
+                setCiudadNoEncontrada(true);
+              } else {
+                setCiudadNoEncontrada(false);
+              }
+
+              console.log(data);
+              setCiudadEncontrada(ciudad);
+
+              if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
+                setWicon(clearIcon);
+              }
+              // ... (rest of your weather icon logic)
+
+              // Limpiar la entrada
+              setCiudad('');
+
+              // Mostrar mensaje de éxito con SweetAlert
+
+            
+              setIsLoading(false);
+            })
+            .catch((err) => console.log(err));
+            setIsLoading(false);
         } else {
-          setCiudadNoEncontrada(false);
+          // Mostrar mensaje de error con SweetAlert
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'datos incorrectos, no escribas numeros ni dejes espacios en blanco',
+          });
         }
 
-        console.log(data);
-        setCiudadEncontrada(ciudad);
-
-        if (data.weather[0].icon === "01d" || data.weather[0].icon === "01n") {
-          setWicon(clearIcon);
-        }
-        else if (data.weather[0].icon === "02d" || data.weather[0].icon === "02n") {
-          setWicon(cloudIcon);
-        }
-        else if (data.weather[0].icon === "04d" || data.weather[0].icon === "04n") {
-          setWicon(drizzleIcon);
-        }
-        else if (data.weather[0].icon === "09d" || data.weather[0].icon === "09n") {
-          setWicon(rainIcon);
-        }
-        else if (data.weather[0].icon === "10d" || data.weather[0].icon === "10n") {
-          setWicon(rainIcon);
-        }
-        else if (data.weather[0].icon === "13d" || data.weather[0].icon === "13n") {
-          setWicon(snowIcon);
-        }
-        else {
-          setWicon(clearIcon);
-        }
-
-      })
-      .catch((err) => console.log(err));
+  
   };
+
 
   return (
     <div className='bg-gradient-to-b from-[#614BC3] via-[#64CCC5] to-[#85E6C5] rounded-xl w-full h-full'>
@@ -158,6 +203,7 @@ function Clima() {
         </button>
       </div>
       <div>
+        
         {ciudadEncontrada ? (
           <div className='w-full h-full flex flex-col justify-center align-middle'>
             {!ciudadNoEncontrada ? (
@@ -185,7 +231,7 @@ function Clima() {
               <>
                 <p className='text-center text-white text-4xl font-semibold m-auto mt-5'>Ciudad no encontrada</p>
                 <div className='w-5/6 mx-auto'>
-                <img src='https://media.tenor.com/V50UJrfufssAAAAi/cute.gif' className='my-10 m-auto rounded-xl'/>
+                  <img src='https://media.tenor.com/V50UJrfufssAAAAi/cute.gif' className='my-10 m-auto rounded-xl' />
 
                 </div>
               </>
