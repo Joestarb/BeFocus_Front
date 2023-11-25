@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const TodoList = () => {
   const [tareas, setTareas] = useState([]);
@@ -39,16 +40,42 @@ const TodoList = () => {
     fetch(`http://localhost:4000/tareas/${id_Usuario}`)
       .then((response) => response.json())
       .then((data) => setTareas(data))
-      .catch((error) => console.error('Error al obtener las tareas:', error));
+      .catch((error) => {
+        console.error('Error al obtener las tareas:', error);
+        showAlert('Error', 'Error al obtener las tareas.', 'error');
+      });
+  };
+
+  const showAlert = (title, text, icon) => {
+    Swal.fire({
+      title,
+      text,
+      icon,
+      confirmButtonText: 'OK',
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const { Descripcion, Fecha, Materia, FK_Usuario, Estatus } = tareaData;
+    const { Descripcion, Fecha, Materia, Estatus } = tareaData;
 
     if (!Descripcion || !Fecha || !Materia || !Estatus) {
-      alert('Por favor, complete todos los campos correctamente.');
+      showAlert('Error', 'Por favor, complete todos los campos correctamente.', 'error');
+      return;
+    }
+
+    if (!Descripcion.trim() || !Fecha || !Materia.trim() || !Estatus) {
+      showAlert('Error', 'Por favor, complete todos los campos correctamente.', 'error');
+      return;
+    }
+
+    // Validar que la fecha no sea anterior al día actual
+    const today = new Date();
+    const selectedDate = new Date(Fecha);
+
+    if (selectedDate < today) {
+      showAlert('Error', 'La fecha de entrega no puede ser anterior al día de hoy.', 'error');
       return;
     }
 
@@ -62,7 +89,8 @@ const TodoList = () => {
       });
 
       if (!resultado.ok) {
-        console.log("Ha ocurrido un error");
+        showAlert('Error', 'Ha ocurrido un error al crear la tarea.', 'error');
+        return;
       }
 
       setTareaData({
@@ -75,8 +103,10 @@ const TodoList = () => {
 
       setModalVisible(false);
       obtenerTareas();
+      showAlert('Éxito', 'Tarea creada exitosamente.', 'success');
     } catch (error) {
       console.log(error);
+      showAlert('Error', 'Ha ocurrido un error.', 'error');
     }
   };
 
@@ -90,6 +120,21 @@ const TodoList = () => {
   const handleEdit = async (e) => {
     e.preventDefault();
 
+    // Validar que la descripción y la categoría no estén vacías
+    if (!tareaData.Descripcion.trim() || !tareaData.Materia.trim()) {
+      showAlert('Error', 'Por favor, complete todos los campos correctamente.', 'error');
+      return;
+    }
+
+    // Validar que la fecha no sea anterior al día actual
+    const today = new Date();
+    const selectedDate = new Date(tareaData.Fecha);
+
+    if (selectedDate < today) {
+      showAlert('Error', 'La fecha de entrega no puede ser anterior al día de hoy.', 'error');
+      return;
+    }
+
     try {
       const resultado = await fetch(`http://localhost:4000/tareas/${tareas[indiceTarea].Id_Tarea}`, {
         method: 'PUT',
@@ -100,7 +145,8 @@ const TodoList = () => {
       });
 
       if (!resultado.ok) {
-        console.log("Ha ocurrido un error");
+        showAlert('Error', 'Ha ocurrido un error al editar la tarea.', 'error');
+        return;
       }
 
       setTareaData({
@@ -114,8 +160,10 @@ const TodoList = () => {
       setIndiceTarea(null);
       setModalVisible(false);
       obtenerTareas();
+      showAlert('Éxito', 'Tarea editada exitosamente.', 'success');
     } catch (error) {
       console.log(error);
+      showAlert('Error', 'Ha ocurrido un error.', 'error');
     }
   };
 
@@ -126,13 +174,14 @@ const TodoList = () => {
       .then((response) => {
         if (response.status === 200) {
           setTareas(tareas.filter((tarea) => tarea.Id_Tarea !== taskId));
+          showAlert('Éxito', 'Tarea eliminada exitosamente.', 'success');
         } else if (response.status === 404) {
-          console.error('Tarea no encontrada');
+          showAlert('Error', 'Tarea no encontrada.', 'error');
         } else {
-          console.error('Error al eliminar la tarea');
+          showAlert('Error', 'Error al eliminar la tarea.', 'error');
         }
       })
-      .catch((error) => console.error('Error al eliminar la tarea:', error));
+      .catch((error) => showAlert('Error', 'Error al eliminar la tarea.', 'error'));
   };
 
   const actualizarEstado = (tarea, estado) => {
@@ -152,13 +201,14 @@ const TodoList = () => {
       .then((response) => {
         if (response.status === 200) {
           obtenerTareas();
+          showAlert('Éxito', 'Estado de la tarea actualizado exitosamente.', 'success');
         } else if (response.status === 404) {
-          console.error('Tarea no encontrada');
+          showAlert('Error', 'Tarea no encontrada.', 'error');
         } else {
-          console.error('Error al actualizar el estado de la tarea');
+          showAlert('Error', 'Error al actualizar el estado de la tarea.', 'error');
         }
       })
-      .catch((error) => console.error('Error al actualizar el estado de la tarea:', error));
+      .catch((error) => showAlert('Error', 'Error al actualizar el estado de la tarea.', 'error'));
   }
 
   const filtrarTareasPorEstado = (tareas, estado) => {
@@ -283,10 +333,10 @@ const TodoList = () => {
           <div className="overflow-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 ">
             {filtrarTareasPorEstado(tareas, filtroEstado).map((tarea, index) => (
               <div key={tarea.Id_Tarea} className={`taskCard rounded p-4 mb-4 shadow-md text-black`}>
-                <h3 className="taskName text-lg font-semibold mb-2">Nombre: {tarea.Descripcion}</h3>
-                <h3 className="taskDate text-lg font-semibold mb-2">Fecha de Entrega: {formatearFecha(tarea.Fecha)}</h3>
-                <h3 className="taskCategory text-lg font-semibold mb-2">Categoría: {tarea.Materia}</h3>
-                <h3 className="taskStatus text-lg font-semibold mb-2">Estado: {tarea.Estatus}</h3>
+                <h3 className="taskName text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Nombre: {tarea.Descripcion}</h3>
+                <h3 className="taskDate text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Fecha de Entrega: {formatearFecha(tarea.Fecha)}</h3>
+                <h3 className="taskCategory text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Categoría: {tarea.Materia}</h3>
+                <h3 className="taskStatus text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Estado: {tarea.Estatus}</h3>
                 <div className="options mt-3 flex space-x-2">
                   <button
                     className="editBtn bg-blue-500 text-white border-none rounded p-2 cursor-pointer text-lg font-semibold"
@@ -303,19 +353,19 @@ const TodoList = () => {
                   <button
                     className={`changeStatusBtn bg-${tarea.Estatus === 'completada' ? 'blue' : tarea.Estatus === 'en-proceso' ? 'purple' : 'green'}-500 text-white border-none rounded p-2 cursor-pointer text-lg font-semibold`}
                     onClick={() => {
-                      if(tarea.Estatus === 'pendiente'){
+                      if (tarea.Estatus === 'pendiente') {
                         actualizarEstado(tarea, 'en-proceso')
                       }
-                      if(tarea.Estatus === 'en-proceso'){
+                      if (tarea.Estatus === 'en-proceso') {
                         actualizarEstado(tarea, 'completada')
                       }
-                      if(tarea.Estatus === 'completada'){
+                      if (tarea.Estatus === 'completada') {
                         actualizarEstado(tarea, 'pendiente')
                       }
                     }}
                   >
                     {/* Cambiar el texto del botón según el estado de la tarea */}
-                    {tarea.Estatus === 'pendiente' ? 'en-proceso' : tarea.Estatus === 'en-proceso' ? 'Completada' : 'Pendiente' }
+                    {tarea.Estatus === 'pendiente' ? 'en-proceso' : tarea.Estatus === 'en-proceso' ? 'Completada' : 'Pendiente'}
                   </button>
                 </div>
               </div>
