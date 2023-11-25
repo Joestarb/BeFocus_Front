@@ -5,8 +5,8 @@ function ProtectedRoutesAdmin() {
     let logueado = localStorage.getItem("Logueado");
     let TipoUsuario = Number(localStorage.getItem("TipoUsuario"));
 
-    if(logueado || token || TipoUsuario === 2){
-        return <Navigate to="/dash"></Navigate>
+    if(!logueado || !token || TipoUsuario !== 2){
+        return <Navigate to="/Login"></Navigate>
     }
 
   return (

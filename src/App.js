@@ -44,13 +44,15 @@ function App() {
           <Route path="/Nosotros" element={< Nosotros />} />
           <Route path="/Contacto" element={< Contacto />} />
           <Route path="/Politicas" element={< Politicas />} />
-          <Route path="/*" element={<Error404/>}/>
-          <Route element={<ProtectedRoutes/>}>
-            <Route path="/Home" element={<Home/>}></Route>
+          <Route path="/*" element={<Error404 />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="/Home" element={<Home />}></Route>
             <Route path="/Notas" element={<Notas />} />
             <Route path="/Tareas" element={<Tareas />} />
             <Route path="/Traductor" element={<Traductor />} />
             <Route path="/Nube" element={<Nube />} />
+          </Route>
+          <Route element={<ProtectedRoutesAdmin />}>
             <Route path="/dash" element={<DashboradAdmin />} />
           </Route>
         </Routes>

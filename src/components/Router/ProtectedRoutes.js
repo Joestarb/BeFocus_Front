@@ -8,21 +8,16 @@ function ProtectedRoutes() {
   console.log("Tipo de Usuario:", tipoUsuario);
 
   if (!logueado || !token) {
-    if (tipoUsuario === 2) {
-      console.log("Redirigiendo a /dash");
-      return <Navigate to="/dash" />;
-    }
-    console.log("Redirigiendo a /Login");
     return <Navigate to="/Login" />;
   }
 
-  // // Si el usuario tiene tipoUsuario 2, solo le permitimos acceder a /dash
-  // if (tipoUsuario === 2) {
-  //   console.log("Redirigiendo a /dash");
-  //   return <Navigate to="/dash" />;
-  // }
+  if (tipoUsuario === 1) {
+    return <Navigate to="/Home" />;
+  } else if (tipoUsuario === 2) {
+    return <Navigate to="/dash" />;
+  }
 
-  // Para otros usuarios, permitir el acceso a otras rutas
+
   return <Outlet />;
 }
 
