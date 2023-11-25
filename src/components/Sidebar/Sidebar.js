@@ -77,7 +77,7 @@ function Sidebar() {
         </li>
 
 
-        <div className={` mb-3 mx-auto ${isSmallScreen ? 'hover:bg-white' : ''}`}>
+        {/* <div className={` mb-3 mx-auto ${isSmallScreen ? 'hover:bg-white' : ''}`}>
           <button onClick={toggleMusic} className='mx-auto'>
             {isSmallScreen ? (
               <p className='font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2 '>Música</p>
@@ -94,7 +94,7 @@ function Sidebar() {
             <YouTubePlayer />
           </Modal>
 
-        </div>
+        </div> */}
 
 
         <li className={`${isSmallScreen ? 'hover:bg-white' : ''}`}>
