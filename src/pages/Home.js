@@ -1,5 +1,4 @@
 import React from 'react'
-import Sidebar from '../components/Sidebar/Sidebar'
 import HeaderPersonal from '../components/Index/HeaderPersonal'
 import webIcon from '../assets/Icons/growth.png'
 import Reloj from '../components/Home/Reloj'

@@ -8,15 +8,25 @@ import Modal from 'react-modal';
 function UsersCrud() {
     const [users, setUsers] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
+
     const [usuarios, setUsuarios] = useState({
         Nombre: "",
         Correo: "",
         Contrasena: "",
         Imagen: null,
-        FK_Tipo_Usuario: 1,
+        FK_Tipo_Usuario: null,
         TokenBeFocus: null,
-        TokenGoogle: null,
     })
+
+    const [updateUsuario, setUpdateUsuario] = useState({
+        Nombre: "",
+        Correo: "",
+        Contrasena: "",
+        Imagen: null,
+        FK_Tipo_Usuario: null,
+        TokenBeFocus: null,
+    });
 
     const abrirModal = () => {
         setModalIsOpen(true);
@@ -25,6 +35,25 @@ function UsersCrud() {
     const cerrarModal = () => {
         setModalIsOpen(false);
     };
+
+    const abrirUpdateModal = (user) => {
+        setUpdateUsuario(user);
+        setUpdateModalIsOpen(true);
+    };
+
+    const cerrarUpdateModal = () => {
+        setUpdateModalIsOpen(false);
+        setUpdateUsuario({
+            Nombre: "",
+            Correo: "",
+            Contrasena: "",
+            Imagen: null,
+            FK_Tipo_Usuario: null,
+            TokenBeFocus: null,
+            TokenGoogle: null,
+        });
+    };
+
     const crearUsuarioForm = async (e) => {
         e.preventDefault(); // Evitar la recarga de la página
 
@@ -140,15 +169,29 @@ function UsersCrud() {
         }
     };
 
+    const actualizarUsuarioForm = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.put(`http://localhost:4000/Usuarios/${updateUsuario.Id_Usuario}`, updateUsuario);
+            cerrarUpdateModal();
+            fetchUsers();
+            Swal.fire({
+                title: 'Usuario actualizado correctamente',
+                showDenyButton: false,
+                showCancelButton: false,
+                confirmButtonText: 'Ok',
+            })
+        } catch (error) {
+            console.error("Error al actualizar el usuario", error)
+        }
+    };
+
     return (
         <div className="container mx-auto p-4">
             <h2 className="text-2xl font-bold mb-4">Tabla de Usuarios</h2>
 
             {/* Formulario para crear usuarios */}
-            <Modal
-                isOpen={modalIsOpen}
-                onRequestClose={cerrarModal}
-            >
+            <Modal isOpen={modalIsOpen} onRequestClose={cerrarModal} >
                 <button className=' text-3xl font-bold' onClick={cerrarModal}> x </button>
                 <h1 className='text-2xl font-bold mb-4 text-center'> Crear Usuario </h1>
                 <form className='mt-10 flex flex-col' onSubmit={crearUsuarioForm}>
@@ -186,8 +229,61 @@ function UsersCrud() {
                         onChange={(e) => setUsuarios({ ...usuarios, ConfirmarContrasena: e.target.value })}
                         required
                     />
+                    <select
+                        className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500"
+                        onChange={(e) => setUsuarios({ ...usuarios, FK_Tipo_Usuario: e.target.value })}
+                    >
+                        <option value="2">Administrador</option>
+                        <option value="1">Usuario</option>
+                    </select>
                     <div className='flex justify-center mt-5'>
                         <button type='submit' className="bg-[#F95757] text-white py-2 w-40 rounded-xl font-bold"> Registrarse </button>
+                    </div>
+
+                </form>
+            </Modal>
+
+            {/* Formulario para actualizar usuarios */}
+            <Modal isOpen={updateModalIsOpen} onRequestClose={cerrarUpdateModal}>
+            <button className=' text-3xl font-bold' onClick={cerrarUpdateModal}> x </button>
+                <h1 className='text-2xl font-bold mb-4 text-center'> Crear Usuario </h1>
+                <form className='mt-10 flex flex-col' onSubmit={actualizarUsuarioForm}>
+                    <input
+                        type="text"
+                        minLength={5}
+                        className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
+                        placeholder="Nombre Completo"
+                        required
+                        value={updateUsuario.Nombre}
+                        onChange={(e) => setUpdateUsuario({ ...updateUsuario, Nombre: e.target.value })}
+                    />
+                    <input
+                        type="email"
+                        className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
+                        placeholder="Correo Electrónico"
+                        value={updateUsuario.Correo}
+                        onChange={(e) => setUpdateUsuario({ ...updateUsuario, Correo: e.target.value })}
+                        required
+                    />
+                    <input
+                        type="password"
+                        minLength={8}
+                        className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500" // Agrega las clases de Tailwind para estilos
+                        placeholder="Contraseña"
+                        value={updateUsuario.Contrasena}
+                        onChange={(e) => setUpdateUsuario({ ...updateUsuario, Contrasena: e.target.value })}
+                        required
+                    />
+                    <select
+                        className="w-auto p-2 mb-4 border text-black bg-gray-200 border-gray-300 rounded-3xl placeholder-gray-500"
+                        onChange={(e) => setUpdateUsuario({ ...updateUsuario, FK_Tipo_Usuario: e.target.value })}
+                        value={updateUsuario.FK_Tipo_Usuario}
+                    >
+                        <option value="2">Administrador</option>
+                        <option value="1">Usuario</option>
+                    </select>
+                    <div className='flex justify-center mt-5'>
+                        <button type='submit' className="bg-[#427D9D] text-white py-2 w-40 rounded-xl font-bold"> Actualizar </button>
                     </div>
 
                 </form>
@@ -218,7 +314,10 @@ function UsersCrud() {
                                         <td className="py-2 px-4">{user.Nombre}</td>
                                         <td className="py-2 px-4">{user.Correo}</td>
                                         <td className="py-2 px-4">
-                                            <button className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer" onClick={() => handleDeleteUser(user.Id_Usuario)}>Eliminar</button>
+                                            {user.FK_Tipo_Usuario === 1 ? (
+                                                <button className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer" onClick={() => handleDeleteUser(user.Id_Usuario)}>Eliminar</button>
+                                            ) : null}
+                                            <button className="bg-blue-500 text-white px-2 py-1 rounded cursor-pointer ml-2" onClick={() => abrirUpdateModal(user)}>Actualizar</button>
                                         </td>
                                     </tr>
                                 ))}
@@ -227,7 +326,7 @@ function UsersCrud() {
 
                     </>) :
                     (<>
-                            <p className=' text-6xl text-center font-bold'> Todavia no hay usuarios añadidos </p>
+                        <p className=' text-6xl text-center font-bold'> Todavia no hay usuarios añadidos </p>
                     </>)}
 
 

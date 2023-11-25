@@ -15,6 +15,7 @@ import DashboradAdmin from "./pages/DashboradAdmin";
 import YouTubePlayer from "./pages/YouTubePlayer";
 import Contacto from "./pages/Contacto";
 import Politicas from "./pages/Politicas";
+import ProtectedRoutesAdmin from "./components/Router/ProtectedRoutesAdmin";
 function App() {
 
   const estaLogueado = () => {
@@ -50,12 +51,7 @@ function App() {
             <Route path="/Tareas" element={<Tareas />} />
             <Route path="/Traductor" element={<Traductor />} />
             <Route path="/Nube" element={<Nube />} />
-            <Route path="/Nube" element={<Nube />} />
-
-
             <Route path="/dash" element={<DashboradAdmin />} />
-
-
           </Route>
         </Routes>
       </BrowserRouter>
