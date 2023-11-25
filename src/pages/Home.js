@@ -1,12 +1,20 @@
-import React from 'react'
+import React, { useState } from 'react';
 import HeaderPersonal from '../components/Index/HeaderPersonal'
 import webIcon from '../assets/Icons/growth.png'
 import Reloj from '../components/Home/Reloj'
 import { Link } from 'react-router-dom'
 import Motivacion from '../components/Home/Motivacion'
 import Clima from '../components/Home/Clima'
+import Modal from 'react-modal';
+import YouTubePlayer from '../pages/YouTubePlayer';
 
 function Home() {
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const toggleMusic = () => {
+    setModalIsOpen(!modalIsOpen);
+  }
+
   return (
     <div>
       <HeaderPersonal />
@@ -52,7 +60,7 @@ function Home() {
           {/* Agrega más secciones según sea necesario */}
         </div>
 
-        <section className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-5/6 mx-auto mb-20 mt-10">
+        <section className="grid grid-cols-1 xl:grid-cols-2 gap-5 w-5/6 mx-auto mb-10 mt-10">
           <div className='m-5 xl:flex xl:flex-col xl:justify-between'>
             <div className='mb-5 xl:h-full'>
               <Reloj />
@@ -64,6 +72,9 @@ function Home() {
           <div className='m-5'>
             <Clima />
           </div>
+        </section>
+        <section className='my-5'>
+        <YouTubePlayer />
         </section>
       </main>
     </div >

@@ -1,5 +1,5 @@
-// YouTubePlayer.js
 import React, { useEffect, useState } from 'react';
+import YouTube from 'react-youtube';
 
 const YouTubePlayer = () => {
     const apiKey = 'AIzaSyBpwwuXcXeCJpdjk-vO0i-5tA1Gya1cfeo'; // Reemplaza con tu clave de API de YouTube
@@ -22,17 +22,39 @@ const YouTubePlayer = () => {
 
                 const data = await response.json();
                 setPlaylistItems(data.items);
-                setLoading(false); // Marcamos la carga como completada cuando los datos se obtienen correctamente.
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching playlist:', error);
-                setLoading(false); // Marcamos la carga como completada incluso si hay un error.
+                setLoading(false);
             }
         };
 
         fetchPlaylist();
     }, [playlistId, apiKey]);
 
-    const playNextVideo = () => {
+    const opts = {
+        height: '360',
+        width: '640',
+        playerVars: {
+            autoplay: 1, // Autoreproducción al cargar
+            controls: 0, // Sin controles del reproductor
+            disablekb: 1, // Desactiva el teclado
+            enablejsapi: 1, // Habilita la API JavaScript
+            iv_load_policy: 3, // Desactiva las anotaciones
+            modestbranding: 1, // Modo de marca mínima
+            playsinline: 1, // Reproduce el video en línea con el contenido de la página
+            showinfo: 0, // Oculta la información del video
+            loop: 1, // Repetir la lista de reproducción
+        },
+    };
+
+    const onReady = (event) => {
+        // Reproducir el video cuando esté listo
+        event.target.playVideo();
+    };
+
+    const onEnd = () => {
+        // Reproducir el siguiente video al finalizar el actual
         setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % playlistItems.length);
     };
 
@@ -43,22 +65,13 @@ const YouTubePlayer = () => {
                 <p>Cargando...</p>
             ) : (
                 playlistItems.length > 0 && (
-                    <div className='grid  place-content-center '>
-                        <iframe
-                            width="640"
-                            height="360"
-                            src={`https://www.youtube.com/embed/${playlistItems[currentVideoIndex].snippet.resourceId.videoId}`}
-                            title="YouTube Player"
-
-                            allowFullScreen
-                            className="mb-4"
-                        ></iframe>
-                        <button
-                            onClick={playNextVideo}
-                            className="px-4 py-2 text-white bg-green-500 rounded-md cursor-pointer"
-                        >
-                            Play Next
-                        </button>
+                    <div className="grid place-content-center">
+                        <YouTube
+                            videoId={playlistItems[currentVideoIndex].snippet.resourceId.videoId}
+                            opts={opts}
+                            onReady={onReady}
+                            onEnd={onEnd}
+                        />
                     </div>
                 )
             )}

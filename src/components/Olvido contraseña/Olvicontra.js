@@ -56,9 +56,8 @@ function Olvicontra() {
   return (
     <>
       <div className='grid place-content-center h-screen'>
-        <h2 className='text-6xl font-bold text-center'>Bienvenido a BeFocus</h2>
-        <h4 className='text-6xl font-semibold text-center redColor'>Solicitud de Restablecimiento de Contraseña</h4>
-        <span className='pt-14' />
+        <h2 className='text-6xl font-bold text-center italic text-zinc-800'>Bienvenido a BeFocus</h2>
+        <h4 className='text-4xl font-semibold text-center text-[#7C93C3] mt-5 mb-10'>Solicitud de Restablecimiento de Contraseña</h4>
 
         {isEmailSent ? (
           <div>
@@ -96,7 +95,7 @@ function Olvicontra() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <button
-              className="bg-blue-500 text-white py-2 px-4 w-70 rounded-full hover:bg-blue-600"
+              className="bg-[#1F4172] text-white py-2 px-4 w-70 rounded-full hover:bg-blue-600"
               onClick={handleForgotPassword}
             >
               Enviar Correo de Recuperación

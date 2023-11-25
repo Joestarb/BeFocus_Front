@@ -11,11 +11,6 @@ function ProtectedRoutes() {
     return <Navigate to="/Login" />;
   }
 
-  if (tipoUsuario === 1) {
-    return <Navigate to="/Home" />;
-  } else if (tipoUsuario === 2) {
-    return <Navigate to="/dash" />;
-  }
 
 
   return <Outlet />;

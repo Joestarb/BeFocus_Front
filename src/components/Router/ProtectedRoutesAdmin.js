@@ -9,6 +9,13 @@ function ProtectedRoutesAdmin() {
         return <Navigate to="/Login"></Navigate>
     }
 
+    if (TipoUsuario === 1) {
+      return <Navigate to="/Home" />;
+    } else if (TipoUsuario === 2) {
+      return <Navigate to="/dash" />;
+    }
+  
+
   return (
     <Outlet/>
   )
