@@ -4,8 +4,8 @@ import Sidebar from '../components/Sidebar/Sidebar'
 import {motion} from "framer-motion"
 function Traductor() {
   return (
-    <div className='xl:flex'>
-      <div className='h-full'>
+    <div className='flex  xl:flex-row flex-col'>
+      <div>
         <Sidebar />
       </div>
       <motion.div
@@ -13,7 +13,9 @@ function Traductor() {
         animate={{ opacity: 1, }}
         transition={{ duration: 0.5 }}
       >
+        <div className=' overflow-auto w-full'>
         <TraductorP />
+        </div>
       </motion.div>
     </div>
   )

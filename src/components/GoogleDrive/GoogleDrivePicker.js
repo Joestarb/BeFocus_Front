@@ -16,7 +16,7 @@ function GoogleDrivePicker() {
             developerKey: "AIzaSyDUGE_LkrPZzWKrrM4XY1vnhLlzByiuWmc",
             viewId: "DOCS",
             showUploadView: true,
-            token: "ya29.a0AfB_byDiQLJkVjIpszv7vUGfc06_ePk90hKF2UuBIYg1mOeNxYYxUl5pjSrtyO3qthgqFElVMTuc0eJLl5N7iHwHk8_JUTlfkpxaQ73B8FnjJer-TgLX0rXiwfQPoOtUyffu3RlNRDzZeZc8zCq-AhAeI9OYKGUSR2W9aCgYKAa8SARESFQHGX2MiIcp2GqSVxGfhBL9yy0KRwA0171", //Esto lo ponemos por que es necesario dar acceso de dubir archivos a drive por lo que se necesita un token especial de google
+            token: "ya29.a0AfB_byBRYDcyn07RIJhHAZK1UB60qjEsv5Hdij9909DZdydrRl1yJUtZDsScsBYEeRhb0UVbSpw6_gRmMB6jBqcrdHg0P0Oesy8ytPV5EWDQcnfasWAAEmzH9zIwRf11YqE2pDlFplRPYXdYlCbNyFNTCh2Zu0DaRLvIaCgYKAekSARESFQHGX2Mi8rZR3xgvws2_TXMkd9jqQg0171", //Esto lo ponemos por que es necesario dar acceso de dubir archivos a drive por lo que se necesita un token especial de google
             showUploadFolders: true,
             supportDrives: true,
             multiselect: true,

@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
+import Swal from 'sweetalert2';
 
 function ChatTranslator() {
   const [inputText, setInputText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
-  const [sourceLanguage, setSourceLanguage] = useState('');
-  const [targetLanguage, setTargetLanguage] = useState('');
-
+  const [sourceLanguage, setSourceLanguage] = useState('es');
+  const [targetLanguage, setTargetLanguage] = useState('en');
+  const [isTranslating, setIsTranslating] = useState(false);
 
   const apiKey = '718632c132mshd8bfaed88e0be3cp14c34djsn12cc5582fccb';
 
   const translateText = async () => {
+    setIsTranslating(true);
+
     const url = 'https://text-translator2.p.rapidapi.com/translate';
 
     const options = {
@@ -28,21 +31,35 @@ function ChatTranslator() {
 
     try {
       const response = await fetch(url, options);
-      const result = await response.json();
 
-      if (result.status === 'success') {
-        setTranslatedText(result.data.translatedText);
+      if (response.ok) {
+        const result = await response.json();
+
+        if (result.status === 'success') {
+          setTranslatedText(result.data.translatedText);
+        } else {
+          console.error('Error in translation:', result.error);
+        }
       } else {
-        console.error('Error in translation:', result.error);
+        console.error('Error in translation:', response.statusText);
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsTranslating(false);
     }
   };
 
   const handleTranslateClick = () => {
-    console.log(sourceLanguage);
-    console.log(targetLanguage);
+    if (inputText.trim() === '') {
+      Swal.fire({
+        icon: 'warning',
+        title: '¡Advertencia!',
+        text: 'Por favor, ingresa un texto para traducir.',
+      });
+      return;
+    }
+
     translateText();
   };
 
@@ -58,6 +75,7 @@ function ChatTranslator() {
           <select
             className='h-12 xl:ml-32 md:ml-1 my-auto md:text-2xl text-xs font-semibold bg-transparent outline-none text-center'
             onChange={(e) => setSourceLanguage(e.target.value)}
+            value={sourceLanguage}
           >
             <option value="" className='traductorColor text-white'  disabled hidden>Seleccionar idioma</option>
             <option className='traductorColor text-white' value="af">Afrikáans</option>
@@ -168,15 +186,18 @@ function ChatTranslator() {
             <option className='traductorColor text-white' value="xh">Xhosa</option>
             <option className='traductorColor text-white' value="yi">Yidis</option>
             <option className='traductorColor text-white' value="yo">Yoruba</option>
-            <option className='traductorColor text-white' value="zu">Zulú</option>
-          </select>
+            <option className='traductorColor text-white' value="zu">Zulú</option>          </select>
           <button
-            className='md:h-12 m-auto text-center md:text-2xl text-sm font-semibold bg-[#86A3B8] xl:p-3 p-2 rounded-xl my-3' onClick={handleTranslateClick}>
-            Traducir
+            className='md:h-12 m-auto text-center md:text-2xl text-sm font-semibold bg-[#86A3B8] xl:p-3 p-2 rounded-xl my-3'
+            onClick={handleTranslateClick}
+            disabled={isTranslating}
+          >
+            {isTranslating ? 'Traduciendo...' : 'Traducir'}
           </button>
           <select
             className='h-12 xl:mr-32 md:mr-2 my-auto md:text-2xl text-xs font-semibold bg-transparent outline-none text-center'
             onChange={(e) => setTargetLanguage(e.target.value)}
+            value={targetLanguage}
           >
             <option className='traductorColor text-white' value="" disabled hidden>Seleccionar idioma</option>
             <option className='traductorColor text-white' value="af">Afrikáans</option>
@@ -287,14 +308,13 @@ function ChatTranslator() {
             <option className='traductorColor text-white' value="xh">Xhosa</option>
             <option className='traductorColor text-white' value="yi">Yidis</option>
             <option className='traductorColor text-white' value="yo">Yoruba</option>
-            <option className='traductorColor text-white' value="zu">Zulú</option>
-          </select>
+            <option className='traductorColor text-white' value="zu">Zulú</option>          </select>
         </div>
-        <div className=' grid xl:grid-cols-2 w-full'>
+        <div className='grid xl:grid-cols-2 w-full'>
           <div className='mb-5'>
             <textarea
               className='border-2 font-mono border-gray-400 w-full h-96 outline-none resize-none placeholder:text-left p-2'
-              placeholder='Escribe o pega el texto que quieres traducir aqui'
+              placeholder='Escribe o pega el texto que quieres traducir aquí...'
               value={inputText}
               onChange={handleInputChange}
             />

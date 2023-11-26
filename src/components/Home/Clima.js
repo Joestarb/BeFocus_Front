@@ -99,11 +99,12 @@ function Clima() {
   
 
        
-    const isValid = /^[A-Za-z ]+$/.test(ciudad);
-    const isValidInput = ciudad.trim() !== '';  // Verificar que la cadena después de quitar
+    const isValid = /^[A-Za-zÁÉÍÓÚáéíóúÜüÑñ ]+$/.test(ciudad);
+    const isValidInput = ciudad.trim() !== '' && isValid;
+    
 
 
-        if (isValid, isValidInput) {
+        if (isValidInput) {
           // Realizar la acción correspondiente (buscar información, etc.)
           fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ciudad}&appid=64b645d09a472acd4448f03daa49ca22&lang=es&units=metric`)
             .then((res) => res.json())
@@ -213,7 +214,7 @@ function Clima() {
                   <img src={wicon} className='m-auto' alt='Weather Icon' />
                 </div>
                 <h1 className='text-center text-white text-6xl font-normal mb-5'>{`${clima.main.temp}°`}</h1>
-                <h1 className='text-center text-white text-4xl font-semibold'>{`${ciudadEncontrada}`}</h1>
+                <h1 className='text-center text-white text-4xl font-semibold'>{`${clima.name}`}</h1>
                 <div className='w-full flex justify-center my-10'>
                   <div className='w-1/2 m-auto flex flex-col justify-center align-middle items-center'>
                     <img src={humidityIcon} alt='humidity icon' className='m-auto' />
