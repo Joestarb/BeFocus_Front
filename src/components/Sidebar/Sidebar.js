@@ -5,24 +5,15 @@ import * as FaIcons from 'react-icons/fa';
 import * as HiIcons from 'react-icons/hi';
 import Modal from 'react-modal';
 import { Link } from 'react-router-dom';
+import { FaYoutube } from "react-icons/fa";
 import YouTubePlayer from '../../pages/YouTubePlayer';
+import { motion, AnimatePresence } from "framer-motion";
+
+
 function Sidebar() {
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 768);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-
-
-  // useEffect(() => {
-  //   function handleResize() {
-  //     setIsSmallScreen(window.innerWidth <= 768);
-  //   }
-
-  //   window.addEventListener('resize', handleResize);
-
-  //   return () => {
-  //     window.removeEventListener('resize', handleResize);
-  //   };
-  // }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -30,7 +21,7 @@ function Sidebar() {
 
   const toggleMusic = () => {
     setModalIsOpen(!modalIsOpen);
-  }
+  };
 
   function cerrarSesion() {
     localStorage.clear();
@@ -75,34 +66,54 @@ function Sidebar() {
             {isSmallScreen ? <p className=' font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2'>Traductor</p> : <BsIcons.BsTranslate className='xl:text-5xl text-2xl xl:mx-auto text-white' />}
           </Link>
         </li>
+        <li>
+          <div className="relative">
+            <FaYoutube
+              className="xl:text-5xl text-2xl xl:mx-auto text-white"
+              onClick={toggleMusic}
+            />
 
+            <AnimatePresence>
+              {modalIsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.5 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center"
+                >
+                  <div className="bg-black w-full bg-opacity-50 absolute inset-0" onClick={toggleMusic}></div>
 
-        {/* <div className={` mb-3 mx-auto ${isSmallScreen ? 'hover:bg-white' : ''}`}>
-          <button onClick={toggleMusic} className='mx-auto'>
-            {isSmallScreen ? (
-              <p className='font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2 '>Música</p>
-            ) : (
-              <FaIcons.FaMusic className='xl:text-5xl text-2xl xl:mx-auto text-white' />
-            )}
-          </button>
-          <Modal
-            isOpen={modalIsOpen}
-            onRequestClose={toggleMusic}
-            contentLabel="YouTube Player Modal"
-          >
-            <button onClick={toggleMusic}>Cerrar</button>
-            <YouTubePlayer />
-          </Modal>
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5 }}
+                    className="bg-white p-4 rounded-lg z-10"
+                  >
 
-        </div> */}
+                    <YouTubePlayer />
+                    <div className=' flex justify-center mt-4'>
+                      <button className="bg-red-500 p-2 text-white rounded-lg" onClick={toggleMusic}>
+                        Cerrar Formulario
+                      </button>
+                    </div>
 
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </li>
 
         <li className={`${isSmallScreen ? 'hover:bg-white' : ''}`}>
           <Link to='/' onClick={toggleMenu}>
             {isSmallScreen ? <p className=' font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2'>Salir</p> : <Biicons.BiExit className='xl:text-5xl text-2xl xl:mx-auto text-white' onClick={cerrarSesion} />}
           </Link>
         </li>
+
       </ul>
+
     </div>
   );
 }

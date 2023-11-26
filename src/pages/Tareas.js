@@ -10,7 +10,7 @@ function Tareas() {
             <div>
             <Sidebar />
             </div>
-            <div className=' overflow-auto w-full'>
+            <div className=' overflow-auto h-screen w-full'>
                 <TodoList />
             </div>
         </div>

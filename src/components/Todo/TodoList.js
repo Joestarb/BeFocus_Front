@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { AnimatePresence, motion } from "framer-motion";
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
-import { motion, AnimatePresence } from "framer-motion";
 
 const TodoList = () => {
   const [tareas, setTareas] = useState([]);
@@ -222,21 +222,23 @@ const TodoList = () => {
   return (
     <div className="min-h-screen text-white p-8">
       <motion.h1
-        initial={{ opacity: 0,  }}
-        animate={{ opacity: 1,  }}
+        initial={{ opacity: 0, }}
+        animate={{ opacity: 1, }}
         exit={{ opacity: 0, y: -20 }}
-        transition={{ duration: 1 }} 
+        transition={{ duration: 1 }}
         className="text-center my-8 text-5xl font-bold text-zinc-900 italic m-auto">Lista de Tareas</motion.h1>
 
-      <div className="flex flex-col">
+      <div className="flex flex-col ">
         <AnimatePresence>
           {modalVisible && (
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration:  .5 }}
-              className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+              transition={{ duration: .5 }}
+              className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
+
+            >
               <div className="bg-zinc-100 p-8 rounded w-1/2">
                 <form onSubmit={indiceTarea !== null ? handleEdit : handleSubmit} className="text-left">
                   <label className="block text-md font-semibold text-zinc-900">Nombre de la Tarea:</label>
@@ -288,7 +290,7 @@ const TodoList = () => {
                 <div className="flex justify-center mt-4">
                   <button
                     onClick={() => setModalVisible(false)}
-                    className="bg-[#413543] text-white border-none rounded-full p-2 cursor-pointer text-xl font-bold"
+                    className="bg-red-500 shadow-2xl text-white border-none rounded-full p-2 cursor-pointer text-xl font-bold"
                   >
                     Cerrar Formulario
                   </button>
@@ -299,56 +301,57 @@ const TodoList = () => {
         </AnimatePresence>
 
         <div className="bg-white bg-opacity-80 rounded p-4 md:p-8 w-full text-left m-auto">
-          <div className="flex justify-between mb-10">
+          <div className="flex  justify-center mb-10">
             <motion.div 
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 1 }}
-            className="flex m-auto">
-              <button
-                onClick={() => setFiltroEstado('todas')}
-                className={`filtroBtn ${filtroEstado === 'todas' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
-              >
-                Todas
-              </button>
-              <button
-                onClick={() => setFiltroEstado('pendiente')}
-                className={`filtroBtn ${filtroEstado === 'pendiente' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
-              >
-                Pendientes
-              </button>
-              <button
-                onClick={() => setFiltroEstado('en-proceso')}
-                className={`filtroBtn ${filtroEstado === 'en-proceso' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
-              >
-                En proceso
-              </button>
-              <button
-                onClick={() => setFiltroEstado('completada')}
-                className={`filtroBtn ${filtroEstado === 'completada' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
-              >
-                Completadas
-              </button>
+              className="flex flex-wrap  ">
+              <div className='  flex-grow-0  '>
+                <button
+                  onClick={() => setFiltroEstado('todas')}
+                  className={`filtroBtn ${filtroEstado === 'todas' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                >
+                  Todas
+                </button>
+                <button
+                  onClick={() => setFiltroEstado('pendiente')}
+                  className={`filtroBtn ${filtroEstado === 'pendiente' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                >
+                  Pendientes
+                </button>
+                <button
+                  onClick={() => setFiltroEstado('en-proceso')}
+                  className={`filtroBtn ${filtroEstado === 'en-proceso' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                >
+                  En proceso
+                </button>
+                <button
+                  onClick={() => setFiltroEstado('completada')}
+                  className={`filtroBtn ${filtroEstado === 'completada' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                >
+                  Completadas
+                </button>
+                <button
+                  onClick={() => {
+                    setTareaData({
+                      Descripcion: '',
+                      Fecha: '',
+                      Materia: '',
+                      FK_Usuario: id_Usuario,
+                      Estatus: 'pendiente',
+                    });
+                    setIndiceTarea(null);
+                    setModalVisible(true);
+                  }}
+                  className="bg-[#2E4374] ml-3 text-white border-none rounded-full px-4 py-2 cursor-pointer text-xl font-bold"
+                >
+                  +
+                </button>
+              </div>
             </motion.div>
-            <div className="flex justify-center">
-              <button
-                onClick={() => {
-                  setTareaData({
-                    Descripcion: '',
-                    Fecha: '',
-                    Materia: '',
-                    FK_Usuario: id_Usuario,
-                    Estatus: 'pendiente',
-                  });
-                  setIndiceTarea(null);
-                  setModalVisible(true);
-                }}
-                className="bg-[#2E4374] text-white border-none rounded-full px-4 py-2 cursor-pointer text-xl font-bold"
-              >
-                +
-              </button>
-            </div>
+
           </div>
           {/* ternario para decir que no hay tareas agreagdas */}
           {tareas.length > 0 ?
@@ -379,10 +382,10 @@ const TodoList = () => {
                         Eliminar
                       </button>
                       <button
-                        className={`changeStatusBtn bg-${tarea.Estatus === 'completada' ? 'blue' : tarea.Estatus === 'en-proceso' ? 'purple' : 'green'}-500 text-white border-none rounded p-2 cursor-pointer text-lg font-semibold`}
+                        className={`changeStatusBtn bg-${tarea.Estatus === 'completada' ? 'blue' : tarea.Estatus === 'en-proceso' ? 'purple' : 'green'}-500 text-whiten bg-blue-500 rounded p-2 cursor-pointer text-lg font-semibold`}
                         onClick={() => {
                           if (tarea.Estatus === 'pendiente') {
-                            actualizarEstado(tarea, 'en-proceso')
+                            actualizarEstado(tarea, 'en proceso')
                           }
                           if (tarea.Estatus === 'en-proceso') {
                             actualizarEstado(tarea, 'completada')
