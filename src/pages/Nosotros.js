@@ -13,11 +13,12 @@ function Nosotros() {
         <div className="mx-8 my-3 flex flex-col justify-center">
 
           <h2 className="text-2xl md:text-3xl  my-5 lg:mt-0 font-bold italic animate__animated animate__fadeIn  animate__delay-.8s">Nuestra misión</h2>
-          <p className=" text-lg mb-5 animate__animated animate__fadeIn  animate__delay-.8s">Ser la plataforma líder que transforma la gestión del tiempo y el aprendizaje, ofreciendo a estudiantes y profesionales un entorno digital integral y personalizado. Buscamos ser reconocidos por nuestra capacidad para simplificar la vida diaria, fomentar el aprendizaje continuo y proporcionar herramientas que potencien el máximo rendimiento en el ámbito académico y profesional.
+          <p className=" text-lg mb-5 animate__animated animate__fadeIn  animate__delay-.8s">
+          Facilitar la vida diaria de nuestros usuarios al proporcionar una plataforma integral que potencie la productividad, la organización y el bienestar personal. Nos esforzamos por ser la herramienta indispensable que impulse el rendimiento y la eficiencia en cada tarea y actividad.
           </p>
 
-          <h2 className="text-2xl md:text-3xl my-5 lg:mt-0 font-bold italic animate__animated animate__fadeIn  animate__delay-.8s">Nuestra historia</h2>
-          <p className="text-lg animate__animated animate__fadeIn  animate__delay-.8s">En "BeFocus", nos comprometemos a proporcionar un espacio digital que va más allá de la gestión de tareas, notas y servicios externos. Nuestra misión es facilitar la vida cotidiana, mejorar la productividad y enriquecer el aprendizaje. A través de una interfaz intuitiva y la integración de servicios útiles, aspiramos a ser el compañero esencial que impulsa el éxito personal y profesional de nuestros usuarios.
+          <h2 className="text-2xl md:text-3xl my-5 lg:mt-0 font-bold italic animate__animated animate__fadeIn  animate__delay-.8s">Nuestra compromiso</h2>
+          <p className="text-lg animate__animated animate__fadeIn  animate__delay-.8s">En BeFocus nos comprometemos a ofrecer soluciones innovadoras que se adapten a las necesidades cambiantes de nuestros usuarios. Buscamos constantemente mejorar y enriquecer sus experiencias, brindando un servicio confiable, intuitivo y centrado en agregar valor a cada momento de sus vidas. En BeFocus, nuestro compromiso es ser su aliado confiable en la búsqueda de un enfoque más efectivo y equilibrado.
           </p>
         </div>
       </div>

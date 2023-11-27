@@ -4,30 +4,24 @@ import CardNotas from './CardNotas';
 import Swal from 'sweetalert2';
 
 
-function MenuNotas({notaUtilizar, setNotaUtilizar}) {
+function MenuNotas({notaUtilizar, setNotaUtilizar, notaEfectos, setNotaEfectos}) {
     const [notas, setNotas] = useState([]);
     const [notaSeleccionada, setNotaSeleccionada] = useState([]);
 
-    // useEffect(() => {
-    //     console.log(notaUtilizar)
-    // }, [])
-
-
-    //Obtener todos las notas
-    useEffect(() => {
+    const recargarNotas = () => {
         const id_Usuario = localStorage.getItem("Usuario");
         fetch(`http://localhost:4000/Notas/${id_Usuario}`)
-            .then(res => res.json())
-            .then(data => setNotas(data))
-            .catch(err => console.log(err));
-    }, []);
+          .then(res => res.json())
+          .then(data => setNotas(data))
+          .catch(err => console.log(err));
+      };
 
     //Obtener una nota especifica
     const obtenerNotaSeleccionada = (Id_Nota) => {
         fetch(`http://localhost:4000/Notas/Nota/${Id_Nota}`)
             .then(res => res.json())
             .then(data => {
-                setNotaSeleccionada(data);
+                // setNotaSeleccionada(data);
                 setNotaUtilizar(data);
             })
             .catch(err => console.log(err));
@@ -49,10 +43,7 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
             })
                 .then(res => res.json())
                 .then(data => {
-                    setNotaSeleccionada(data);
-                })
-                .then(() => {
-                    window.location.reload();
+                    setNotaUtilizar(false)
                 })
                 .catch(err => console.log(err));
                 console.log("Se elimino la nota")
@@ -62,8 +53,14 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
           });
     }
 
-
-    //Queda pendiente de hacer el actualizar y lograr mostrar una nota especifica en el lado de contenido_Nota
+        //Obtener todos las notas
+        useEffect(() => {
+            const id_Usuario = localStorage.getItem("Usuario");
+            fetch(`http://localhost:4000/Notas/${id_Usuario}`)
+                .then(res => res.json())
+                .then(data => setNotas(data))
+                .catch(err => console.log(err));
+        }, [eliminarNotaSeleccionada, notaEfectos]);
 
     return (
         <div className='bg-slate-50 h-screen overflow-auto w-full'>
@@ -73,9 +70,6 @@ function MenuNotas({notaUtilizar, setNotaUtilizar}) {
                     <button onClick={() => setNotaUtilizar(false)}>
                         <HiIcons.HiPlus className='text-4xl my-auto text-zinc-900' />
                     </button>
-                    {/* <button>
-                        <SlIcons.SlOptionsVertical className='text-3xl my-auto text-zinc-900' />
-                    </button> */}
                 </div>
             </div>
             <div>

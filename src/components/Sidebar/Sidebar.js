@@ -66,12 +66,9 @@ function Sidebar() {
             {isSmallScreen ? <p className=' font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2'>Traductor</p> : <BsIcons.BsTranslate className='xl:text-5xl text-2xl xl:mx-auto text-white' />}
           </Link>
         </li>
-        <li>
+        <li className={`mb-3 ${isSmallScreen ? 'hover:bg-white' : ''}`}>
           <div className="relative">
-            <FaYoutube
-              className="xl:text-5xl text-2xl xl:mx-auto text-white"
-              onClick={toggleMusic}
-            />
+            {isSmallScreen ? <p className=' font-PassionOne text-4xl text-white hover:text-C82A0D8 px-2' onClick={toggleMusic}>Musica</p> : <FaYoutube className='xl:text-5xl text-2xl xl:mx-auto text-white' onClick={toggleMusic} />}
 
             <AnimatePresence>
               {modalIsOpen && (

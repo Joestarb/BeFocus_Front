@@ -68,7 +68,7 @@ function ChatTranslator() {
   };
 
   return (
-    <div className='h-full mb-20 xl:mb-0 w-screen'>
+    <div className='h-full mb-20 xl:mb-0 w-full'>
       <h2 className='font-PassionOne text-center text-6xl mt-5 border-b-4 h-14'>Traductor</h2>
       <div className='flex flex-col justify-center md:w-5/6 w-11/12 mt-16 m-auto'>
         <div className='md:h-20 m-auto w-full bg-[#2D2727] flex justify-between text-white rounded-tl-lg rounded-tr-lg'>

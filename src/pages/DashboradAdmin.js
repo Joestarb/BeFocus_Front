@@ -3,9 +3,9 @@ import SidebarAdmin from '../components/AdminDash/SidebarAdmin'
 import UsersCrud from '../components/AdminDash/UsersCrud'
 function DashboradAdmin() {
   return (
-    <div className="flex">
+    <div className="">
       <SidebarAdmin />
-      <div className="flex-1 h-screen overflow-y-auto">
+      <div className="">
         <UsersCrud />
       </div>
     </div>

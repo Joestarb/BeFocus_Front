@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 function Notas() {
 
   const [notaUtilizar, setNotaUtilizar] = useState();
+  const [notaEfectos, setNotaEfectos] = useState(0);
 
   return (
     <div
@@ -21,10 +22,10 @@ function Notas() {
         transition={{ duration: 0.5 }}
         className='flex w-full xl:flex-row flex-col'>
         <div className=' xl:w-3/12 overflow-auto'>
-          <MenuNotas notaUtilizar={notaUtilizar} setNotaUtilizar={setNotaUtilizar} />
+          <MenuNotas notaUtilizar={notaUtilizar} setNotaUtilizar={setNotaUtilizar} notaEfectos={notaEfectos} />
         </div>
         <div className=' xl:w-9/12'>
-          <ContenidoNota notaUtilizar={notaUtilizar} setNotaUtilizar={setNotaUtilizar} />
+          <ContenidoNota notaUtilizar={notaUtilizar} setNotaUtilizar={setNotaUtilizar} notaEfectos={notaEfectos} setNotaEfectos={setNotaEfectos}/>
         </div>
       </motion.div>
     </div>

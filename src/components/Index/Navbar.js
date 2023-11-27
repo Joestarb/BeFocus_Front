@@ -83,7 +83,7 @@ function Navbar() {
             </Link>
             {logueado ? (
               <Link to='/Login' className='mx-auto' onClick={toggleMenu}>
-                <p className='font-bold text-lg text-center  py-2 px-4 rounded-lg transition ease-in-out delay-150 duration-300 my-2' onClick={cerrarSesion}>Login</p>
+                <p className='font-bold text-lg text-center  py-2 px-4 rounded-lg transition ease-in-out delay-150 duration-300 my-2' onClick={cerrarSesion}>Log out</p>
               </Link>
             ) : (
               <Link to='/Login' className='mx-auto' onClick={toggleMenu}>

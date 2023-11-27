@@ -8,6 +8,59 @@ const YouTubePlayer = () => {
     const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
     const [loading, setLoading] = useState(false);
 
+    const [playerOpts, setPlayerOpts] = useState({
+        height: '480',
+        width: '853',
+        playerVars: {
+            autoplay: 1,
+            controls: 0,
+            disablekb: 1,
+            enablejsapi: 1,
+            iv_load_policy: 3,
+            modestbranding: 1,
+            playsinline: 1,
+            showinfo: 0,
+            loop: 1,
+        },
+    });
+
+    const onNextClick = () => {
+        setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % searchResults.length);
+    };
+
+    const handleResize = () => {
+        const isSmallScreen = window.innerWidth < 640;
+        const isMediumScreen = window.innerWidth >= 640 && window.innerWidth < 1024;
+
+        if (isSmallScreen) {
+            setPlayerOpts({
+                height: '144',
+                width: '256',
+                playerVars: { ...playerOpts.playerVars },
+            });
+        } else if (isMediumScreen) {
+            setPlayerOpts({
+                height: '240',
+                width: '426',
+                playerVars: { ...playerOpts.playerVars },
+            });
+        } else {
+            setPlayerOpts({
+                height: '480',
+                width: '853',
+                playerVars: { ...playerOpts.playerVars },
+            });
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []); // Sin dependencias, para que se ejecute solo al montar el componente
 
     const onSearch = async () => {
         try {
@@ -30,32 +83,6 @@ const YouTubePlayer = () => {
         }
     };
 
-    const onNextClick = () => {
-        setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % searchResults.length);
-    };
-
-    useEffect(() => {
-        if (searchResults.length > 0) {
-            setLoading(false);
-        }
-    }, [searchResults]);
-
-    const opts = {
-        height: '480',
-        width: '853',
-        playerVars: {
-            autoplay: 1,
-            controls: 0,
-            disablekb: 1,
-            enablejsapi: 1,
-            iv_load_policy: 3,
-            modestbranding: 1,
-            playsinline: 1,
-            showinfo: 0,
-            loop: 1,
-        },
-    };
-
     const onReady = (event) => {
         event.target.playVideo();
     };
@@ -65,7 +92,7 @@ const YouTubePlayer = () => {
     };
 
     return (
-        <div className="font-sans w-8/12 mx-auto text-center mt-8 bg-zinc-300 text-white py-8 rounded-xl shadow-md backdrop-blur-3xl bg-opacity-50 backdrop-filter">
+        <div className="font-sans w-11/12 md:w-10/12 mx-auto mb-10 text-center bg-zinc-300 text-white py-8 rounded-xl shadow-md backdrop-blur-3xl bg-opacity-50 backdrop-filter">
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-gray-700 via-gray-900 to-black text-transparent bg-clip-text">
                 YouTube Video Player
             </h1>
@@ -91,7 +118,7 @@ const YouTubePlayer = () => {
                     <div className="bg-gray-900 p-6 rounded-md shadow-md">
                         <YouTube
                             videoId={searchResults[currentVideoIndex].id.videoId}
-                            opts={opts}
+                            opts={playerOpts}
                             onReady={onReady}
                             onEnd={onEnd}
                         />

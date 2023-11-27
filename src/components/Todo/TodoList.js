@@ -25,6 +25,7 @@ const TodoList = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [filtroEstado, setFiltroEstado] = useState('todas');
 
+
   const formatearFecha = (Fecha) => {
     const fecha = new Date(Fecha);
     const dia = fecha.getDate();
@@ -33,6 +34,7 @@ const TodoList = () => {
     return `${dia}/${mes}/${anio}`;
   };
 
+  //Obtenemos todas las tareas
   useEffect(() => {
     obtenerTareas();
   }, [filtroEstado]);
@@ -47,6 +49,7 @@ const TodoList = () => {
       });
   };
 
+  //Alerta formato
   const showAlert = (title, text, icon) => {
     Swal.fire({
       title,
@@ -56,6 +59,7 @@ const TodoList = () => {
     });
   };
 
+  //Crear una nueva tarea
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -72,12 +76,16 @@ const TodoList = () => {
     }
 
     // Validar que la fecha no sea anterior al día actual
-    const today = new Date();
-    const selectedDate = new Date(Fecha);
+    const today = new Date().toISOString().slice(0, 10);
+    const selectedDate = new Date(tareaData.Fecha).toISOString().slice(0, 10);
 
     if (selectedDate < today) {
+      console.log(selectedDate)
+      console.log(today)
       showAlert('Error', 'La fecha de entrega no puede ser anterior al día de hoy.', 'error');
       return;
+    } else {
+      console.log(selectedDate)
     }
 
     try {
@@ -111,6 +119,8 @@ const TodoList = () => {
     }
   };
 
+  //Para editar la tarea
+
   const handleEditTask = (index) => {
     const tarea = tareas[index];
     setTareaData(tarea);
@@ -128,8 +138,8 @@ const TodoList = () => {
     }
 
     // Validar que la fecha no sea anterior al día actual
-    const today = new Date();
-    const selectedDate = new Date(tareaData.Fecha);
+    const today = new Date().toISOString().slice(0, 10);
+    const selectedDate = new Date(tareaData.Fecha).toISOString().slice(0, 10);
 
     if (selectedDate < today) {
       showAlert('Error', 'La fecha de entrega no puede ser anterior al día de hoy.', 'error');
@@ -219,6 +229,8 @@ const TodoList = () => {
     return tareas.filter((tarea) => tarea.Estatus === estado);
   };
 
+
+
   return (
     <div className="min-h-screen text-white p-8">
       <motion.h1
@@ -276,7 +288,7 @@ const TodoList = () => {
                   >
                     <option value="pendiente">Pendiente</option>
                     <option value="completada">Completada</option>
-                    <option value="en-proceso">En Proceso</option>
+                    <option value="en proceso">En Proceso</option>
                   </select>
                   <div className="flex justify-center mt-4">
                     <button
@@ -302,7 +314,7 @@ const TodoList = () => {
 
         <div className="bg-white bg-opacity-80 rounded p-4 md:p-8 w-full text-left m-auto">
           <div className="flex  justify-center mb-10">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -311,25 +323,25 @@ const TodoList = () => {
               <div className='  flex-grow-0  '>
                 <button
                   onClick={() => setFiltroEstado('todas')}
-                  className={`filtroBtn ${filtroEstado === 'todas' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                  className={`filtroBtn ${filtroEstado === 'todas' ? 'bg-[#1F4172]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
                 >
                   Todas
                 </button>
                 <button
                   onClick={() => setFiltroEstado('pendiente')}
-                  className={`filtroBtn ${filtroEstado === 'pendiente' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                  className={`filtroBtn ${filtroEstado === 'pendiente' ? 'bg-[#1F4172]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
                 >
                   Pendientes
                 </button>
                 <button
-                  onClick={() => setFiltroEstado('en-proceso')}
-                  className={`filtroBtn ${filtroEstado === 'en-proceso' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                  onClick={() => setFiltroEstado('en proceso')}
+                  className={`filtroBtn ${filtroEstado === 'en proceso' ? 'bg-[#1F4172]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
                 >
                   En proceso
                 </button>
                 <button
                   onClick={() => setFiltroEstado('completada')}
-                  className={`filtroBtn ${filtroEstado === 'completada' ? 'bg-[#8F43EE]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
+                  className={`filtroBtn ${filtroEstado === 'completada' ? 'bg-[#1F4172]' : 'bg-[#413543]'} text-white border-none rounded p-2 cursor-pointer text-md md:text-xl font-medium md:font-bold ml-2`}
                 >
                   Completadas
                 </button>
@@ -345,7 +357,7 @@ const TodoList = () => {
                     setIndiceTarea(null);
                     setModalVisible(true);
                   }}
-                  className="bg-[#2E4374] ml-3 text-white border-none rounded-full px-4 py-2 cursor-pointer text-xl font-bold"
+                  className="bg-[#1F4172] ml-3 text-white border-none rounded-full px-4 py-2 cursor-pointer text-xl font-bold"
                 >
                   +
                 </button>
@@ -358,17 +370,36 @@ const TodoList = () => {
             (<>
               <div className="overflow-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 ">
                 {filtrarTareasPorEstado(tareas, filtroEstado).map((tarea, index) => (
-                  <motion.div
+                  <div className="ease-out duration-300 hover:scale-105 m-5">
+                                      <motion.div
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -20 }}
                     transition={{ duration: 1 }}
-                    key={tarea.Id_Tarea} className={`taskCard rounded p-4 mb-4 shadow-md text-black`}>
+                    key={tarea.Id_Tarea} className={`rounded p-4 mb-4 shadow-lg shadow-zinc-100  border-2 border-zinc-100 text-zinc-800  `}
+                    >
                     <h3 className="taskName text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Nombre: {tarea.Descripcion}</h3>
                     <h3 className="taskDate text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Fecha de Entrega: {formatearFecha(tarea.Fecha)}</h3>
                     <h3 className="taskCategory text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Categoría: {tarea.Materia}</h3>
                     <h3 className="taskStatus text-lg font-semibold mb-2" style={{ overflowWrap: 'break-word' }}>Estado: {tarea.Estatus}</h3>
                     <div className="options mt-3 flex space-x-2">
+                    <button
+                        className={`${tarea.Estatus === 'pendiente' ? 'bg-[#CBB279]' : tarea.Estatus === 'en proceso' ? 'bg-[#1F4172]' : 'bg-[#1F8A70]'} text-white rounded p-2 cursor-pointer text-lg font-semibold`}
+                        onClick={() => {
+                          if (tarea.Estatus === 'pendiente') {
+                            actualizarEstado(tarea, 'en proceso')
+                          }
+                          if (tarea.Estatus === 'en proceso') {
+                            actualizarEstado(tarea, 'completada')
+                          }
+                          if (tarea.Estatus === 'completada') {
+                            actualizarEstado(tarea, 'pendiente')
+                          }
+                        }}
+                      >
+                        {/* Cambiar el texto del botón según el estado de la tarea */}
+                        {tarea.Estatus === 'pendiente' ? 'en proceso' : tarea.Estatus === 'en proceso' ? 'Completada' : 'Pendiente'}
+                      </button>
                       <button
                         className="editBtn bg-blue-500 text-white border-none rounded p-2 cursor-pointer text-lg font-semibold"
                         onClick={() => handleEditTask(index)}
@@ -381,35 +412,17 @@ const TodoList = () => {
                       >
                         Eliminar
                       </button>
-                      <button
-                        className={`changeStatusBtn bg-${tarea.Estatus === 'completada' ? 'blue' : tarea.Estatus === 'en-proceso' ? 'purple' : 'green'}-500 text-whiten bg-blue-500 rounded p-2 cursor-pointer text-lg font-semibold`}
-                        onClick={() => {
-                          if (tarea.Estatus === 'pendiente') {
-                            actualizarEstado(tarea, 'en proceso')
-                          }
-                          if (tarea.Estatus === 'en-proceso') {
-                            actualizarEstado(tarea, 'completada')
-                          }
-                          if (tarea.Estatus === 'completada') {
-                            actualizarEstado(tarea, 'pendiente')
-                          }
-                        }}
-                      >
-                        {/* Cambiar el texto del botón según el estado de la tarea */}
-                        {tarea.Estatus === 'pendiente' ? 'en-proceso' : tarea.Estatus === 'en-proceso' ? 'Completada' : 'Pendiente'}
-                      </button>
                     </div>
                   </motion.div>
-
+                  </div>
                 ))}
               </div>
-            </>) :
-
+            </>)
+            :
             (<>
               <p className="text-black text-center text-3xl font-semibold"> No hay tareas agregadas, empieza agregando algo a la lista</p>
-            </>)}
-
-
+            </>)
+          }
         </div>
       </div>
     </div>

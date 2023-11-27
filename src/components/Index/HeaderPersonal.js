@@ -18,12 +18,12 @@ function HeaderPersonal() {
             <nav className='flex items-center justify-between p-4 h-14'>
                 <div className='flex items-center'>
                     <img src={webIcon} alt="website icon" className='w-6 h-6 mx-2' />
-                    <p className='text-base italic ml-2'>Personal Planner</p>
+                    <p className='md:text-base text-sm italic ml-2'>Personal Planner</p>
                 </div>
-                {logueado ? <p className='md:text-lg text-base font-semibold italic mr-2'>Bienvenido {nombreCortado[0]}</p> : null}
+                {logueado ? <p className='md:text-lg text-sm font-semibold italic mr-2'>Bienvenido {nombreCortado[0]}</p> : null}
                 <div className='grid place-content-end'>
                     <Link to='/Login'>
-                        <button className='hover:bg-zinc-900 hover:text-zinc-100 font-semibold ransition ease-in-out delay-150 bg-zinc-100 duration-300 py-2 px-4 rounded' onClick={cerrarSesion}>Log Out</button>
+                        <button className='hover:bg-zinc-900 hover:text-zinc-100 md:font-semibold text-sm md:text-base font-medium ransition ease-in-out delay-150 bg-zinc-100 duration-300 p-2 md:py-2 md:px-4 rounded' onClick={cerrarSesion}>Log Out</button>
                     </Link>
                 </div>
             </nav>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Swal from 'sweetalert2';
 
 
-function ContenidoNota({ notaUtilizar }) {
-  const fechaActual = new Date().toISOString().split('T')[0];
+function ContenidoNota({ notaUtilizar, notaEfectos, setNotaEfectos }) {
+  const fechaActual = new Date().toLocaleDateString('en-CA'); // Ajusta el formato según tu necesidad
 
   const id_usuario = localStorage.getItem("Usuario")
 
@@ -12,36 +12,57 @@ function ContenidoNota({ notaUtilizar }) {
     Titulo: "",
     Contenido: "",
     FK_Usuario: id_usuario,
-    Fecha_Creacion: fechaActual
+    Fecha_Creacion: ""
   });
 
   const [notaSeleccionada, setNotaSeleccionada] = useState({
     Titulo: "",
     Contenido: "",
     FK_Usuario: id_usuario,
-    Fecha_Creacion: "2023-10-10"
+    Fecha_Creacion: ""
   });
+
+  useEffect(() => {
+    if(!notaSeleccionada){
+      setNotaSeleccionada({ // Limpiar valores
+        Titulo: "",
+        Contenido: "",
+        FK_Usuario: id_usuario,
+        Fecha_Creacion: ""
+      });
+      setNota({ // Limpiar valores
+        Titulo: "",
+        Contenido: "",
+        FK_Usuario: id_usuario,
+        Fecha_Creacion: ""
+      });
+    }
+  }, [notaSeleccionada]);
+
 
 
 
   const enviarNota = async () => {
+    nota.Fecha_Creacion = fechaActual;
+    console.log(fechaActual)
+    console.log(nota)
 
     if (nota.Titulo.trim() === '' && nota.Contenido.trim() === '') {
       Swal.fire({
-          icon: 'error',
-          title: 'Oops...',
-          text: 'El título y el contenido están vacíos. No se guardará la nota.',
-        })
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El título y el contenido están vacíos. No se guardará la nota.',
+      })
       return; // No actualices si falta información
-  }
-  if (nota.Contenido.trim() === '' || nota.Titulo.trim() === '') {
-    Swal.fire({
+    }
+    if (nota.Contenido.trim() === '' || nota.Titulo.trim() === '') {
+      Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Para guardar la nota no deben haber campos vacios.',
       })
-    return; // No actualices si falta información
-}
+      return; // No actualices si falta información
+    }
     try {
       const response = await fetch('http://localhost:4000/Notas', {
         method: 'POST',
@@ -58,10 +79,23 @@ function ContenidoNota({ notaUtilizar }) {
           title: 'Nota creada correctamente',
           showConfirmButton: true,
           confirmButtonText: 'Ok',
-        }).then ((result) => {
-          if(result.isConfirmed){
-            setNota(data);
-            window.location.reload()          
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // setNota(data);
+            setNotaEfectos(notaEfectos + 1);
+            setNotaSeleccionada({ // Limpiar valores
+              Titulo: "",
+              Contenido: "",
+              FK_Usuario: id_usuario,
+              Fecha_Creacion: ""
+            });
+            setNota({ // Limpiar valores
+              Titulo: "",
+              Contenido: "",
+              FK_Usuario: id_usuario,
+              Fecha_Creacion: ""
+            });
+            // window.location.reload()
           }
         })
       } else {
@@ -74,6 +108,22 @@ function ContenidoNota({ notaUtilizar }) {
   };
 
   const actualizarNota = async () => {
+    if (notaSeleccionada.Titulo.trim() === '' && notaSeleccionada.Contenido.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'El título y el contenido están vacíos. No se guardará la nota.',
+      })
+      return; // No actualices si falta información
+    }
+    if (notaSeleccionada.Contenido.trim() === '' || notaSeleccionada.Titulo.trim() === '') {
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Para guardar la nota no deben haber campos vacios.',
+      })
+      return; // No actualices si falta información
+    }
     try {
       const response = await fetch(`http://localhost:4000/Notas/${notaUtilizar.Id_Nota}`, {
         method: 'PUT',
@@ -85,7 +135,7 @@ function ContenidoNota({ notaUtilizar }) {
           Contenido: notaSeleccionada.Contenido,
         }),
       });
-  
+
       if (response.ok) {
         console.log('Nota actualizada correctamente.');
         console.log(notaSeleccionada);
@@ -94,9 +144,22 @@ function ContenidoNota({ notaUtilizar }) {
           title: 'Nota Actualizada',
           showConfirmButton: true,
           confirmButtonText: 'Ok',
-        }).then ((result) => {
-          if(result.isConfirmed){
-            window.location.reload();
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // window.location.reload();
+            setNotaEfectos(notaEfectos + 1);
+            setNotaSeleccionada({ // Limpiar valores
+              Titulo: "",
+              Contenido: "",
+              FK_Usuario: id_usuario,
+              Fecha_Creacion: ""
+            });
+            setNota({ // Limpiar valores
+              Titulo: "",
+              Contenido: "",
+              FK_Usuario: id_usuario,
+              Fecha_Creacion: ""
+            });
           }
         })
       } else {
@@ -106,6 +169,7 @@ function ContenidoNota({ notaUtilizar }) {
       console.error('Error de red:', error);
     }
   };
+
 
   useEffect(() => {
     if (notaUtilizar) {
@@ -139,8 +203,8 @@ function ContenidoNota({ notaUtilizar }) {
             ></textarea>
         }
         {
-          (notaUtilizar) ? <button className='font-bold text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-[#89B9AD] text-white py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 bg-[#83A2FF]' type='button' name='button' onClick={actualizarNota}>actualizar</button>
-            : <button className='font-bold text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-[#89B9AD] text-white  py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 bg-[#83A2FF]' type='button' name='button' onClick={enviarNota}>Guardar</button>
+          (notaUtilizar) ? <button className='font-bold text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-[#1F4172] text-white py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 bg-[#ACB1D6]' type='button' name='button' onClick={actualizarNota}>actualizar</button>
+            : <button className='font-bold text-3xl mx-3 mt-5 mb-3 outline-none hover:bg-[#1F4172] text-white  py-2 px-4 rounded-full focus:outline-none focus:shadow-outline transition-colors duration-300 ease-in-out w-40 h-14 bg-[#ACB1D6]' type='button' name='button' onClick={enviarNota}>Guardar</button>
 
         }
 
