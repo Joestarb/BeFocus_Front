@@ -48,7 +48,7 @@ function Olvicontra() {
       });
 
       const data = await response.json();
-      if(data.message === "Usuario no encontrado"){
+      if (data.message === "Usuario no encontrado") {
         Swal.fire({
           title: "Usuario no encontrado",
           icon: "error",
@@ -94,7 +94,7 @@ function Olvicontra() {
         body: JSON.stringify({ Correo: email, CodigoVerificacion: cadenaDeCasillas }),
       });
       const data = await response.json();
-      if(data.message === "Código de verificación inválido o expirado"){
+      if (data.message === "Código de verificación inválido o expirado") {
         Swal.fire({
           title: "Código de verificación inválido o expirado",
           icon: "error",
@@ -162,13 +162,13 @@ function Olvicontra() {
         body: JSON.stringify({ Contrasena: confirmPassword, Correo: email }),
       });
       const data = await response.json();
-      if(data.message === "Algo ha salido mal, intentalo mas tarde"){
+      if (data.message === "Algo ha salido mal, intentalo mas tarde") {
         Swal.fire({
           title: "Algo ha salido mal, intentalo mas tarde",
           icon: "error",
           confirmButtonText: "Ok"
         })
-      
+
       }
       if (response.ok) {
         Swal.fire({
@@ -224,7 +224,7 @@ function Olvicontra() {
           contentLabel="Verificación de Código"
         >
           <div class="text-center h-full w-full flex flex-col ">
-          <button className=' text-3xl font-bold mr-auto p-2' onClick={cerrarModalVerificacion}> x </button>
+            <button className=' text-3xl font-bold mr-auto p-2' onClick={cerrarModalVerificacion}> x </button>
             <h1 className=' text-2xl font-semibold italic mt-10'>Te hemos enviado un email a tu correo, revisa tu bandeja de entrada</h1>
             <div className='m-auto w-full'>
               <h2 class="md:text-2xl text-lg font-semibold m-auto w-full">Introduce el código de verificación</h2>
@@ -241,7 +241,7 @@ function Olvicontra() {
                 ))}
               </div>
               <button class="mt-4 bg-[#1F4172] hover:bg-[#4477CE] font-semibold text-lg text-white px-4 py-2 rounded" onClick={verificarCodigo}>Verificar código</button>
-              
+
             </div>
           </div>
         </Modal>
@@ -320,7 +320,6 @@ function Olvicontra() {
           <Modal isOpen={true} contentLabel="Realizando operación" className="modal">
             <div className="text-center h-screen flex justify-center align-middle items-center">
               <p className="text-gray-700 font-semibold m-auto text-4xl my-auto">Realizando operación...</p>
-              <div className="w-20 h-20 border-4 border-t-4 border-gray-700 rounded-full animate-spin"></div>
             </div>
           </Modal>
         )}
