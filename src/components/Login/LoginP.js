@@ -154,6 +154,7 @@ function LoginP() {
           localStorage.setItem("Nombre", data.Nombre)
           localStorage.setItem("Token", token);
           localStorage.setItem("Logueado", "True");
+          localStorage.setItem("Correo", data.Correo);
           let TipoUsuario = Number(localStorage.getItem("TipoUsuario"));
 
           Swal.fire({

@@ -9,13 +9,14 @@ function UsersCrud() {
     const [users, setUsers] = useState([]);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [updateModalIsOpen, setUpdateModalIsOpen] = useState(false);
+    const [confirmarContrasena, setConfirmarContrasena] = useState();
 
     const [usuarios, setUsuarios] = useState({
         Nombre: "",
         Correo: "",
         Contrasena: "",
         Imagen: null,
-        FK_Tipo_Usuario: null,
+        FK_Tipo_Usuario: 1,
         TokenBeFocus: null,
     })
 
@@ -37,6 +38,7 @@ function UsersCrud() {
     };
 
     const abrirUpdateModal = (user) => {
+        console.log(user)
         setUpdateUsuario(user);
         setUpdateModalIsOpen(true);
     };
@@ -47,6 +49,18 @@ function UsersCrud() {
             Nombre: "",
             Correo: "",
             Contrasena: "",
+            Imagen: null,
+            FK_Tipo_Usuario: null,
+            TokenBeFocus: null,
+            TokenGoogle: null,
+        });
+    };
+
+    const cerrarCreateModal = () => {
+        setModalIsOpen(false);
+        setUsuarios({
+            Nombre: "",
+            Correo: "",
             Imagen: null,
             FK_Tipo_Usuario: null,
             TokenBeFocus: null,
@@ -72,7 +86,7 @@ function UsersCrud() {
                 return; // Detener la ejecución si el correo electrónico no es válido
             }
             // Validar que las contraseñas coincidan
-            if (usuarios.Contrasena !== usuarios.ConfirmarContrasena) {
+            if (usuarios.Contrasena !== confirmarContrasena) {
                 // Las contraseñas no coinciden, mostrar un mensaje de error
                 Swal.fire({
                     title: 'Contraseñas no coinciden',
@@ -104,9 +118,7 @@ function UsersCrud() {
                     text: 'Este usuario ya está registrado. Por favor, inicie sesión.',
                     icon: 'error',
                     showConfirmButton: true,
-                }).then(() => {
-                    // Puedes agregar más lógica aquí si es necesario
-                });
+                })
             }
             else {
                 const respuesta = await fetch('http://localhost:4000/Registro', {
@@ -118,7 +130,7 @@ function UsersCrud() {
                 });
                 console.log(usuarios)
                 if (respuesta.ok) {
-                    cerrarModal();
+                    cerrarCreateModal()
                     const data = await respuesta.json();
                     const token = data.TokenBeFocus;
                     localStorage.setItem("Token", token);
@@ -148,6 +160,7 @@ function UsersCrud() {
     useEffect(() => {
         // Obtener la lista de usuarios al cargar el componente
         fetchUsers();
+        console.log(users)
     }, []);
 
     const fetchUsers = async () => {
@@ -160,9 +173,10 @@ function UsersCrud() {
     };
 
     const handleDeleteUser = async (userId) => {
-        if(Number(localStorage.getItem("Usuario")) === userId){
+        console.log(userId)
+        if (Number(localStorage.getItem("Usuario")) === userId) {
             Swal.fire({
-                icon:"warning",
+                icon: "warning",
                 title: 'No te puedes eliminar a ti mismo',
                 showDenyButton: false,
                 showCancelButton: false,
@@ -171,7 +185,7 @@ function UsersCrud() {
             return;
         }
         try {
-            await axios.delete(`http://localhost:4000/Usuarios/${userId}`); // Ajusta la URL según la configuración de tu servidor
+            await axios.delete(`http://localhost:4000/Usuarios/${userId}`);
             // Actualizar la lista de usuarios después de la eliminación exitosa
             fetchUsers();
         } catch (error) {
@@ -181,16 +195,39 @@ function UsersCrud() {
 
     const actualizarUsuarioForm = async (e) => {
         e.preventDefault();
+        console.log(updateUsuario);
         try {
             await axios.put(`http://localhost:4000/Usuarios/${updateUsuario.Id_Usuario}`, updateUsuario);
             cerrarUpdateModal();
             fetchUsers();
-            Swal.fire({
-                title: 'Usuario actualizado correctamente',
-                showDenyButton: false,
-                showCancelButton: false,
-                confirmButtonText: 'Ok',
-            })
+            console.log(updateUsuario)
+            if(updateUsuario.Correo === localStorage.getItem("Correo")){
+                localStorage.setItem("TipoUsuario", updateUsuario.FK_Tipo_Usuario)
+            }
+            // Verificar si el rol ha cambiado de administrador a usuario
+            if (updateUsuario.FK_Tipo_Usuario == 1 && updateUsuario.Correo === localStorage.getItem("Correo")) {
+                console.log("Se esta ejecutando esto")
+                // Cerrar sesión
+                localStorage.clear();
+                Swal.fire({
+                    title: 'Oops, ya no tienes acceso a esta pagina',
+                    icon: "warning",
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "/Login";
+                    }
+                })
+            } else {
+                Swal.fire({
+                    title: 'Usuario actualizado correctamente',
+                    showDenyButton: false,
+                    showCancelButton: false,
+                    confirmButtonText: 'Ok',
+                })
+            }
         } catch (error) {
             console.error("Error al actualizar el usuario", error)
         }
@@ -201,8 +238,8 @@ function UsersCrud() {
             <h2 className="md:text-5xl text-3xl font-bold text-center italic text-zinc-800">Gestión de usuarios</h2>
 
             {/* Formulario para crear usuarios */}
-            <Modal isOpen={modalIsOpen} onRequestClose={cerrarModal} className="w-8/12 m-auto my-10 rounded-xl  bg-zinc-50">
-                <button className=' text-3xl font-bold m-5' onClick={cerrarModal}> x </button>
+            <Modal isOpen={modalIsOpen} onRequestClose={cerrarCreateModal} className="w-8/12 m-auto my-10 rounded-xl  bg-zinc-50">
+                <button className=' text-3xl font-bold m-5' onClick={cerrarCreateModal}> x </button>
                 <h1 className="md:text-5xl text-3xl font-bold text-center italic text-zinc-800">Agregar usuario</h1>
                 <form className='mt-10 flex flex-col' onSubmit={crearUsuarioForm}>
                     <input
@@ -235,8 +272,7 @@ function UsersCrud() {
                         type="password"
                         className="w-10/12 mx-auto p-2 mb-4 border font-medium text-lg text-zinc-800 bg-gray-200 border-gray-300 rounded-xl outline-none placeholder:text-zinc-700"
                         placeholder="Confirmar Contraseña"
-                        value={usuarios.ConfirmarContrasena}
-                        onChange={(e) => setUsuarios({ ...usuarios, ConfirmarContrasena: e.target.value })}
+                        onChange={(e) => setConfirmarContrasena(e.target.value )}
                         required
                     />
                     <select
@@ -310,31 +346,31 @@ function UsersCrud() {
 
                 {users.length > 0 ?
                     (<>
-<div className="overflow-x-auto">
-  <table className="min-w-full divide-y divide-gray-300">
-    <thead>
-      <tr>
-        <th className="py-2 px-4 text-center font-semibold italic my-auto bg-gray-200">Nombre</th>
-        <th className="py-2 px-4 text-center font-semibold italic my-auto bg-gray-200">Correo</th>
-        <th className="py-2 px-4 text-center font-semibold italic my-auto bg-gray-200">Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {users.map((user, index) => (
-        <tr key={user.Id_Usuario} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-          <td className="py-2 text-center font-normal italic my-auto px-4 sm:px-2 md:px-4">{user.Nombre}</td>
-          <td className="py-2 text-center font-normal italic my-auto px-4 sm:px-2 md:px-4">{user.Correo}</td>
-          <td className="py-2 text-center font-normal italic my-auto px-4 sm:px-2 md:px-4">
-            {user.FK_Tipo_Usuario === 1 ? (
-              <button className="bg-[#B31312] text-white px-2 py-1 rounded cursor-pointer font-semibold md:my-auto my-2 mx-3" onClick={() => handleDeleteUser(user.Id_Usuario)}>Eliminar</button>
-            ) : null}
-            <button className="bg-[#1F4172] text-white px-2 py-1 rounded cursor-pointer md:my-auto font-semibold my-2" onClick={() => abrirUpdateModal(user)}>Editar</button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-300">
+                                <thead>
+                                    <tr>
+                                        <th className="py-2 px-4 text-center font-semibold italic my-auto bg-gray-200">Nombre</th>
+                                        <th className="py-2 px-4 text-center font-semibold italic my-auto bg-gray-200">Correo</th>
+                                        <th className="py-2 px-4 text-center font-semibold italic my-auto bg-gray-200">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {users.map((user, index) => (
+                                        <tr key={user.Id_Usuario} className={index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
+                                            <td className="py-2 text-center font-normal italic my-auto px-4 sm:px-2 md:px-4">{user.Nombre}</td>
+                                            <td className="py-2 text-center font-normal italic my-auto px-4 sm:px-2 md:px-4">{user.Correo}</td>
+                                            <td className="py-2 text-center font-normal italic my-auto px-4 sm:px-2 md:px-4">
+                                                {user.FK_Tipo_Usuario === 1 ? (
+                                                    <button className="bg-[#B31312] text-white px-2 py-1 rounded cursor-pointer font-semibold md:my-auto my-2 mx-3" onClick={() => handleDeleteUser(user.Id_Usuario)}>Eliminar</button>
+                                                ) : null}
+                                                <button className="bg-[#1F4172] text-white px-2 py-1 rounded cursor-pointer md:my-auto font-semibold my-2" onClick={() => abrirUpdateModal(user)}>Editar</button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
 
 
                     </>) :
