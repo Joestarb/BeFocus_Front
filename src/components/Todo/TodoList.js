@@ -248,10 +248,10 @@ const TodoList = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: .5 }}
-              className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
+              className="fixed top-0 left-0  w-full h-full flex items-center justify-center bg-black bg-opacity-50"
 
             >
-              <div className="bg-zinc-100 p-8 rounded w-1/2">
+              <div className="bg-zinc-100 p-8 rounded w-full mx-3 lg:w-1/2">
                 <form onSubmit={indiceTarea !== null ? handleEdit : handleSubmit} className="text-left">
                   <label className="block text-md font-semibold text-zinc-900">Nombre de la Tarea:</label>
                   <input

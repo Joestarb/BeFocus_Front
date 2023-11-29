@@ -63,8 +63,8 @@ function MenuNotas({notaUtilizar, setNotaUtilizar, notaEfectos, setNotaEfectos})
         }, [eliminarNotaSeleccionada, notaEfectos]);
 
     return (
-        <div className='bg-slate-50 h-screen overflow-auto w-full'>
-            <div className='flex justify-between p-3'>
+        <div className='bg-slate-50  lg:h-screen overflow-auto w-full'>
+            <div className='flex justify-between  p-3'>
                 <h1 className='font-PassionOne text-5xl'>Notas</h1>
                 <div className='flex'>
                     <button onClick={() => setNotaUtilizar(false)}>
@@ -72,7 +72,7 @@ function MenuNotas({notaUtilizar, setNotaUtilizar, notaEfectos, setNotaEfectos})
                     </button>
                 </div>
             </div>
-            <div>
+            <div className='max-lg:flex max-lg:flex-row max-lg:m-5 max-lg:overflow-x-auto max-lg:w-full'>
                 {notas.map(nota => (
                     <CardNotas
                         key={nota.Id_Nota}
