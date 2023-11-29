@@ -172,8 +172,10 @@ function RegistroP() {
           const data = await respuesta.json();
           const token = data.TokenBeFocus;
           localStorage.setItem("Usuario", data.Id_Usuario)
+          localStorage.setItem("TipoUsuario", data.FK_Tipo_Usuario)
           localStorage.setItem("Nombre", data.Nombre)
           localStorage.setItem("Token", token);
+          localStorage.setItem("Correo", data.Correo);
           localStorage.setItem("Logueado", "True");
           // Usuario creado exitosamente
           Swal.fire({
